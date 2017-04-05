@@ -1,4 +1,4 @@
-					Linux routes	 tested on ubuntu I suppose anything Debian is the same.
+					Linux route
 route add -net 10.8.1.0 netmask 255.255.255.0 gw 192.168.1.111
 ip route add 10.8.1.0/24 via 192.168.1.111
 ip route add 10.8.1.0/24 via 192.168.1.111 dev ens33         not necessarily needed but you can specify device
