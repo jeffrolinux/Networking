@@ -1,0 +1,24 @@
+A computer networking utility used for reading and writing to TCP and UDP connections.
+Also known as the networking Swiss Army Knife.
+_____________________________________________________________________
+THIS SEGMENT IS FOR USING NETCAT TO PRINT A FILE USING A HP PRINTER
+telnet printerIP      ie    telent 10.18.68.143
+at the prompt the / will give lots of information about the printer
+if printer supports postscript install a2ps or anyother tool to convert file to postscript actually doing it:
+a2ps myasciifile.txt -o mypsfile.ps  # takes ascii file and converts to postscript
+You need to know the port the printer your working with is listening on
+cat mypsfile.ps | nc 10.14.15.16 9100
+___________
+Another way to do this
+nc 10.14.15.16 9100
+hello
+world
+ctrl-c
+The formatting will be off in the printer output
+You can embed carriage returns in a file as such
+in Vim
+Shift A - from command mode puts you in special insert mode
+ctrl-v - tells vim next key should be input literally
+enter
+File with embeded carriage return
+____________________________________________________________________________
