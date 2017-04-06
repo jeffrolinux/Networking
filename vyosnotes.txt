@@ -54,7 +54,12 @@ set protocols static route 192.168.82.0/24 next-hop 192.168.80.3
 for gateways use
 set protocols static route 0.0.0.0/0 next-hop 192.168.80.1   
 __________________________________________________________________________________________________________________________________
-Nat reflection-    Basically when you request a server that is in your subnet nat reflection resolves the server inside the router when public ip is the requested address. Used in a situation where you have port forwarding for an inside resource and your client communicated initially with the public IP and not the internal subnet IP. You do not want the server responding on the subnet IP because the client was not initally communicating to that IP. Nat reflection allow both server and client on the interneal subnet to communicate via the router so that a client can communicate with the public IP that is forwarded into its private IP.
+Nat reflection-    Basically when you request a server that is in your subnet nat reflection resolves the server inside the
+router when public ip is the requested address. Used in a situation where you have port forwarding for an inside resource and
+your client communicated initially with the public IP and not the internal subnet IP. You do not want the server responding on
+the subnet IP because the client was not initally communicating to that IP. Nat reflection allow both server and client on the
+interneal subnet to communicate via the router so that a client can communicate with the public IP that is forwarded into its
+private IP.
 
 edit nat destination rule 2  PORT FORWARDING FOR PUBLIC IP TO RESOLVE PRIVATE RESOURCE
 set inbound-interface any 
