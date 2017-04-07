@@ -86,6 +86,7 @@ set area 0 network 192.168.1.0/24
 set area 1 network 192.168.2.0/24
 set area 2 network 192.168.3.0/24 # advertises these subnets to local routers
 set passive interaces eth4  #interface that will not advertise out of
+set protocols ospf redistribute connected
 
 RIP
 set protocol rip
