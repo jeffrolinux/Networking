@@ -93,3 +93,6 @@ set protocol rip
 edit protocol rip
 set protocols rip network 192.168.0.0/24
 set protocols rip redistribute connected
+_______________________________________________________________
+OSPF Needs back bone network or some work arounds. Area 0 backbone
+RIP works with deeply routed networks.
