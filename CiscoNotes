@@ -1,15 +1,24 @@
 Just a starting point
 enable password PasswordGoesHere
 enable secret PasswordGoesHere
-Use one of these and not both or you may receive odd behavior
 
-show running-config: to see your current configuration
+conf t
+
+just enable or en if it is already configured
+#prompt is enable mode
+?- to see any commands
+do- if your in configuration mode and want to see something that should be ran in en
+no and then the command undoes anything you want to undo
+Use one of these and not both or you may receive odd behavior
+exit takes you back one level
+end takes you all the way back to en mode
+show running-config: to see your current configuration - shorthand  sh run
 you can type do in configure to run the above command
 conf t
-I believe to configure terminal
-(conf)#
-int g1/0/2
-(conf-if)#
+configure terminal globally
+(config)#
+int g1/0/2   -switches are stackible and behave as a chassis  g1 stack   /0 first switch  /2 second port maybe wrong maybe firstnu
+(config-if)#
 configure the interface
 ip address 10.0.0.1 255.255.255.252
 Has to have no switchport configured if you are going to assign an ip address and make it a routed port
@@ -19,6 +28,7 @@ recall that if you want to undo anything you type the same command with a no bef
 or if your in conf and you want to check running configuration or anything you can always run the command do
 do sh conf
 
+
 To recover password you must console in and turn machine off and push button in the front while machine turns back on
 wait until you get the special switch: terminal
 then dir
@@ -27,3 +37,41 @@ boot -next you must use the boot command to boot the ios internetwork operating 
 run- command that allows you to reuse your renamed config file
 enable secret myusualpass
 write mem   to write new configuration to memory
+
+configure multiple interfaces the same
+conf t
+int range GigabitEthernet g1/0/2 - 48
+(Config-if-range)#          any change affects all ports in the range
+switchport mode access
+by default ports are not a switchport
+switchport- makes a port switch access
+Never use Vlan1
+switchport access vlan 2
+
+create a vlan
+conf t
+interface vlan 3
+ip address 10.0.253.1 255.255.255.0
+dp sh run | i vlan    shows you everything that is included with vlan i kinda works like grep
+no shutdown- 
+
+access list
+ip access-list extended labacl
+permit icmp any any
+implicit deny any any - not needed is automatic
+deny ip any any log
+to apply acl
+in configure interface
+ip access-group labacl out    you choose weather in or out
+
+turn off or on routing in switch
+conf t 
+no ip routing
+ip routing
+
+see detail information of neighbor
+sh cdp ne detail
+
+sh ip int brief- brief ip configuration
+sh run int vlan 3
+sh vlan
