@@ -1,0 +1,29 @@
+Just a starting point
+enable password PasswordGoesHere
+enable secret PasswordGoesHere
+Use one of these and not both or you may receive odd behavior
+
+show running-config: to see your current configuration
+you can type do in configure to run the above command
+conf t
+I believe to configure terminal
+(conf)#
+int g1/0/2
+(conf-if)#
+configure the interface
+ip address 10.0.0.1 255.255.255.252
+Has to have no switchport configured if you are going to assign an ip address and make it a routed port
+by default ports are switchports and can not and do not have an ip address
+
+recall that if you want to undo anything you type the same command with a no before it
+or if your in conf and you want to check running configuration or anything you can always run the command do
+do sh conf
+
+To recover password you must console in and turn machine off and push button in the front while machine turns back on
+wait until you get the special switch: terminal
+then dir
+rename config.text   to something you can use later so when it boots it doesn't boot your configuration
+boot -next you must use the boot command to boot the ios internetwork operating system
+run- command that allows you to reuse your renamed config file
+enable secret myusualpass
+write mem   to write new configuration to memory
