@@ -48,12 +48,25 @@ switchport- makes a port switch access
 Never use Vlan1
 switchport access vlan 2
 
-create a vlan
+create a vlan   notes from class
 conf t
 interface vlan 3
 ip address 10.0.253.1 255.255.255.0
 dp sh run | i vlan    shows you everything that is included with vlan i kinda works like grep
 no shutdown- 
+
+create vlan notes from cisco
+conf t
+vlan 3
+name vlan3
+end
+
+put a switch interface in a vlan
+conf t
+int g1/0/1
+switchport mode access
+switchport access vlan 3  or try vlan3      #call by name or by vlan id tests these out later!!!
+
 
 access list
 ip access-list extended labacl
