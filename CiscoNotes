@@ -1,7 +1,7 @@
 Just a starting point
 enable password PasswordGoesHere
 enable secret PasswordGoesHere
-
+Use one of these and not both or you may receive odd behavior
 conf t
 
 just enable or en if it is already configured
@@ -9,7 +9,6 @@ just enable or en if it is already configured
 ?- to see any commands
 do- if your in configuration mode and want to see something that should be ran in en
 no and then the command undoes anything you want to undo
-Use one of these and not both or you may receive odd behavior
 exit takes you back one level
 end takes you all the way back to en mode
 show running-config: to see your current configuration - shorthand  sh run
