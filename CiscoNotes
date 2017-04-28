@@ -51,7 +51,7 @@ create a vlan   notes from class
 conf t
 interface vlan 3
 ip address 10.0.253.1 255.255.255.0
-dp sh run | i vlan    shows you everything that is included with vlan i kinda works like grep
+do sh run | i vlan    shows you everything that is included with vlan i kinda works like grep
 no shutdown- 
 
 create vlan notes from cisco
