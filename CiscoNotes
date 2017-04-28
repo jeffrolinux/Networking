@@ -2,10 +2,9 @@ Just a starting point
 enable password PasswordGoesHere
 enable secret PasswordGoesHere
 Use one of these and not both or you may receive odd behavior
-conf t
 
-just enable or en if it is already configured
-#prompt is enable mode
+en or enable - Privilege Exec
+#prompt is Privilege Exec
 ?- to see any commands
 do- if your in configuration mode and want to see something that should be ran in en
 no and then the command undoes anything you want to undo
@@ -13,6 +12,7 @@ exit takes you back one level
 end takes you all the way back to en mode
 show running-config: to see your current configuration - shorthand  sh run
 you can type do in configure to run the above command
+sh ip int brief - list a brief summary of interfaces ip information and status
 conf t
 configure terminal globally
 (config)#
@@ -66,9 +66,10 @@ int g1/0/1
 switchport mode access
 switchport access vlan 3  or try vlan3      #call by name or by vlan id tests these out later!!!
 
+show vlan - see the vlans and what ports belong to them
 RIP
 conf t
-ip routing - enables it just incase it was disable
+ip routing - enables routing just incase it was disable
 router rip
 network 10.0.0.0       - will run rip on all 10. networks or you can specify specific network by id
 neighbor 10.0.6.1   run rip with neighbor ip 
