@@ -66,6 +66,12 @@ int g1/0/1
 switchport mode access
 switchport access vlan 3  or try vlan3      #call by name or by vlan id tests these out later!!!
 
+RIP
+conf t
+ip routing - enables it just incase it was disable
+router rip
+network 10.0.0.0       - will run rip on all 10. networks or you can specify specific network by id
+neighbor 10.0.6.1   run rip with neighbor ip 
 
 access list
 ip access-list extended labacl
