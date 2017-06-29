@@ -9,6 +9,8 @@ to remove: route del -net 10.8.1.0/24
 ip route show
 route -n
 netstat -rn
+Change your mac address on debian
+ifconfig ens33 hw ether 90:99:99:99:99:99
 						Windows route 
 route ADD destination_network MASK subnet_mask  gateway_ip metric_cost
 mask and cost are optional   class c is the default mask, cost one greater than 0.0.0.0 is used
