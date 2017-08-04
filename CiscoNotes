@@ -1,6 +1,6 @@
 Just a starting point
 enable password PasswordGoesHere  #legacy not encrypted by default
-enable secret PasswordGoesHere
+enable secret PasswordGoesHere -if enable password is used as it should be, enable password will not be used.
 
 en or enable - Privilege Exec
 #prompt is Privilege Exec
