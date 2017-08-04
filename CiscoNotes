@@ -1,7 +1,6 @@
 Just a starting point
-enable password PasswordGoesHere
+enable password PasswordGoesHere  #legacy not encrypted by default
 enable secret PasswordGoesHere
-Use one of these and not both or you may receive odd behavior
 
 en or enable - Privilege Exec
 #prompt is Privilege Exec
@@ -16,9 +15,8 @@ sh ip int brief - list a brief summary of interfaces ip information and status
 conf t
 configure terminal globally
 (config)#
-int g1/0/2   -switches are stackible and behave as a chassis  g1 stack   /0 first switch  /2 second port maybe wrong maybe firstnu
-(config-if)#
-configure the interface
+int g1/0/2   - type/slot/port
+(config-if)#  configure the interface
 ip address 10.0.0.1 255.255.255.252
 Has to have no switchport configured if you are going to assign an ip address and make it a routed port
 by default ports are switchports and can not and do not have an ip address
