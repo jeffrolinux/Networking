@@ -1,0 +1,645 @@
+do- allows you to view configuration and statistics from configuration prompt
+Ctrl+Shift+6- is the break sequence, nice when system goes into dns lookup
+shutdown- administratively shutsdown the interface. BY default I think they are shut down. no shutdown to bring up
+enable- puts you into privledged mode
+disable- exit privledged mode
+password ACTUALPASS- password followed by actual password sets password
+secret ACTUALPASS- creates a hashed password 
+login- enables login on lines
+login local- enabples login with local database of hosts
+logout- exit the console
+configuration terminal- conf t- allows you to make global changes to the router or switch, alter running config
+?- shows list of available commands
+clock- set date and time
+sh run- show running-configuration
+sh int fastethernet 0/0- shows you the configuration of this interface and alot of debugging info like counters
+show port capabilities fa 1/0/2- shows you port capabilities
+show history- shows last 20 commands or whatever your history is set to
+show terminal- shows terminal configuration and history buffer size
+show flash- to see memory and contents of flash
+show mac address-table
+show interaces status-
+show ip arp
+show interface- shows you all interfaces
+sh int description- shows all interface descriptions and interface basic info.int fa1/0/1; description My serial link- example of setting description
+sh ip route- shows you your routing table
+sh ip interface - layer 3 configuration information
+sh ip int brief- layer 1 and 2 status and ip address assigned
+sh protocols-layer1 and 2 status and ip also with global protocol values also
+show version- last line has the configuration register number, shows license info, ios info
+line console 0;line vty 0 4- line allows you to configure the lines
+hostname- change the hostname
+banner- create exec process, login, motd banners, IE banner motd #. where # is the delimiter for when you actually type the message
+ip routing- allow routing on a switch
+exec-timeout 0 0- privilege exec never times out default is ten minutes looks like 10 0
+exec-timeout 0 1- time out every second - to fix hold down arrow key and change the timeout
+speed 100- sets interface speed to 100 Mb on the interface you are configuring, shuts off autodetect
+duplex full- sets interface to full duplex , shuts off autodetect, must select same on machine connecting
+conf t; int f0/1; no shutdown; ip address 10.0.1.1 255.255.255.0; ip address 10.0.1.20 255.255.255.0 secondary;  -2 ips one int
+terminal monitor- if you are telneted into a system it will aslo send you the debugging logging
+10.1.1.10- system will assume you want to telnet into a system.
+clear counters- clears counters on all interfaces
+clear counters int g0/1- clears counters on that specific interface
+clear mac address-table dynamic- clears the dynamicly learned addresses
+Fastethernet1/0/1- blade/module/port  blade 0 is for stackwise, top switch in a stack. If no stackwise you are 1, indicator!
+___Useful-Commands____
+do sh ip int brief | i G # statement needs to start with what your including, only prints that exact line that has whats included
+do sh ip int brief | begin G # begins where Gigabitinterface first line starts
+do sh ip route | include 10.100.12.0   # helping fish through huge routing tables
+sh access-list | i 10.1.1.1.*ssh  matching two items on a line    note .* operator
+you wouldn't do sh run | i interface  G  it will only print one line instead do next line
+sh run int G1/0/1
+sh run | section dhcp
+____useful -commands_____
+____Trouble-Shooting____
+do show ip int brief- shows you the ip addresses of ints and wheather layer 2 or 3 is up
+show int fa 1/0/1 switchport- get statistics on specific ports
+debug ip ?
+debug ip icmp- DO NOT DO ON PRODUCTION MACHINES- puts all info to screen for debugging takes presendence over switching or routing or anything
+undebug all-stop all debugging or no debug ip icmp
+(config)interface loopback 0;ip address 10.0.3.1 255.255.255.0- Configure loop back for trouble shooting purposes
+____trouble-shooting____
+_____ConfigureReplace____
+enable;conf t;
+archive
+Router(config-archive)#path disk0:myconfig
+Router(config-archive)#maximum 5 - maximum number of replacement files to have on hand
+Router(config-archive)#time-period 10080  -in minutes, once a week
+Router(config-archive)#archive config- saves the current running config to the archive
+Router#configure replace disk0:myconfig-1
+show archive
+debug archive versioning
+
+_____Reload-remote-admin-possible-lock-your-self-out_____
+reload in 5   reloads in 5 minutes. will boot up with config thats startup-config 
+reload at 15:00 aug 10   #Clock must be set to use this
+reload cancel   ##### DON'T FORGET ME IF YOU DIDN'T REALLY WANT RELOAD & WAS JUST INCASE
+clock- set date and time
+router#clock set 16:39:00 15 aug 2017
+___reload-hopefully-you-used-it-when-remotely-working____
+
+____SSH____
+hostname jeff; ip domain-name jeffsplace.com; username jeff secret theusual;
+crypto key generate rsa- generates keys for encrypting data
+ip ssh version 2- recommended
+line vty 0 15; login local; transport input ______ options none,all,ssh,telnet;"I USE"  transport input ssh;
+
+show users; clear line vty 0- see whos logged in and log someone out on specific line
+___ssh___
+___SCP___
+You will need aaa and ssh for scp to function
+ip scp server enable -turn on scp server
+conf t; aaa new-model-
+aaa authentification login default local; aaa authorization exec default local
+username myname privilege 15 password mypassword;username myname privilege 15 secret mypassword
+password does not hash but you can service password-encryption which is only a simple hash thats not hard to reverse
+secret takes more cpu power but I believe is a MD5 and not reverseable
+
+__scp___
+___Telnet___
+to login you can use either a routed port or svi
+line vty 0 15; password telnet; login
+you can also do no login to allow telent sessions with no login so no password. Not secure! ALLOWS login
+login local- requires username and password login just requires line password
+no login- allows you to login without any password
+no password- Is how you block logging in, no password set will not allow people to login
+transport input none; transport input ssh- should also stop the ability of telnet from working
+sh users- shows users who are logged in to local machine
+clear line vty 0- where 0 is the number on the right side of vty on the session you want disconnected
+sh sessions- shows connections that originated local and are outgong
+disconnect 2- from the show sessions read out you can choose which sessions you want to log out
+terminal monitor- allows logging to go over telnet 
+terminal no monitor-turns it off
+
+___telnet____
+____IFS___
+copy-Copies any file from a source to a destination.
+cd - change directory to directory chosen
+delete-Deletes a file on a Flash memory device. 
+dir-Displays a list of files on a file system.
+pwd-Displays the current setting of the cd command.
+show file systems-Lists available file systems and their alias prefix names.
+undelete-Recovers a file marked "deleted"
+erase- erases a file. erase nvram: , depricated write erase, erase startup-config
+copy start run - is a merge not a complete copy, basically doesn't delete anything from from run but anything that is a part of the start will overwrite the run
+
+___ifs___
+____Serial-Interfaces____
+show controllers interfaces- will show cable connection type DCE/DTE  Remember only DCE side clocks/mental not C for clocking
+show controller s0/0/0- show specific controller info
+int s0/0/1;clock rate ? how to put in your clock rate
+no shut- routed interfaces are administratively down by default
+
+___serial-interfaces_____
+____AAA____
+(config)aaa new-model-enables aaa on the machine
+aaa authentication login default local-login using local credentials on machine
+aaa authorization exec default local
+https://learningnetwork.cisco.com/docs/DOC-7905    more info on aaa
+show privilege
+show accounting
+
+____aaaa____
+____BACKING UP IOS AND CONFIG_____
+scp jeff2@10.0.9.1:flash:config.txt .-from a linux machine that backs up ios and config
+scp jeff2@10.0.9.1:flash:/c3750-ipbasek9-mz.122-55.SE10/c3750-ipbasek9-mz.122-55.SE10.bin .
+copy flash:/c3750-ipbasek9-mz.122-55.SE10/c3750-ipbasek9-mz.122-55.SE10.bin tftp
+copy running-config ftp://pi:usualpassword@10.0.3.5  copy to the users home directory
+copy running-config ?- shows you all the ways you could copy
+
+____backing up ios and config____
+___Disaster- Recovery____ take a deep breathe!
+IP_ADDRESS=10.0.9.1
+IP_SUBNET_MASK=255.255.255.0
+DEFAULT_GATEWAY=10.0.9.5
+TFTP_SERVER=10.0.9.5
+TFTP_FILE=r4c2800nmyadadadada.bin
+tftpdnld- command to initiate the download
+#I have seen this used also with the set command and with : delimiter instead of =
+# Did not work on 2851. Default and server is same address as I used X-0ver to server.
+#IF you had access to a router that uses the same ios turn it into a server and remember
+#you  use the first ethernet connection g0/0. Ensure you can communicate with server via
+#that port
+tftp-server flash:c2800nm-advsecurityk9-mz.151-4.M10.bin # turn router into server
+#one that you can reach through g0/0
+TFTP_FILE=c2800nm-advsecurityk9-mz.151-4.M10.bin   #no flash
+#the rest of the commands are the same
+once tftpdnld is complete reset and see what you got "reset" the command
+
+____License___
+With IOS 12.? you needed specific ios to perform specific actions, with 15.? everything comes with the ios and you only need to activate
+license boot module ?- use a Right-To-Use(Evaluation version)
+show license -shows licenses active on system and status variables
+show license feature- shows the licenses that are available on your system and status variables
+show license udi- shows you your udi which consists of two components product ID and serial number of router.
+show version- will also tell you various license details
+You will need to transfer the license via tftp to your device
+copy tftp flash: -get your license off your server to your device
+license save flash:licnesename.lic- saves your license if it was transferred somewhere other than flash
+license install flash:FTX16743847389473289473298.lic
+license boot module c2900 technology-package securityk9- how you use a Right-To-Use(Evaluation License)
+license boot module c2900 technology-package securityk9 disable- disables the license
+license clear securityk9- clears the license
+no license boot module c2900 technology-package securityk9 disable- gets rid of license
+
+____license_____
+___Boot/startup choices___
+Default boot Post,bootstrap-ios(first ios found),startup-config, startup-config placed in ram becomes running-config.
+Where the system is booted from and which ios to boot as default can be changed with the boot system command
+config-register 0x2102- change the register configuration, will be active at next reload
+0x2102- tells the the router to look into NVRAM for the boot sequence to see where to get ios from
+boot system ?- shows the different options of booting your ios
+boot system flash c2800nm-adsecurityk9-mz.151-4.M6.bin- boot specific ios, by default it is first ios found in flash
+boot system tftp c2800nm-adsecurityk9-mz.151-4.M6.bin 10.1.1.1- boots next from tftp server
+boot system rom- boots mini-ios from rom as last resort
+using the 3 previous commands all. The system will apply them in order boot file from flash. If fails from tftp. If fails mini-ios rom
+do show run | include boot system- show you the order in which the system will take for the boot process.
+
+___boot/startup choices____
+____DHCP______
+ip dhcp pool Accounting-create a pool
+ip dhcp excluded-address 192.168.1.1 192.168.1.10;    1.1 gateway  rest for servers
+ip dhcp pool Accounting- after exclusion get back into dhcp configuration
+network 192.168.1.0 255.255.255.0
+default-router 192.168.1.1
+dns-server 8.8.4.4 8.8.8.8
+lease 3 12 15   # careful to not run too long and run out of ip addresses
+option 66 ascii tftp.jeffsplace.com
+conf t; interface fa0/1; ip helper-address 10.10.10.224; - this will make router listen on fa0/1 for dhcp b-cast and send unicast
+dhcp to the server 10.10.10.224
+show ip dhcp binding- shows hosts that have a binding ip, used to verify system is working
+show ip dhcp pool Accounting-obvious
+show ip dhcp server statistics- shows alot of stats
+show ip dhcp conflict- shows any address that has had a conflict and dhcp is no longer using. Maybe static ip caused this.
+dhcp discover(broadcast)|offer|DHCP request| DHCP ack where all additional info sent ie dns,gate,options
+With multiple pools for multiple lans how does the central server no how to server which pool to which host. Depending on which
+lan you come from the router will tag your request and relay it to server 
+sh run | section dhcp
+Relay configuration is a helper address
+Router(config-if)ip helper-address 10.1.52.100 # from interface that dhcp request comes from routed to subnet of server
+
+_____dhcp__________
+___LOGGING______
+logging goes to buffer and console by default.
+logging console- logging goes to console! annoying/ no nevermind eventful notification messages. no logging console
+logging buffered- stores your logging info, no logging buffered
+logging sync- stops logging from breaking up your command line typing
+no logging console-
+no logging buffered-
+sh logging- shows logging buffered info
+logging host 172.16.10.1- sends log to a sys log server
+logging informational- logging at the severity level of 6
+logging trap ?- shows logging options, trap will limit the logging sent to syslog server
+logging trap informational- same as logging trap 6
+no service timestamps- takes away time stamps from logging
+service sequence-numbers- turns on sequence number of logging
+service timestamps log datetime msec- log with time stamp
+terminal monitor- to see logging when your are telneted in to device
+sh logging- to see the buffered logging information
+how the log is displayed can have multiple different options
+no service timestamps- will not time stamp the logging
+service sequence-numbers- will add the sequence number to the log
+sequence/date:facility ie %SYS severity ie -4-:Mnemonic CONFIG_I: Description configured from console by console
+kiwi or splunk awesome free log server
+severity 0	system unusable			Emergency
+severity 1	immediate action needed		Alert
+severity 2	critical condition		Critical
+severity 3	error condition			Error
+severity 4	warning condition		Warning
+severity 5	notification			Notification
+severity 6	informational			INformational
+severity 7	debugging			Debugging
+Every, Awsome, Cisco Engineer,Will, Need, Ice Cream, Daily
+select 0 get only level 0 messages, select 4 get 0-4, 2 0-2 ... and so on
+
+_____logging______
+____NTP___
+Master:
+switch(config)#ntp server pool.ntp.org - your master needs a server right... havent tested any of these configs yet
+switch(config)#feature ntp- turning the feature on
+switch(config)#ntp master []- in the [] the stratum number goes
+switch(config)#ntp authentification-key 42 md5 aNicekey   -creates the key
+switch(config)#ntp trusted key 42	-key needs to be trusted for use in ntp packets
+switch(config)#ntp authentification; write mem  *** save configs!!!
+switch(config)#ntp source 10.100.100.10 -creates the source ip for ntp to use
+Client:
+switch(config)#conf t; ntp server 10.100.100.10 key 42
+switch(config)#show ntp peers- will show you peers and servers
+switch(config)#ntp authentification-key 42 md5 aNicekey
+switch(config)#show ntp authentification-keys  # verify that your key is there and correct
+switch(config)#ntp trusted-key 42    -once again make sure key is trusted so system will use it in ntp transmissions
+switch(config)#show ntp trusted-keys	-verify its there
+switch(config)#ntp authenticate		-
+switch(config)#show ntp authentification-status
+_____
+ntp server 172.16.10.1 version 4- sets 172... to ntp server- you want one centralized server for acurate time to all devices
+sh ntp status- shows ntp status
+sh ntp associations- shows ntp information including the ntp server address
+#clock set 9:51:00 sep 5 2017-sets the software clock
+>calendar set hh:mm:ss day month year -sets hardware clock manually
+stratum value for servers is from 1 to 15, a stratum value of 16 means no time updates
+staratum 0 most accurate time, stratum 1 gets time from them, stratum 2 and so on
+clock timezone California -480   # minutes offset from UTC   need time zone set for NTP server
+could use pool.ntp.org
+
+__ntp___
+___CDP____  Cisco proprietary
+sh cdp- shows you sending cdp interval, holdtime, if it is enabled or not.
+cdp ?-  shows you the options to use with cdp
+cdp holdtime ____- length of time that receiver must hold cdp packets
+cdp timer ___- rate at which cdp packets are sent
+cdp run- turn on cdp
+no cdp run- obviouse
+sh cdp neighbor- shows cdp information for neighboring devices only connected layer 2 devices that are directly connected.
+sh cdp neighbor detail- includes iso system is running and ip address amongst other details
+important to rememeber local interface, directly connected to host machine here. The neighbors port used is port ID
+
+____cdp_____
+____LLDP____Link Layer Discovery Protocol 802.1AB IEEEE standard. Also detects linux servers!
+lldp run- turns it on for device
+no lldp run- obviouse
+device(config-if)#lldp transmit- must be turned on also for each interface to transmit lldp
+device(config-if)#lldp receive- lsitens for lldp
+lldp show neighbor- shows you the results
+
+____lldp____
+____HOST-TABLE____  like local DNS name to ip on a local table
+ip host SW-2 10.10.10.2
+ip host SW-3 10.10.10.3
+do show hosts- shows you your permanent ip host table and temporary names resolved by DNS 
+if you do not use the ip domain-name jeffrey.com, the domain is not appended to host name
+so ping sw2 , is actually looking up sw2 in dns or host table
+when ip domain-name is set  ping sw2 actually looks up sw2.jeffrey.com it appends single hostnames to your domain   
+
+____host-table____
+___DNS____
+ip domain-lookup- on by default,
+ip name-server 8.8.4.4-
+ip domain-name jeffsdomain.com- allows you to use hostname as subdomain and appends it to this domain so searching server1 would resolve
+server1.jeffsdomain.com - not a big issue to type out the full name anyways.
+
+___dns___
+___TOOLS___
+ping 192.168.1.1
+ping - gives you added features if used without the ip and allows to use a loopback as the from ip, test routing, from non connected int
+traceroute 192.168.1.1- uses ttl to give you detailed route from you to destination notating every router
+traceroute- as ping it gives you added features if you leave ip space blank
+tracert -d 10.0.5.2# speeds it up doesn't look for hostnames, windows command obviously
+
+___tools____
+___DEBUG___
+debug ?
+debug all- debugs everything, and it is also highest priority so routing and switching features secondary. Do not use, could crash.
+debug ip icmp- gives you detailed info when you ping
+
+___debug___
+___PROCESSES____
+sh processes- gives you a read out like a linux top command
+sh cpu
+
+___processes____
+____Router-Config____
+erase startup-config- whole command must be typed up or you will get incomplete command safety mechanism
+reload- reload with no config file
+conf t; hostname remoterouter; en secret mypass; no ip domain-lookup; int s0/0/0; desc WAN connection to datacenter;
+ip address 172.16.10.2 255.255.255.252 same as /30 only two hosts for security;no shut; clock rate 1000000;int f0/0;desc sf lan
+ip address 192.168.10.1 255.255.255.0; no shut; line con 0;password consolepass;login,logging sync;line vty 0 ?; line vty 0 181;
+password telnet; login; banner motd C This is the sf branch C; copy run start or write mem; sh run or sh run | begin int;
+show ip route
+
+_____router-config_____
+____STATIC-ROUTE_____
+when a router has to look up the routing table for every single packet it is called process switching
+ip route 172.16.3.0 255.255.255.0 192.168.2.4 150 10 or          ip route 172.16.3.0 255.255.255.0 s0/0/0 exit interface traffic has to be on that subnet
+remote networking, mask, next hop, administrative distance	using exit interface as next hop
+in no communication with next-hop route will not show up on table, use permanent parameter to maintain the route until it is live
+ip route 172.16.3.0 255.255.255.0 192.168.2.4 150 permanent name Routetodestination? need name test?
+ip route 0.0.0.0 0.0.0.0 172.16.10.5-   any network with any mask go to 172.16.10.6- set up default gateway
+ip default-gateway - another way to assign the gateway
+
+____static-route___
+____FLOATING___
+secondary route with higher administrative distance. Will only be used if primary route goes down.
+the float will not be listed on routing table, only routes being used, only most efficient are used
+ sh run | i ip route  will show you all routes including your floates
+two paths with same AD will load balance
+
+____Floating_____
+____Dynamic-Routing  RIP____
+conf t; router rip; network 10.0.0.0; network 172.16.0.0; version 2; no auto-summary, no route aggregation.
+conf t;router rip; default-information originate  -sends the default gateway to the remote networks
+network command tells rip what networks to advertise and what interfaces to send advertisments out of
+really easy to do but with a really small network the routing table updates really isn't necessary.
+router rip; passive-interface Fa0/1- allows the interface to get rip updates but does not send any
+ip route 0.0.0.0 0.0.0.0 fa0/0- if you had a Metro-Ethernet connection this would be the gateway to the internet
+ip route 0.0.0.0 0.0.0.0 10.99.99.99    -i prefor next hop as configuration
+ip default-gateway 10.99.99.99
+default-information originate- generates a default route into RIP
+sh ip protocols
+
+___dynamic-routing____
+___Serial____
+show controllers s0/1
+clock rate 64000- is in bits per second 64k bits per second
+
+___serial
+___Vlan_____
+OLDERWAY FOR OLDER IOS you may come into contact with
+vlan database-changes mode to vlan
+vlan 50 name vlan50; show vlan brief- to verify vlan is in database
+NEWERWAY
+conf t;vlan 50; name vlan50 Sales-create vlan
+conf t; switchport mode access; switchport access vlan 150; if vlan 150 does not exist its ok switch creates vlan
+which also means that a typo will create a vlan for you so pay attention to feedback from monitor!
+conf t; switchport mode access; switchport access vlan 3; switchport voice vlan 5- assigns port to a vlan 3 and voice 5
+(config-vlan)#name ciscovlan; do show vlan brief;- some switches will show the info here some will not you need to exit first odd behavior. Just exit then check
+show vlan
+no vlan 48
+no interface vlan 48
+
+____vlan___
+___TRUNK___
+conf t; int range fa0/15-18;switchport trunk encapsulation dot1q; switchport mode trunk;- create trunk on a range of ports
+encapsulation type has to be chosen first to have a dedicated trunking port
+switchport mode dynamic desireable- will initiate trunk and listen!
+sh interfaces trunk- shows you your trunked interfaces
+switchport trunk allowed vlan 1,150,200-220;limiting vlans allowed on trunk
+switchport trunk allowed vlan add 99
+switchport trunk allowed vlan remove 7-9
+switchport trunk native vlan 150- changes the native vlan. native vlan not tagged, all trunks must have the same native. Native is the untagged vlan
+switchport negotiate- turns on dtp, abilility to negotiate a trunk
+switchport nonegotiate- switchport will not negotiate- turns dtp off. Less overhead, less badnwidth consumption
+^ If you set a trunk and encapsulation, system still runs dynamic trunking protocol
+You don't want to run DTP people can add trunks where not supposto or software on a ccomputer and hop vlans
+also if on a redundant link negotiation takes a while to set up nonegotiate and both sides set to trunk is faster. Line
+comes right up with no negotiations needed and less traffic that is not needed.
+show interface trunk
+
+___trunk____
+____RouterOnAStick_____ multiple vlans trunked into a router where router has sub interfaces for encapsulation, 
+conf t; int fa0/0; ip address 192.168.10.1 255.255.255.240;no shutdown- first main interface with subs to follow, main interface not needed
+conf t; int fa0/0.2; enscapsulation dot1q 2; ip address 192.168.10.129 255.255.255.240- sub interface vlan2
+conf t; int fa0/0.3; encapsulation dot1q 3; ip address 192.168.10.46 255.255.255.240- sub interface vlan3
+conf t; int fa0/0.10; encapsulation dot1q 10; ip address 192.168.10.17 255.255.255.240- sub interface vlan 10
+vlan 1 is the natvie vlan there for does not need encapsulation by default- this can be changed to any vlan
+
+___routeronastick___
+___Layer2-Genreal-knowledge____
+When a switch recieves a frame and it does not have the mac address of the destination it will send that frame out every port that is active
+except the port it recieved it on. Even if there are 5 ports that it knows the mac address in the cam, it still floods all ports.
+Switch has 3 main goals: learning- from the source mac, filtering- creating datalinks between two hosts, loop avoidance STP.
+
+____Port-SecurityL2____
+you must enable port security on interface with: switchport port security- then you can do the same command with variables
+conf t; int fa1/0/1; switchport mode access; switchport port security; switchport port security ?   shows you your options for security
+dynamic desireable- port security will not work, must be hard coded access or trunk. Wouldn't use for trunk so access.
+Default port secuirty is violation shutdown with one allow-able mac, default hold time for a mac in the cam is 300 seconds
+shutdown- shuts down the port upon violation no access for any mac address
+protect- if limited to one it will not allow any others
+restrict- same thing as protect but it also logs it for the admin. And counts port security violations
+switchport port-security maximum 1- ensures only one host per port
+switchport port-security violation shutdown- shutsdown the port if a violation occurs...protect,restrict,shutdown are the options here
+to undo a shutdown port- go into port config, shutdown; no shutdown;- should resolve the port
+switchport port-security mac-address sticky- mac address table will keep the mac address and not discard after a period of time
+wr to put the macs in the startup-config, when it is learned it only goes to running-config
+switchport port-secuirty maximum 2-
+switchport port-security violation shutdown- shuts down port if violation occurs
+switchport port-security violation restrict- restricts the port to the one allowable mac below chooses that mac
+sw2(config-if)switchport port-security mac-address 00.aa.bb.cc.dd.ee- static mac in configuration
+sw2(config) mac address-table static aaaa.bbbb.cccc vlan 2 int fa1/0/8-add static mac right to cam
+do sh port-security int f1/0/8-shows you the port security settings on this interface
+conf t; int range f0/3 - 4; 
+do sh int fa0/10 switchport- shows you alot of details about port!!!
+sh mac address-table count
+when a port becomes secure-shutdown due to going beyond the restrictions port will become amber, shutdown;no shut -to resolve
+
+___port-securityl2____
+___Standard-ACL___range 0-99&1300-1999, list solely based on source ip
+If there is one item in an acl there is an implicit deny for everything else. That is why a permit any is needed unless you want everything blocked
+when reading access list as soon as match is made action is taken, unlike routing which reads entire table.
+Standard acl only uses source ip address,lower processor utilization
+1 ACL per direction per interface, applied as close to the destination as possible(standard only)
+access-list 10;R1(config-std-acl)#deny host 1.1.1.1;permit any- example from inside acl config
+access-list 10 deny host 172.16.0.1;access-list 10 permit any;access-list 10 remark deny 1 host access- remark notes on ACL
+access-list 10 deny 172.16.0.1 0.0.0.0; same as above first command signifies one host
+int fa0/1;ip access-group 10 out- the host will not be able to go out the fa0/1 basically not allowing him access to the subnet
+NAMED: ip access-list standard SalesBlockerweb;deny 172.19.0.0 0.0.255.255;permit any;
+permit 0.0.0.0 255.255.255.255- same as permit any
+ conf t; int fa0/2;ip access-group SalesBlockerweb out- 
+access-list 10 deny 172.16.0.0 0.15.255.255- blocks the whole class B range 172.16.0.0-172.31.255.254
+You can only remove one line of a access list if it is named-non named access list you can not remove specific lines
+ALso you can only get to the sw2(config-std-nacl) prompt if it is a named acl standard you have to write full command
+the access list will show sequence numbers. They are in blocks of 10s starting at ten, you can use the numbers
+to add new items on the list or to no one of the items out.
+ip access-list standard InternetBlocker;15 deny 10.1.1.0 0.0.0.255- adds this item to line 15
+ip access-list standard InternetBlocker;no 15- takes away that item
+sh run int fa1/0/1- easiest way to see access lists applied and direction
+?????????? another way didn't show in the test
+VLAN ACL
+sh access-list
+sh access-list 20
+10 deny 10.1.3.5
+20 permit any
+sender 10.1.3.5 recipient 10.1.2.5
+int vlan 2; access-group 20 out; response packet filtered from sender, reccipient did not recieve echo request
+reasoning:When packet goes out packet is filtered and never gets to host
+int vlan 2; access-group 20 in; no change data transmits freely
+reasoning:packet is filtered inbound so when sender sends packet source ip is 10.1.3.5, recipient returns echo reply and source ip is 10.1.2.5
+so when filtering occurs source ip has changed and then it does not match filtering deny
+So with VLANS you can think of outbound the same as if on a port out is out the ports and in is back in the ports
+
+If you ever plan on changing things and moving things around use a named acl easier to manipulate
+___standardacl___
+___ACL-ON-terminal-lines____
+ip access-list standard jeff- create a standard access list called jeff
+access-list 50 permit 172.16.0.1 0.0.3.255- access list that permits 172.16.0.1-172.16.3.254- so it denies all other ips
+line vty 0 15- this allow me to configure the vty lines
+access-class 50 in- inbound traffic on the router for terminal access, maybe only allow admin subnet
+___acl-on-terminal-lines____
+____Extended-ACL___range 100-199&2000-2699
+apply exteneded access lists as close to the source as possible
+deny/permit,protocol,source any means any source, destination,eq matches for only given port number(block only this protocol), port #
+access-list 110 deny tcp any host 172.16.30.2 eq 23 log
+access-list 110 deny tcp any host 172.16.30.2 eq telnet log-same as above
+access-list 110 deny tcp any host 172.16.50.5 eq 21- dent ftp from any ip to a particular host
+access-list 110 deny tcp any host 172.15.50.5 eq 23-deny telnet from any ip to a particular host
+access-list 120 deny udp 10.10.100.0 0.0.0.255 host 172.30.30.1 eq 69- block the 10.10.100 from reaching the server with tftp
+conf t; int fa0/1; ip access-group 110 out-
+Named:ip access-list extended BlockSales- you get a prompt where you dont need to say access-lift name/number just start at deny or permit
+sh ip interface fa0/1 - to see access-list applied to interface and which direction it is applied
+sh access-lists- shows you all your access-lists on the system, but not where or how they are applied
+sh ip access-list- shows only ip access-lists
+sh access-list 110- shows you only the parameters of the access-list
+when you view the access lists they are sequenced by groups of ten so you can add things inbetween them if you wish
+access-list 110 19 remark add a line on line 19 that tells you about line 20, so when you read it you get it!
+access-list 110 21 deny tcp host 10.0.0.50 host 172.16.50.5 eq 21- add a line after 20 sequence because it relates to that line
+ip access-list extended 110;21 deny tcp host 10.0.0.50 host 172.16.50.5 eq 21- same as above
+sh ip interface fa0/1 - to see access-list applied to interface and which direction it is applied
+sh access-lists- shows you all your access-lists on the system, but not where or how they are applied
+sh ip access-list- shows only ip access-lists
+sh access-list 110- shows you only the parameters of the access-list
+
+___extended-acl___
+____Reflexive-ACL____
+Reflexive is Stateful access list, allows return traffic based on outgoing traffic. Only allows traffic incoming for that session.
+The standard and extended access lists are stateless. Traffic going out does not open firewall for return traffic
+
+___reflexive-acl---
+
+____IPv6____
+(config)sdm prefer dual-ipv4-and-ipv6 default- allow ipv6 routing on the switch
+(config)ipv6 unicast-routing- enables ipv6 on a router
+2851 you need advanced ip services adventerprises
+fe80::/10 link local communication on local lan
+2000::/3 global unicast isp gives you /48 you have /48-/64 for all your subnets. last 64/host addresses
+fc00::/unique local deprecated but some say active. Locally private routed addresses, not necessary because no nat is needed.
+FF00::/8 multicast
+ff02::2		Router solicitation from host to router
+ff02::1   ???
+::1- localhsot test pinging your nic
+(config-if)ipv6 address 2001:db8:3c4d:1:260:d6FF:FE73:1987/64- complete address
+(config-if)ipv6 address 2001:db8:3c4d:1::/64 eui-64- extended unique identifier uses mac and pad to build rest of the addy, FFFE sits right in the middle of the mac to give it its full length and the seventh bit changes weather it is local or globally unique
+(config-if)ipv6 address 2001:db8:3c4d:1::22/64-host address all zeros with 22 at end
+(config-if)ipv6 enable- uses only link local address. Meaning communicate only on subnet no routing
+(config-if)ipv6 address autoconfig default-Listens for RAs and will autoconfig once it gets one, default injects default route received from RA
+(config-if)ipv6 address autoconfig- no default route needed to be injected to interface
+ipv6 route 2001:DB8:3c4d:14::/64 2001:db8:3C4D:12:21A:2FFF:FEE7:4398 150  what is AD if left blank										1	
+ipv6 route 2001:DB8:3c4d:14::/64 s0/1 4					  what is AD if left blank										0
+ipv6 route ::/0 s0/0/1- create a default route
+do sh ipv6 route- confirm connected interfaces are showing and link address
+do sh ipv6 route static- confirm connected interfaces are showing and link address
+sh ipv6 int brief- same as ip
+sh run int fa 1/0/6- you can run a show run on config of one int
+ping ipv6 2001:db8:3C4D:12:21A:2FFF:FEE7:4398
+____Spanning-Tree Protocol_____
+(config-if)spanning-tree portfast- makes it so port does not wait for spanning tree, comes right up
+show spanning-tree summary-shows you switch spanning tree mode, and how many blocking and forwarding ports
+show spanning-tree vlan 10-
+show spanning-tree active- show you which port is active and alternates
+show spanning-tree detail-detailed
+____spanning-tree protocol_____
+____VTP____Vlan trunk protocol- reduces administration, onyl works over trunking ports
+Switches can be a server(clients follows suit),client(obviouse),transparent(relays, but does not apply)
+version 2 supports token ring vlans, version 1 does not.
+vtp mode server-maker you a server
+vtp domain ccna-all switches in this domain will communicate via vtp
+vtp password cisco-creates a vtp password
+do sh vtp password- will show you your vtp password
+vtp version 2- use vtp version 3
+vtp mode clinet- makes you a client
+vtp password cisco- you need to put the password in for each machine
+vtp mode transparent-
+do sh vtp status-
+Cisco recommends do not use! Keep individual vtp database on each machine(Maybe use for setup and then shutdown).
+People can forget to remove the vlan.dat of a switch that is also a vtp server that is entered into the environment,
+over writes all your vlans. Shuts down network until you correct vlans with higher revision number on server
+no vtp off mode, vtp transparent is the option.
+Every switch can be a server. Just means they all have the ability to modify vlan database
+Client can not modify, makes changes and passes it on. Transparent does not make changes just passes info on
+Highest revision number takes control of vlans. That can be the problem but thats how it also passes through net
+you can delete your config but forget to change your vlan.dat which has all your vlans and revision number
+
+___vtp_____
+___Iperf____
+Check speed from client to server. Verify speeds through your network if speed to internet seem questionable
+iperf3 -s  #listening mode as server from directory containing iperf
+iperf3.exe -c 10.1.2.10    # ip is servers ip
+
+____iperf____
+___NAT____
+Overload NAT- PAT- translates internal ip and port number to external ip and port number(same port if available)
+Two inside hosts use the same port number using Nat overload. Nat/Pat is designed to solve this problem by translating
+using the next available port number. So your internal port number will be the same but your global will be next available
+so when traffic comes back to router pat will translate back to your original port number, though it used another available port.
+Kind of like port forwarding using two different port numbers
+You can use static nat to translate an ip address to specific internal ip without it being assigned to interface.
+Say you purchase a secondary ip for your location. Both ips can be used by isp to route to you one for
+pat and all internet traffic and secondary forwards to internal ip (webserver)without even being assigned to interface.(static nat)
+when you saturate a public ip you would want to use a pool. Dynamic NAT
+
+Static Nat configuration
+interface Ethernet0l;ip address 10.1.1.10 255.255.255.0;ip nat inside- just identifying the interface as inside for the one translation
+interface Serial0;ip address 170.46.2.2 255.255.255.0; ip nat outside- just idntifying the interface as outside for the one translation
+ip nat inside source static 10.1.1.1 170.46.2.2;- one to one specific
+
+for web
+ip nat inside source static tcp 192.168.1.161 80 200.1.1.11 80
+also known as port forwarding, come in on this port and translate to this can be used with different ports also.
+
+Dynamic Nat configuration
+interface Ethernet0;ip address 10.1.1.10 255.255.255.0; ip nat inside-
+interface Serial0;ip address 170.168.2.1 255.255.255.0; ip nat outside-
+ip nat pool mypool 170.168.2.3 170.168.2.8 netmask 255.255.255.0- indicates the pool
+ip nat pool mypool 170.168.2.3 170.168.2.8 prefix-length 24-
+access-list 1 permit 10.1.1.0 0.0.0.255- when traffic meets this ACL its pulled into the nat process
+ip nat inside source list 1 pool mypool-translate address that match the access-list to an address from the pool jeff
+sh run | in nat
+sh ip nat translations- translation table showing all active nat translations
+debug ip nat - show real time translations
+clear ip nat translations *
+NAT*: s=172.16.2.2 d=192.168.2.1->10.1.1.1 [1] asterisk represents fast switching, cache for routing,
+
+PAT(overloading)
+interface ethernet0/1;ip address 192.168.1.1 255.255.255.0; ip nat inside
+interface Serial 0/0;ip address 170.168.2.1 255.255.255.0; ip nat outside
+access-list permit 1 192.168.1.0 0.0.0.255- Only allows 192.168.1 to use nat, ISP block private Ip's
+ip nat inside source list 1 interface serial 0/0 overload- allow nat from souce list and overload exit int
+inside local- local private ip address of any host 192.168.1.100
+inside global-from internal network outside address after translation home router public ip
+outside local-outside host as it appears on your inside network, if your router nats also inside
+outside global- outside address on internet
+
+____nat____
+___Password-Recovery___
+during boot  ctrl+break ; special break option in putty; ctrl pause/break....rommon 1 > configuration-register 0x2142;reload
+en;copy start run; en secret fhdshfdsjkfhskjd;write mem; copy run start
+all interfaces will be shutdown after copy start run. The config does not have no shut as a command, routers down by default
+int fa1/0; no shut
+int s1/0/1; no shut
+configuration-register 0x2102 
+switches can not change configuration register, so you will use the button on the front bottom that gets you to a switch: prompt
+dir; dir flash:; rename flash:/config.text flash:/config.old; reload
+Now when the system boots it will not read the config file due to the name being changed
+en; copy config.old running-config; enable secret newpass;write mem; delete flash:/config.old
+
+__password-recovery
