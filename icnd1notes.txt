@@ -481,6 +481,7 @@ to add new items on the list or to no one of the items out.
 ip access-list standard InternetBlocker;15 deny 10.1.1.0 0.0.0.255- adds this item to line 15
 ip access-list standard InternetBlocker;no 15- takes away that item
 sh run int fa1/0/1- easiest way to see access lists applied and direction
+sh ip int vlan2 - shows alot of info including access-list and direction, previous command is preferred quicker reading and direction
 ?????????? another way didn't show in the test
 VLAN ACL
 sh access-list
