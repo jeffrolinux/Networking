@@ -21,7 +21,8 @@ show mac address-table
 show interaces status-
 show ip arp
 show interface- shows you all interfaces
-sh int description- shows all interface descriptions and interface basic info.int fa1/0/1; description My serial link- example of setting description
+sh int description- shows all interface descriptions and interface basic info.int fa1/0/1; description My serial link- example of setting
+description
 sh ip route- shows you your routing table
 sh ip interface - layer 3 configuration information
 sh ip int brief- layer 1 and 2 status and ip address assigned
@@ -55,7 +56,8 @@ ____Trouble-Shooting____
 do show ip int brief- shows you the ip addresses of ints and wheather layer 2 or 3 is up
 show int fa 1/0/1 switchport- get statistics on specific ports
 debug ip ?
-debug ip icmp- DO NOT DO ON PRODUCTION MACHINES- puts all info to screen for debugging takes presendence over switching or routing or anything
+debug ip icmp- DO NOT DO ON PRODUCTION MACHINES- puts all info to screen for debugging takes presendence over switching or routing or
+anything
 undebug all-stop all debugging or no debug ip icmp
 (config)interface loopback 0;ip address 10.0.3.1 255.255.255.0- Configure loop back for trouble shooting purposes
 ____trouble-shooting____
@@ -121,7 +123,8 @@ pwd-Displays the current setting of the cd command.
 show file systems-Lists available file systems and their alias prefix names.
 undelete-Recovers a file marked "deleted"
 erase- erases a file. erase nvram: , depricated write erase, erase startup-config
-copy start run - is a merge not a complete copy, basically doesn't delete anything from from run but anything that is a part of the start will overwrite the run
+copy start run - is a merge not a complete copy, basically doesn't delete anything from from run but anything that is a part of the start
+will overwrite the run
 
 ___ifs___
 ____Serial-Interfaces____
@@ -350,7 +353,8 @@ show ip route
 _____router-config_____
 ____STATIC-ROUTE_____
 when a router has to look up the routing table for every single packet it is called process switching
-ip route 172.16.3.0 255.255.255.0 192.168.2.4 150 10 or          ip route 172.16.3.0 255.255.255.0 s0/0/0 exit interface traffic has to be on that subnet
+ip route 172.16.3.0 255.255.255.0 192.168.2.4 150 10 or          ip route 172.16.3.0 255.255.255.0 s0/0/0 exit interface traffic has to be on
+that subnet
 remote networking, mask, next hop, administrative distance	using exit interface as next hop
 in no communication with next-hop route will not show up on table, use permanent parameter to maintain the route until it is live
 ip route 172.16.3.0 255.255.255.0 192.168.2.4 150 permanent name Routetodestination? need name test?
@@ -392,7 +396,8 @@ conf t;vlan 50; name vlan50 Sales-create vlan
 conf t; switchport mode access; switchport access vlan 150; if vlan 150 does not exist its ok switch creates vlan
 which also means that a typo will create a vlan for you so pay attention to feedback from monitor!
 conf t; switchport mode access; switchport access vlan 3; switchport voice vlan 5- assigns port to a vlan 3 and voice 5
-(config-vlan)#name ciscovlan; do show vlan brief;- some switches will show the info here some will not you need to exit first odd behavior. Just exit then check
+(config-vlan)#name ciscovlan; do show vlan brief;- some switches will show the info here some will not you need to exit first odd behavior.
+Just exit then check
 show vlan
 no vlan 48
 no interface vlan 48
@@ -406,7 +411,8 @@ sh interfaces trunk- shows you your trunked interfaces
 switchport trunk allowed vlan 1,150,200-220;limiting vlans allowed on trunk
 switchport trunk allowed vlan add 99
 switchport trunk allowed vlan remove 7-9
-switchport trunk native vlan 150- changes the native vlan. native vlan not tagged, all trunks must have the same native. Native is the untagged vlan
+switchport trunk native vlan 150- changes the native vlan. native vlan not tagged, all trunks must have the same native. Native is the 
+untagged vlan
 switchport negotiate- turns on dtp, abilility to negotiate a trunk
 switchport nonegotiate- switchport will not negotiate- turns dtp off. Less overhead, less badnwidth consumption
 ^ If you set a trunk and encapsulation, system still runs dynamic trunking protocol
@@ -455,7 +461,8 @@ when a port becomes secure-shutdown due to going beyond the restrictions port wi
 
 ___port-securityl2____
 ___Standard-ACL___range 0-99&1300-1999, list solely based on source ip
-If there is one item in an acl there is an implicit deny for everything else. That is why a permit any is needed unless you want everything blocked
+If there is one item in an acl there is an implicit deny for everything else. That is why a permit any is needed unless you want everything 
+blocked
 when reading access list as soon as match is made action is taken, unlike routing which reads entire table.
 Standard acl only uses source ip address,lower processor utilization
 1 ACL per direction per interface, applied as close to the destination as possible(standard only)
@@ -484,7 +491,8 @@ sender 10.1.3.5 recipient 10.1.2.5
 int vlan 2; access-group 20 out; response packet filtered from sender, reccipient did not recieve echo request
 reasoning:When packet goes out packet is filtered and never gets to host
 int vlan 2; access-group 20 in; no change data transmits freely
-reasoning:packet is filtered inbound so when sender sends packet source ip is 10.1.3.5, recipient returns echo reply and source ip is 10.1.2.5
+reasoning:packet is filtered inbound so when sender sends packet source ip is 10.1.3.5, recipient returns echo reply and source ip is 
+10.1.2.5
 so when filtering occurs source ip has changed and then it does not match filtering deny
 So with VLANS you can think of outbound the same as if on a port out is out the ports and in is back in the ports
 
@@ -538,10 +546,12 @@ ff02::2		Router solicitation from host to router
 ff02::1   ???
 ::1- localhsot test pinging your nic
 (config-if)ipv6 address 2001:db8:3c4d:1:260:d6FF:FE73:1987/64- complete address
-(config-if)ipv6 address 2001:db8:3c4d:1::/64 eui-64- extended unique identifier uses mac and pad to build rest of the addy, FFFE sits right in the middle of the mac to give it its full length and the seventh bit changes weather it is local or globally unique
+(config-if)ipv6 address 2001:db8:3c4d:1::/64 eui-64- extended unique identifier uses mac and pad to build rest of the addy, FFFE sits right
+in the middle of the mac to give it its full length and the seventh bit changes weather it is local or globally unique
 (config-if)ipv6 address 2001:db8:3c4d:1::22/64-host address all zeros with 22 at end
 (config-if)ipv6 enable- uses only link local address. Meaning communicate only on subnet no routing
-(config-if)ipv6 address autoconfig default-Listens for RAs and will autoconfig once it gets one, default injects default route received from RA
+(config-if)ipv6 address autoconfig default-Listens for RAs and will autoconfig once it gets one, default injects default route received from
+RA
 (config-if)ipv6 address autoconfig- no default route needed to be injected to interface
 ipv6 route 2001:DB8:3c4d:14::/64 2001:db8:3C4D:12:21A:2FFF:FEE7:4398 150  what is AD if left blank										1	
 ipv6 route 2001:DB8:3c4d:14::/64 s0/1 4					  what is AD if left blank										0
