@@ -6,7 +6,7 @@ disable- exit privledged mode
 password ACTUALPASS- password followed by actual password sets password
 secret ACTUALPASS- creates a hashed password 
 login- enables login on lines
-login local- enabples login with local database of hosts
+login local- enables login with local database of hosts
 logout- exit the console
 configuration terminal- conf t- allows you to make global changes to the router or switch, alter running config
 ?- shows list of available commands
