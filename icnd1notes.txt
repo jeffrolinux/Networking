@@ -71,7 +71,8 @@ Router(config-archive)#archive config- saves the current running config to the a
 Router#configure replace disk0:myconfig-1
 show archive
 debug archive versioning
-
+basically keep archived configs and be able to replace them
+___configurereplace______
 _____Reload-remote-admin-possible-lock-your-self-out_____
 reload in 5   reloads in 5 minutes. will boot up with config thats startup-config 
 reload at 15:00 aug 10   #Clock must be set to use this
