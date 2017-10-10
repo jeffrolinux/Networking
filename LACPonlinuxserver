@@ -1,0 +1,39 @@
+helpful webpages https://wiki.debian.org/Bonding   https://help.ubuntu.com/community/UbuntuBonding
+apt install ifenslave
+modprobe bonding#   enact the driver
+echo "bonding" >> /etc/modules#enact the driver at every boot 
+
+________________________________________________________________________________ /etc/networking/interfaces
+#eth0 is manually configured, and slave to the "bond0" bonded NIC
+auto eth0
+iface eth0 inet manual
+bond-master bond0
+
+#eth1 ditto, thus creating a 2-link bond.
+auto eth1
+iface eth1 inet manual
+bond-master bond0
+
+# bond0 is the bonded NIC and can be used like any other normal NIC.
+# bond0 is configured using static network information.
+auto bond0
+iface bond0 inet static
+address 192.168.1.10
+gateway 192.168.1.1
+netmask 255.255.255.0
+# bond0 uses standard IEEE 802.3ad LACP bonding protocol mode 4 is lacp
+bond-mode 4
+bond-miimon 100
+bond-lacp-rate 1
+bond-slaves eth0 eth1
+_______________________________________________________________________________
+
+verify that your bond0 is active 
+cat /proc/net/bonding/bond0
+
+With LACP on one switch you do not get resilience at the switch level. You will load balancing with both up. Fail safe if one of the 
+cables or Nics fail.
+You can run LACP with multiple switches for redundancy at later 2 but you will need stackwise or a datacenter technology to aggregate
+port channel accross multiple switches.
+You can use active backup if you want to use two swtiches for redundancy purposes. But you will not get load balancing. When you have a
+failure on one of the ports the other will go up so you will not have your mac address places in two places at layer 2.
