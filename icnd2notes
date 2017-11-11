@@ -1,0 +1,431 @@
+____Random trouble shooting tricks I have picked up_____
+ping X.X.X.X source loopback 1; quick way to ping from specific int
+____random trouble shooting tricks _________
+___VTP-Pruning___
+basically makes it so traffic only traverses to switches that have ports in the vlan. So un-needed traffic is not traversed over the network.
+conf t; int fa 1/0/1; switchport trunk pruning vlan 3-9;
+valid vlans for pruning are 2-1001
+____vtp-pruning_______
+_____PORTFAST-BPDUGUARD_____
+(config-if)#spanning-tree portfast;	enable portfast on int, does not wait for STP
+(config-if)#spanning-tree bpduguard enable;	enable bpduguard on in, bpdu comes in port goes down
+(config)#spanning-tree portfast default; 	enable portfast by default on all access ports
+(config)#spanning-tree portfast bpduguard default;	any port conf w/ portfast will have bpduguard aswell
+_____portfast-bpduguard______
+____SPANNING-TREE______
+10Mbs	cost	100  link cost, path cost is sum of links to root bridge
+100Mbs	cost	19
+1000Mbs	cost	4
+10000Mbs cost	2
+default priority 32768, can be set from 0- 61440 in increments of 4096
+setting to zero means that switch will always be root unless another switch is 0 and has lower mac
+s2(config)spanning-tree vlan 2 root primary;	 root bridge for vlan 2
+s3(config)spanning-tree vlan 2 root secondary;	secondary root bridge for vlan 2 if primary goes down
+s3(config)spanning-tree vlan 3 priority 16384; 	set priority
+sh spanning-tree vlan 2;
+sh spanning-tree summary;
+s2(config)spanning-tree mode rapid-pvst; Highest cpu usage, but chooses best path based on vlan and does it rapidly. Cisco proprietary  
+(config)#no spanning-tree vlan 2;	turn spanning tree of create a loop see results add in more cables watch results multiply
+Root bridge:Lowest bridge priority,if tie lowest mac-address.
+Root Port: any port that is directly connected to Root bridge becomes a root port.
+Designates port: Switch with lowest accumulated path cost to root bridge,if tie-bridge id,both tied- lowest port number
+_____spanning-tree______
+
+____ETHERCHANNEL______
+layer 2&3 treat etherchannel bundles as a single link
+etherchannel port channel logical interface, only 1-48 allowed
+links must have the same speed,duplex, and vlan config
+PAgp-Cisco's proprietary Port Aggregation Protocol, uses auto or desireable commands 
+sends packets every 30 seconds to manage consistency
+
+LACP- Link Aggregation Control Protocol, uses active and passive command
+channel-group- command on ethernet interfaces used to add int to a single etherchannel
+int port-channel- command that creates a bundled interface
+
+[EXAMPLE]  [LACP] [BEGIN]
+int range g0/1-2;switchport trunk encapsulation dot1q; switchport mode trunk- create your trunks for etherchannel
+channel-group 1 mode active; exit;     what mode you choose creates lacp or pagp
+(config)int port-channel 1;
+(config-if)switchport mode trunk encapsulation dot1q;swtichport mode trunk; switchport trunk allowed vlan 1,2,3;
+all commands performed at the port-channel int are inherited at the interface level
+
+int range g0/13-14;switchport trunk encapsulation dot1q; switchport mode trunk-other side connections
+channel-group 1 mode active; exit;
+(config)int port-channel 1;
+(config-if)switchport mode trunk encapsulation dot1q;swtichport mode trunk; switchport trunk allowed vlan 1,2,3;
+all commands performed at the port-channel int are inherited at the interface level of all ports assigned to channel
+if you wanted to change the config from layer 2 access ports to trunk you would configure at:int port-channel 1;
+sh etherchannel port-channel
+sh etherchannel summary
+[example] [lacp] [end]
+
+[EXAMPLE] [Layer3etherchannel] [Begin]
+You would use for connecting multiple ports on a swtich to a router
+
+R(config)int port-channel 1- creates port channel int
+R(config-if)ip address 10.1.1.0 255.255.255.0
+R(config-if)int range g0/0-1;channel-group 1;- adds both interfaces to port channel group
+sh run- will not show ip address under these int will show channel-group 1
+int port-channel1 will show ip address and load interval
+
+layer 3 on a switch
+s1(config) int port-channel 5;s1(config-if)no switchport;ip address 10.100.100.1 255.255.255.0
+
+[example] [layer3etherchannel] [end]
+
+testing throughput with two rasberry pies running rasbian with iperf
+1 channel link  94.1 Mbits/sec, 2 channel link 
+_____etherchannel___________
+_____RADIUS______
+(config)aaa new-model	-beware immediately applies local  authentication to all lines and interfaces except line console 0
+(config)username jeff priviledge 15 secret mypass	- might want to make habbit or creating user before aaa new-model
+(config)radius server SecureLogin
+(config-radius-server)address ipv4 10.10.10.254 auth-port 1812 acct-port 1813 key SW1
+(config-radius-server)key MyRadiusPass
+(config)aaa group server radius MyRadiusGroup
+(config-sg-radius)server name SecureLogin
+(config)aaa authentification login default group MyradiusGroup local	- local is the backup local username incase MyradiusGroup goes down
+(config)#aaa authentication enable default group myradiusgroup enable
+(config)#aaa authorization exec default group myradiusgroup if-authenticated
+_____radius______
+
+
+____TACACS+_____
+same setup as radius just use TACACS+ instead of radius!
+____tacacs+_____
+_____SNMP______
+snmp-server host 10.10.10.100
+snmp-server community Jeff rw
+snmp-server location JeffsApartment
+snmp-server contact WhyNotJeff
+ip access-list standard PrtotectNMS
+permit host 192.168.10-254
+snmp-server community Jeff ProtectNMS rw	-protect NMS only allows host rw jeff specific ip
+_____snmp______
+____FHRP___HSRP____
+both interfaces need thier own local interface on same subnet to communicate hello messages
+so the hsrp ip is the ip between the two routers in this situation you have 3 ips allocated to routers
+conf t;int fa0/0;standby 1 ip 10.1.1.10;standby 1 name HSRPTest;standby 1 priority 110;standy 1 preempt;		-higher priority wins
+Same HSRP config goes on the other gateway. Both use .10 as virtual ip so hosts wont even know which router they are using
+do show standby		- get all your basic data for trouble shooting
+do show standby brief		- quick and simple one liner but has basically everything you need
+debug standby		-get all standby info to screen
+
+____fsrp____hsrp_____
+____EIGRP___ipv4____
+http://www.ciscopress.com/articles/article.asp?p=27839&seqNum=3
+Neighbors need: SAME AS, int in EIGRP process, K values same,	
+hello and dead timers are not critical with EIGRP
+Enhanced interior gateway routing protocol
+conf t;router eigrp 20;		- 20 gives you your AS number all routers in this as need to be given the same AS
+(config-router)network 10.10.11.0 0.0.0.255;	use wild card to distinguish specific network 10.10.11
+(config-router)network 172.16.10.0 0.0.0.3; block of 4 net .0 b-cast .3 hosts .1&.2  very small network in AS point to point links
+(config-router)network 172.16.10.4 0.0.0.3; just reminder that thats a whole differenct subnet and would need to be added individually
+(config-router)network 10.0.0.0;	all networks in the 10. on this device are part of eigrp 20
+(config-router)network 172.16.0.0;	all networks associated with class B are part of eigrp 20
+router eigrp 20; no auto-summary;	usually your not going to want eigrp to summarize for you. can cause problems, especially in discontiguous nets
+with auto summary on eigrp it sends out classful network info. Classless requires: no auto-;
+passive-interface g0/1;		stops the interface from sending and receiveiving hello messages and bringing up eigrp but this does not stop other interfaces
+from advertising this subnet under this interface. You would need to use wildcards and ensure this subnet is not under the eigrp at all.
+neighbor 172.16.10.2;	router will now use unicast for updates with neighbor instead of multicast
+maximum-paths ?;	older ios 16 max paths newer ios 32 maximal paths stored in database, by default eigrp supports 4 paths load balancing
+Changing the K values
+(config-router)# metric wights 1 0 1 0 0; always1, bandwidth/load, delay, reliability, MTU
+Authentication:(config-if)#key chain vault;key 1;key-string Welcome;ip authentification mode eigrp 1 md5;
+(config-if)#ip authentification key-chain eigrp 1 vault;
+sh ip protocols;	shows information about active protocol sessions, will show you  your eigrp AS and k values, hold time
+sh ip eigrp topology;	shows entries in the eigrp topology table
+sh ip eigrp traffic;	shows the packet count for eigrp packets sent and received	
+sh ip eigrp interfaces;		shows the interfaces on which the router has actually enabled eigrp
+sh ip eigrp neighbors;		shows all eigrp nieghbors, their ip addy, retransmit interval, and queue counts for the adjacent routers
+sh ip route eigrp;
+debug ip eigrp;		trouble shoot any problem you may have
+undebug all; no debug ip eigrp;
+sh ip eigrp 100 interfaces detail; will show you hello timers
+ip hello-interval eigrp 1 8;
+ip hold-time eigrp 1 20
+by default hello is 5 seconds and hold is 15. The onyl place to find currentl hold time is sh run. Nothing is default, the change if changed
+eigrp by default will load balance accross equal cost paths but if you want unequal cost paths load balancing you must change variance
+router eigrp 20; variance 2;	will load balance to remote network up to 4 paths and the fd can be twice as large max for variance is 128 which
+is 128 times the fd.
+split horizon is enabled by default- basically it stops routers from sending back the updates that they received back to router they recieved them from
+Feasable distance- Best metric among all paths to a remote network
+RD/AD Reported distance/ advertised distance- metric of a remote network, as reported by its neighbor, second number in topololgy table parenthesis
+RD/AD plus cost to get to neighbor is the feasable distance.
+successor- think successful, best route to a remote network
+feasable successor- back up route, inferior to successor route
+Neighbor table- information about neighbors is stored in the neighbor table, which is stored in ram
+topology table-populated by the neighbor table and the Diffusing update algorihm DUAL
+routing table- your normal routing table, so for eigrp to work it needs all 3 tables
+RTP- Reliable transport protocol, manages communication between eigrp speaking routers
+hello timer by deafault is 5 seconds, hold timer is length of time a router is willing to wait before it declares its neighbor dead.
+the only time it a eigrp advertises all its information is when a new nieghbor is established
+sh ip route output for eigrp:[[[ D		10.0.0.0/8 [90/2195456] via 172.16.10.2, 00:27:06,Serial0/0   ]]]
+D is for DUAL algo, 90 is Admin dist,2195456 is the feasable distance, everything else self explanatory
+sh ip eigrp topology:
+P 192.168.10.0/24, 1 successors, FD is 2172416
+	via 172.16.10.6 (2172416/28160), serial 0/1
+	via 172.16.10.2 (3074560/28160), serial 0/0
+to routes to 192.168.10.0  serial 0/1 has same RD/AD as serial 0/0 so both routes are same distance as Advrt by rtr, s0/0 has a slower connection
+ so FD is higher making serial 0/1 the successor! The P means passive router has found all routes and is happy. IF P is replaced with an A it means active
+eigrp is not happy and it is querying its neighbors for another route.
+RTP- EIGRP communicates via RTP- reliable transport protocol, uses 224.0.0.10,Update, query,reply,hello,ack.
+Diffusing Update Algorithm(DUAL)-selecting and maintaining best path to each remote network
+Hello-used to discover Eigrp neighbors
+ACK-sent in response up an update and it always unicast
+reply-sent in response to a query via unicast method
+query-request for specific routes and always uses the reliable multicast method
+update-sent in response to metric up topology changes, reliable multicast. If one router needs an update then it sends it via unicast
+Hold-timer- tells your neighbor how long they can wait before they declare you dead. Change your hold time to one second and your
+neighbor decalres that you are dead after one second elapses. 	
+Split horizon : Never advertsie a network out the interface you are using to reach that network.
+https://supportforums.cisco.com/t5/lan-switching-and-routing/eigrp-topology-table-all-links/td-p/3179536
+_____eigrpipv4____________
+_____EIGRP-IPv6_______________
+ipv6 unicast-routing
+ipv6 router eigrp 10;no shut;	IPV6 eigrp needs the no shut on eigrp but does not need passive interfaces as its not ran on interfaces by default
+ipv6 router eigrp 10;(config-rtr)router-id 1.1.1.1;	important for external routes, used with loopback, loopback important as it never goes down
+int fa1/0/1;(config-if)ipv6 eigrp 10;	each interface needs to be enabled for eigrp to work with ipv6
+sh ipv6 eigrp interfaces;	shows you your active interfaces in eigrp
+sh ipv6 protocols;	look at ipv4 explanation
+sh ipv6 eigrp topology;  ^^^^
+sh ipv6 eigrp traffic;	^^^^
+sh ipv6 ip eigrp neighbors;	^^^
+_______eigrp-ipv6_______
+
+______OSPF_______
+RFC-2328,https://www.ietf.org/rfc/rfc2328.txt
+https://www.cisco.com/c/en/us/support/docs/ip/open-shortest-path-first-ospf/7039-1.html
+224.0.0.5- multicast address ospf routers use for adjacencies
+to make adjancies: need same area, and same hello and dead timers. Adjancies only made to DR and BDR.
+ospf router states: Down- no hello packets have formed adjaencies yet, attempt-nieghbors must be cnfigured manually (NBMA) non-broadcast multi access
+init-hello packets have been received, but no router id in neighbor field, bi directional communication not set up, 2way bi-directional established, hello
+included router id, and DR and BDR election can now be established.
+Full- full synchronization among neighbors
+RID-Highest used loopback address. If not used highest active ip on router.
+Hello/ dead interval . Hello default 10. dead time is length of time allotted for hello not to be received before declaring dead
+Hello and dead timers are a must for an adjacenecie or neighbor to come up!!! Especially non cisco vendors check defaults
+DR-Designated router is elected whenever routers are connected to the same area, minimizes number of adjacencies formed, publicizes received routing info
+to and from remaining routers in the broadcast domain. DR is won by priority level, if tied router ID.
+All routers in the area form adjacencies with the DR and BDR
+BDR- Backup designated router- hot standby for DR on broadcast. Receives all routing updates but does not disperse lsa, DR only.
+LSA Link-State advertisement, there are 5 types:
+type 1 RLA -Router link advertisement,  generated by all R,advert contains status of routers link in area of which it is connected
+type 2 NLA -Network link advertisement, generated by DR, flooded  to all routers that are part of same area contains DR, BDR ip information
+type 3 SLA- Summary link advertisement, generated by ABR, advertises inter-area routes to the backbone area Adv contain Rid of the ABR that is adv lsa.
+type 4 LSA- like type 3 generated by ABR, specifically to adv how to get to ASBR
+type 5 ELA- External link advertisement, sent by ASBR to advertise routes that are external to the OSPF AS 
+
+conf t; router ospf 1; router-id 1.1.1.1;
+remember 1 is process id and is only important locally for other processes. RID must be different on each router.
+(config-router)#router-id 33.33.33.33; clear ip ospf process; restarts ospf so that new R-ID can take effect
+(config-router)network 10.10.0.0 0.0.255.255 area 1; 	puts all interfaces in 10.10 into area 1
+(config-router)int g0/0;(config-if)ip ospf 1 area 0;	put the interface in area 0 via the int
+(config-router)network 10.12.12.1 0.0.0.0 area 1; puts interface into area 1, 
+(config-router)network 0.0.0.0 255.255.255.255 area 2;	all interfaces in area 2, command looks like default gateway, but with wildcard!
+(config-router)auto-cost reference-bandwidth ?;  change reference bandwidth which determines cost. If changed might want to do it on all routers
+(config-router)passive-interface fastethernet 0/1; does not form adjancies but this network is advertised as part of ospf network!
+you would use the wildcards and ensure that its not a part of ospf at all if you wanted it completely out of AS.
+(config-if)#ip ospf authentification;ip ospf authentification-key vault; needed on both interfaces to maintain adjacencies
+(config-if)#ip ospf authentification message-digest; ip ospf message-digest-key 1 md5 vault;
+(config-router)#default-information originate always; advertises default route to ospf, gateway
+OSPF always advertises loopbacks as a /32 next line will show how to advertise based on its real mask
+int l0;ip ospf network point-to-point;     that is not int 10! it is lower   L10    shorthand for loopback10
+sh ip ospf nieghbor;	shows you your neighbors and on what interface they are attached
+sh ip ospf interfaces;	displays ospf info on interfaces and organises it via inter
+sh ip ospf;	shows lots of info for ospf including each area 
+sh ip ospf interface g0/0/1;	HELLO AND DEAD TIMERS, THIS IS WHERE YOU FIND THIS OUTPUT!! lots of stat info, lots of info HERE!!!!
+very different from sh interfaces g0/0/1;
+Adjust Timers: ip ospf hello-interval 6;
+rememebr neighbors need all timers to be exactly the same
+sh ip ospf database;	full topology database
+sh ip protocols;	verify process #1-62,xxx/ and that ospf is enabled on router, max paths,R-id,areas,ABR,ASBR
+sh ip route; 	check for injected ospf routes
+sh ip route ospf;	show you only ospf injected routes
+show ip ospf database;	
+ciscos default cost 100,000,000/100mbs   cost for 100mbs link 1  (config-if)#ip ospf cost ?  non-cisco make costs work together!
+(config-if)#ip ospf cost 500; change the cost on an int
+you can also alter bandwidth which will alter the cost. Cost is based on bandwidth
+OSPF Administrative distance is 110
+Every area needs a direct connection to area 0 ABR- or you will need to build a virtual link connecting distant areas
+(config-router)area 1 virtual-link 10.3.3.1; on ABR connected to A 0, given the link through area 1, remote ABR ID
+(config-router)area 1 vritual-link 10.3.1.1; on router I want to be ABR through area 1  VL id of abr to area 0
+___ V.3 -ipv6
+ospf V.3 can be used to run both ipv4 and ipv6
+(config)ipv6 router ospf 10;router-id 10.10.10.10
+router id is still 32 bit ipv4 like, so if no ipv4 address is on system make sure you create your own router id
+(config-if)ipv6 ospf 2 area 0;	once again the 2 is a local process, local significance and area 0, easy config thats it
+int fa1/0/1; ipv6 ospf 2 area 1;	
+sh ipv6 route ospf;	all the same show commands reguarding ospv v2 just make sure to include ipv6 if using ipv6
+___RIP____
+(config-router)#distance 109 0.0.0.0 255.255.255.255; change admin dist, make router prefor rip over ospf
+(config-router)#passive-interface loopback 0; so router does not try and exchange updates with itself
+___rip____
+_____OSPF______
+____PPP____
+conf t; int s0;encapsulation ppp;
+If you want to use chap authentication authentication:
+RouterA(config)#encap ppp;username RouterB password cisco;ppp authentification chap
+RouterB(config)#encap ppp;username RouterA password cisco;ppp authentification chap;
+pap authentification:
+ppp authentification chap pap; will use chap first is chap does not work will then use pap
+sh int s0/0; to verify
+with mismatched ip addresses ppp will allow you to ping host on other side even though 10.1.2.1 and 10.1.2.8/30 ping success ? ppp shows up as local connected
+sh cdp neighbor detial would let you know subnets are mismatched and reconfigure on one or both sides and then net should be up. don't rely on ping with ppp
+___ppp___
+____Multilink-PPP____
+utilizes load balancing on up to 10 links. Fragments large packets then sends packet fragments over multiple links
+Corp(config) int Multilink1;ip address 10.1.1.1 255.255.255.252;
+Corp(config-if)#encap ppp;ppp multilink;ppp multilink group 1; on each interface you want added into the multilink group
+show ppp multilink; verify 
+_____multilink-ppp___
+___PPPoE_____
+Point to point protocol over ethernet- encapsulates ppp frames in Ethernet frames. It can be trouble with firewalls.
+Typically used with a dsl line
+R1(config)#int dialer1;ip address negotiated;encapsulation ppp;dialer pool 1;int f0/1;
+(config-if)#no ip address;pppoe-client dial-pool-number 1;
+sh ip int b; will show you your dialer int and given ip
+sh pppoe session;
+____pppoe______
+____HDLC_____
+High-Level Data-Link control. Each company has their own proprietaty encapsulation of hdlc. ONLY use routers of same brand
+HDLC is the default encapsulation over serial links.
+link between isp is up on both sides they both start to communicate.
+R1(config)# int s0/0; ip address 10.1.1.1/30; no shut;
+R2(config)#int s0/1; ip address 10.1.1.2/30; no shut
+wahhla. Too easy. If no isp you  will have to sh controllers s0/0; check which side is dce and set clocking manually: clock rate 64000; bits per second 64k
+_____hdlc______
+
+____GRE-Tunnels_____
+General routing encapsulation
+1. Use ip addressing. 2.create logical tunnel interface. 3. Specify GRE tunner mode under tunnel int. 4.Specify tunnel source and dest ip. 5.conf ip for tunnel int
+int s0/0/0; ip address 63.1.1.1 255.255.255.252; 
+int tunnel 0;tunnel mode grep ip;ip address 192.168.10.1 255.255.255.0; tunnel source 63.1.1.1; tunnel destination 63.1.1.2
+sh run int tunnel0:
+ip address 192.168.10.1 
+tunnel source 63.1.1.1
+tunnel destination 63.1.1.2
+remote destination device:
+int s0/0/0; ip address 63.1.1.2 255.255.255.252; int t0; ip address 192.168.10.2 255.255.255.0; tunnel source 63.1.1.2; tunnel destination 63.1.1.1
+I didn't forget tunnel mode the default is GRE with cisco
+sh ip int b; verify tunnel is up
+sh int tun 0; verify tunnel config
+sh ip route;
+____gre-tunnels_____
+___BGP_____ example of this topology on page 929
+distant-vector protocol. advertises all or portion of routing table to its neighbors
+no AS path list is allowed to contain the same AS number twice. loop avoidance
+relies on TCP with port 179. unicast for route exchange
+BGP neighbors in same AS are iBGP neighbors or neighbors that live in differeent AS are EBGP neighbors. internal, external
+ISP(config)#router bgp 1; neighbor 192.168.1.2 remote-as 100;neighbor 192.168.2.2 remote-as 200;network 10.0.0.0 mask 255.255.255.0;
+R1(config)#router bgp 100;neighbor 192.168.1.1 remoat-as 1;network 10.0.1.0 mask 255.255.255.0;
+R2(config)#router bgp 200;neighbor 192.168.2.1 remote-as 1;network 10.0.2.0 mask 255.255.255.0;
+all neighbors connected on the 192 but network being advertised is the 10.0 so they can ping each others loopback whick could also be a remote network behind router!
+show ip bgp summary; show ip bgp; show ip bgp neighbors;
+_____bgp_____
+____SPAN___PORT-MIRROR___SNIFF____SNIFFER____
+(config)#int fa0/1;port monitor fa0/2; port monitor fa0/3;port monitor vlan1;
+Every packet that fa0/2,fa0/3, and vlan1 both send and receive will be copied to fort fa0/1.
+Only when they are on same vlan and vlan1 is referring to system administration interface not actual vlan..
+show port monitor;
+
+to monitor a trunk: 1. Make sure session uses encap. 2. Make sure device knows how to read such packets.
+monitor session X destination interface GiX/XX encapsulation dot1q
+https://wiki.wireshark.org/CaptureSetup/VLAN
+sniffing device may frop packets if does not understand 802.1q tagging
+___span___port-mirror___sniff___sniffer____
+___ARP___
+clear arp-cache; 
+clear arp; 
+clear ip arp 10.1.4.2; 
+(config-if)#arp timeout 10; time out is 10 seconds, would still now clear maybe a gns3 bug??
+____arp____
+____DMVPN_____
+https://www.cisco.com/c/en/us/support/docs/security-vpn/ipsec-negotiation-ike-protocols/41940-dmvpn.html
+https://learningnetwork.cisco.com/blogs/vip-perspectives/2017/02/15/dmvpn-the-phases-in-depth
+Dynamic Multipoint VPN
+supports dynamic routing and multicast.
+Next Hop Resolution Protocol NHRP 
+simple config over public internet!
+MGRE Multipoint General Routing Encapsulation,Next Hop Resolution Protocol NHRP, IPSec
+Hub or HQ unit learns each spokes public and private addresses for routing, dynamically.
+NBMA is public address
+VPN addy private 
+Hub is control plane for spoke-spoke connection
+sh dmvpn; ios 12.4(9)T   
+sh ip nhrp; 
+sh ip nhrp brief; will show you static-hub and dynamic any spoke
+show  ip nhrp nhs detail;
+sh ip nhrp dynamic 192.168.1.4;  use the remote tunnel int to find your mapping, will only show if recently communicated
+sh tunnel endpoint tunnel0;
+show ip nhrp tunnel X;
+show ip nhrp multicast;
+1 Hub config
+HUB:
+int tunnel0
+interface Tunnel0
+ip address 192.168.1.1 255.255.255.0
+no ip redirects
+ip mtu 1440
+ip nhrp map multicast dynamic
+ip nhrp network-id 1
+no ip split-horizon eigrp 10 !advertise a route out an interface if the router uses that interface to reach that network
+no ip next-hop-self eigrp 10 !Passes the routing update with the next hop unmodified to the spokes
+tunnel source Serial0/0
+tunnel mode gre multipoint
+tunnel key 0
+no shut
+ 
+Spoke:
+int fa0/0
+ ip address 172.16.4.1 255.255.255.0
+no shut
+interface Tunnel0
+ip address 192.168.1.4 255.255.255.0
+no ip redirects
+ip mtu 1440
+ip nhrp map 192.168.1.1 200.0.1.2
+ip nhrp map multicast 200.0.1.2
+ip nhrp network-id 1
+ip nhrp nhs 192.168.1.1
+tunnel source Serial0/0
+tunnel mode gre multipoint
+tunnel key 0
+no shut
+
+router eigrp 10
+no auto-summary
+network 172.16.0.0 0.0.255.255
+network 192.168.1.0 0.0.0.255
+do wr
+Phase 1 all traffic through hub
+Phase 2 spoke-spoke Dynamic mapping
+Phase 3 summarization   HUB:ip nhrp redirect;ip summary-address eigrp 10 0.0.0.0 0.0.0.0
+      SPOKE:ip nhrp shortcut
+commands supported by c7200
+____dmvpn____
+_________Reflexive-ACL internet connection on router_________
+http://packetlife.net/blog/2008/nov/25/reflexive-access-lists/
+To employ reflexive ACLs, three access lists are actually needed:
+ one for inbound traffic, one for outbound traffic, and one (the reflexive ACL) to keep track of dynamic entries
+On outboud interface, how our home routers work:
+ip nat inside source list 1 interface Fa0/1 overload
+ip access-list extended Egress
+ permit ip any any reflect Mirror  !mirror reflection of packets to test with the next acl  source--->dest
+ip access-list extended Ingress
+ evaluate Mirror     ! After packets have been mirrored, router evaluates the mirored packets
+int fa0/1;ip access-group Ingress in;ip access-group Egress out; 
+access-list 1 permit any
+Mirror the traffic going out so outbound ip and port become inbound ip and port. Use inbound acl to evaluate that mirror
+
+On inside interface so that you can have a DMZ established on different routing interfaces.
+int fa0/0;ip access-group Ingress in; ip access-group Egress out
+ip access-list extended Egress
+ evaluate Mirror
+ip access-list extended Ingress
+ permit ip any any reflect Mirror
+!
+access-list 1 permit 192.168.1.0 0.0.0.255
+make sure your nat nats the correct subnet! Mirror packets that come in fa0/0, evaluate them outgoing fa0/0 as they come back.
+_______reflexive-acl internet connection on router_______________________________
+
