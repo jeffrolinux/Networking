@@ -21,6 +21,8 @@ default priority 32768, can be set from 0- 61440 in increments of 4096
 setting to zero means that switch will always be root unless another switch is 0 and has lower mac
 s2(config)spanning-tree vlan 2 root primary;	 root bridge for vlan 2
 s3(config)spanning-tree vlan 2 root secondary;	secondary root bridge for vlan 2 if primary goes down
+if primary and secondary go down and they are 16k and 20k, bridge with 8k will not be primary, the bridge with next highest priority
+so if a bridge has priority of lets say 24k it would be the next root bridge.
 s3(config)spanning-tree vlan 3 priority 16384; 	set priority
 sh spanning-tree vlan 2;
 sh spanning-tree summary;
