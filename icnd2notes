@@ -78,6 +78,23 @@ s1(config) int port-channel 5;s1(config-if)no switchport;ip address 10.100.100.1
 testing throughput with two rasberry pies running rasbian with iperf
 1 channel link  94.1 Mbits/sec, 2 channel link 
 _____etherchannel___________
+_____DHCP SNOOPING____
+http://www.pearsonitcertification.com/articles/article.aspx?p=2474170
+(config)ip dhcp snooping;  enables this abiliity on the switch
+(config-if)ip dhcp snooping trust;	allows any dhcp server messages to come from this link upstream or direct
+____dhcp snooping____
+____Dynamic Arp Inspection____
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst6500/ios/12-2SX/configuration/guide/book/dynarp.html good example
+either way works
+(config)ip arp inspection vlan 10,11,12; ip arp inspection vlan 10-12;ip arp inspection vlan 10-15,18;
+you can create trusted interface so the inspection does not occur and switch forwards arp frame as usual
+(config-if)ip arp inspectoin trust
+show arp access-list;   displays arp acls
+show ip arp inspection interfaces [id]; displays trust state and arp rate limit on the specified or on all
+show ip arp inspection vlan; displays configuration and the operation od DAI for the specified vlan. if no vlan id then on all
+clear ip arp inspection statistics; clears dai statistics
+shop ip arp inspection statistics vlan [id]; displays statistics
+____dynamic arp inspection____
 _____RADIUS______
 (config)aaa new-model	-beware immediately applies local  authentication to all lines and interfaces except line console 0
 (config)username jeff priviledge 15 secret mypass	- might want to make habbit or creating user before aaa new-model
