@@ -82,6 +82,7 @@ _____DHCP SNOOPING____
 http://www.pearsonitcertification.com/articles/article.aspx?p=2474170
 (config)ip dhcp snooping;  enables this abiliity on the switch
 (config-if)ip dhcp snooping trust;	allows any dhcp server messages to come from this link upstream or direct
+SWITCH#show ip dhcp snooping binding; shows all of your bindings
 ____dhcp snooping____
 ____Dynamic Arp Inspection____
 https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst6500/ios/12-2SX/configuration/guide/book/dynarp.html good example
