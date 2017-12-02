@@ -150,7 +150,8 @@ scp jeff2@10.0.9.1:flash:/c3750-ipbasek9-mz.122-55.SE10/c3750-ipbasek9-mz.122-55
 copy flash:/c3750-ipbasek9-mz.122-55.SE10/c3750-ipbasek9-mz.122-55.SE10.bin tftp
 copy running-config ftp://pi:usualpassword@10.0.3.5  copy to the users home directory
 copy running-config ?- shows you all the ways you could copy
-
+ip ftp username user;ip ftp password user; -needs preset username and pass for ftp
+copy ftp flash:;
 ____backing up ios and config____
 ___Disaster- Recovery____ take a deep breathe!
 IP_ADDRESS=10.0.9.1
