@@ -159,6 +159,7 @@ sh ip eigrp traffic;	shows the packet count for eigrp packets sent and received
 sh ip eigrp interfaces;		shows the interfaces on which the router has actually enabled eigrp
 sh ip eigrp neighbors;		shows all eigrp nieghbors, their ip addy, retransmit interval, and queue counts for the adjacent routers
 sh ip route eigrp;
+sh ip eigrp topology all-links; if you want to see every option or else you just get S & FS
 debug ip eigrp;		trouble shoot any problem you may have
 undebug all; no debug ip eigrp;
 sh ip eigrp 100 interfaces detail; will show you hello timers
