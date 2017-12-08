@@ -1,0 +1,11 @@
+___EIGRP-Authentification_____
+R1#clock set 4:50:00 7 DECEMBER 2017; show clock; set the current time, validate
+
+key chain Jeff; setting up the key chain
+key 1; key-string love;send-lifetime 00:00:00 7 Decem 2017 00:00:00 15 Decem 2017; Time to send this key
+key 2; key-string cisco;accept-lifetime 00:00:00 7 dec 2017 infinite; I will accept this key infinitely
+this machine sends out the love key string and accepts the cisco string
+(config-if)#ip authentification key-chain eigrp 1 Jeff; ip authentification mode eigrp md5
+R1#debug eigrp packet hello; verify which key your authentification is using and that at the given time it changes
+You can have different times on different machines and have one machine using key1 and the other using key 2 and this will work fine
+____eigrp-authentification______
