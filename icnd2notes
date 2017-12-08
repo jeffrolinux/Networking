@@ -256,6 +256,7 @@ sh ip ospf nieghbor;	shows you your neighbors and on what interface they are att
 sh ip ospf interfaces;	displays ospf info on interfaces and organises it via inter
 sh ip ospf;	shows lots of info for ospf including each area 
 sh ip ospf interface g0/0/1;	HELLO AND DEAD TIMERS, THIS IS WHERE YOU FIND THIS OUTPUT!! lots of stat info, lots of info HERE!!!!
+^ this is also where cost is displayed, key if dealing w/ non cisco interconnection
 very different from sh interfaces g0/0/1;
 Adjust Timers: ip ospf hello-interval 6;
 rememebr neighbors need all timers to be exactly the same
