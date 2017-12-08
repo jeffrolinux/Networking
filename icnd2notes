@@ -217,7 +217,7 @@ _______eigrp-ipv6_______
 ______OSPF_______
 RFC-2328,https://www.ietf.org/rfc/rfc2328.txt
 https://www.cisco.com/c/en/us/support/docs/ip/open-shortest-path-first-ospf/7039-1.html
-224.0.0.5- multicast address ospf routers use for adjacencies
+224.0.0.5 P2P- multicast address ospf routers use for adjacencies, 224.0.0.6 multi-cast non P2P
 to make adjancies: need same area, and same hello and dead timers. Adjancies only made to DR and BDR.
 ospf router states: Down- no hello packets have formed adjaencies yet, attempt-nieghbors must be cnfigured manually (NBMA) non-broadcast multi access
 init-hello packets have been received, but no router id in neighbor field, bi directional communication not set up, 2way bi-directional established, hello
@@ -239,7 +239,7 @@ type 5 ELA- External link advertisement, sent by ASBR to advertise routes that a
 
 conf t; router ospf 1; router-id 1.1.1.1;
 remember 1 is process id and is only important locally for other processes. RID must be different on each router.
-(config-router)#router-id 33.33.33.33; clear ip ospf process; restarts ospf so that new R-ID can take effect
+(config-router)#router-id 33.33.33.33;do clear ip ospf process; restarts ospf so that new R-ID can take effect
 (config-router)network 10.10.0.0 0.0.255.255 area 1; 	puts all interfaces in 10.10 into area 1
 (config-router)int g0/0;(config-if)ip ospf 1 area 0;	put the interface in area 0 via the int
 (config-router)network 10.12.12.1 0.0.0.0 area 1; puts interface into area 1, 
