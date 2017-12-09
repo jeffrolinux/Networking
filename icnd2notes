@@ -251,7 +251,7 @@ you would use the wildcards and ensure that its not a part of ospf at all if you
 (config-if)#ip ospf authentification message-digest; ip ospf message-digest-key 1 md5 vault;
 (config-router)#default-information originate always; advertises default route to ospf, gateway
 OSPF always advertises loopbacks as a /32 next line will show how to advertise based on its real mask
-int l0;ip ospf network point-to-point;     that is not int 10! it is lower   L10    shorthand for loopback10
+int l0;ip ospf network point-to-point;     that is not int 10! it is loop-b   L10    shorthand for loopback10
 sh ip ospf nieghbor;	shows you your neighbors and on what interface they are attached
 sh ip ospf interfaces;	displays ospf info on interfaces and organises it via inter
 sh ip ospf;	shows lots of info for ospf including each area 
@@ -266,7 +266,7 @@ sh ip route; 	check for injected ospf routes
 sh ip route ospf;	show you only ospf injected routes
 show ip ospf database;	
 ciscos default cost 100,000,000/100mbs   cost for 100mbs link 1  (config-if)#ip ospf cost ?  non-cisco make costs work together!
-(config-if)#ip ospf cost 500; change the cost on an int
+(config-if)#ip ospf cost 500; change the cost on an int, REMEMBER LOWER COST WINS!!!
 you can also alter bandwidth which will alter the cost. Cost is based on bandwidth
 OSPF Administrative distance is 110
 Every area needs a direct connection to area 0 ABR- or you will need to build a virtual link connecting distant areas
