@@ -270,6 +270,8 @@ ciscos default cost 100,000,000/100mbs   cost for 100mbs link 1  (config-if)#ip 
 you can also alter bandwidth which will alter the cost. Cost is based on bandwidth
 OSPF Administrative distance is 110
 Every area needs a direct connection to area 0 ABR- or you will need to build a virtual link connecting distant areas
+middle router needs two interfaces in the area that  A0[A]A3---A3[B]A3----A3[C]A4
+router A and router C need to be configured with each others RID ie for c:area 3 virtual link A.A.A.A;
 (config-router)area 1 virtual-link 10.3.3.1; on ABR connected to A 0, given the link through area 1, remote ABR ID
 (config-router)area 1 vritual-link 10.3.1.1; on router I want to be ABR through area 1  VL id of abr to area 0
 ___ V.3 -ipv6
