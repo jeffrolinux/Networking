@@ -9,3 +9,9 @@ in this configuration you will be sending key1 for auth until sending time has p
 R1#debug eigrp packet hello; verify which key your authentification is using and that at the given time it changes
 You can have different times on different machines and have one machine using key1 and the other using key 2 and this will work fine
 ____eigrp-authentification______
+____SHELL_____
+https://www.cisco.com/c/en/us/td/docs/ios/netmgmt/configuration/guide/Convert/IOS_Shell/nm_ios_shell.html
+R1#terminal shell; terminal shell trace; 
+(config)shell processing full; no shell processing;
+
+____shell_____
