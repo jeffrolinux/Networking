@@ -12,6 +12,11 @@ _____PORTFAST-BPDUGUARD_____
 (config)#spanning-tree portfast default; 	enable portfast by default on all access ports
 (config)#spanning-tree portfast bpduguard default;	any port conf w/ portfast will have bpduguard aswell
 _____portfast-bpduguard______
+___SLA____Service-level agreements
+(config)ip sla 1;icmp-echo 10.2.30.121;frequency 10;exit;(config)#ip sla schedule 1 life forever start-time now;
+frequency is in seconds and don't forget you need to schedule your sla
+
+___sla___
 ____SPANNING-TREE______
 10Mbs	cost	100  link cost, path cost is sum of links to root bridge
 100Mbs	cost	19
