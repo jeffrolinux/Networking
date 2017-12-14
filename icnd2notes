@@ -17,6 +17,25 @@ ___SLA____Service-level agreements
 frequency is in seconds and don't forget you need to schedule your sla
 
 ___sla___
+____SPAN___PORT-MIRROR___SNIFF____SNIFFER____
+(config)#int fa0/1;port monitor fa0/2; port monitor fa0/3;port monitor vlan1;
+Every packet that fa0/2,fa0/3, and vlan1 both send and receive will be copied to fort fa0/1.
+Only when they are on same vlan and vlan1 is referring to system administration interface not actual vlan..
+show port monitor;
+(config)#monitor session 1 source int f0/9;
+(config)#monitor session 1 dest int f0/10;
+to monitor a trunk: 1. Make sure session uses encap. 2. Make sure device knows how to read such packets.
+monitor session X destination interface GiX/XX encapsulation dot1q
+https://wiki.wireshark.org/CaptureSetup/VLAN
+sniffing device may drop packets if does not understand 802.1q tagging
+___span___port-mirror___sniff___sniffer____
+___ARP___
+sh mac address-table;
+clear arp-cache; 
+clear arp; 
+clear ip arp 10.1.4.2; 
+(config-if)#arp timeout 10; time out is 10 seconds, would still now clear maybe a gns3 bug??
+____arp____
 ____SPANNING-TREE______
 10Mbs	cost	100  link cost, path cost is sum of links to root bridge
 100Mbs	cost	19
@@ -352,23 +371,7 @@ R2(config)#router bgp 200;neighbor 192.168.2.1 remote-as 1;network 10.0.2.0 mask
 all neighbors connected on the 192 but network being advertised is the 10.0 so they can ping each others loopback whick could also be a remote network behind router!
 show ip bgp summary; show ip bgp; show ip bgp neighbors;
 _____bgp_____
-____SPAN___PORT-MIRROR___SNIFF____SNIFFER____
-(config)#int fa0/1;port monitor fa0/2; port monitor fa0/3;port monitor vlan1;
-Every packet that fa0/2,fa0/3, and vlan1 both send and receive will be copied to fort fa0/1.
-Only when they are on same vlan and vlan1 is referring to system administration interface not actual vlan..
-show port monitor;
 
-to monitor a trunk: 1. Make sure session uses encap. 2. Make sure device knows how to read such packets.
-monitor session X destination interface GiX/XX encapsulation dot1q
-https://wiki.wireshark.org/CaptureSetup/VLAN
-sniffing device may frop packets if does not understand 802.1q tagging
-___span___port-mirror___sniff___sniffer____
-___ARP___
-clear arp-cache; 
-clear arp; 
-clear ip arp 10.1.4.2; 
-(config-if)#arp timeout 10; time out is 10 seconds, would still now clear maybe a gns3 bug??
-____arp____
 ____DMVPN_____
 https://www.cisco.com/c/en/us/support/docs/security-vpn/ipsec-negotiation-ike-protocols/41940-dmvpn.html
 https://learningnetwork.cisco.com/blogs/vip-perspectives/2017/02/15/dmvpn-the-phases-in-depth
