@@ -462,12 +462,12 @@ sh mac address-table count
 when a port becomes secure-shutdown due to going beyond the restrictions port will become amber, shutdown;no shut -to resolve
 
 ___port-securityl2____
-___Standard-ACL___range 0-99&1300-1999, list solely based on source ip
+___Standard-ACL___range 0-99&1300-1999, list solely based on source ip no ipc6 support
 If there is one item in an acl there is an implicit deny for everything else. That is why a permit any is needed unless you want everything 
 blocked
 when reading access list as soon as match is made action is taken, unlike routing which reads entire table.
 Standard acl only uses source ip address,lower processor utilization
-1 ACL per direction per interface, applied as close to the destination as possible(standard only)
+1 ACL per direction, per interface, per protocol. applied as close to the destination as possible(standard only)
 access-list 10;R1(config-std-acl)#deny host 1.1.1.1;permit any- example from inside acl config
 access-list 10 deny host 172.16.0.1;access-list 10 permit any;access-list 10 remark deny 1 host access- remark notes on ACL
 access-list 10 deny 172.16.0.1 0.0.0.0; same as above first command signifies one host
@@ -484,7 +484,6 @@ ip access-list standard InternetBlocker;15 deny 10.1.1.0 0.0.0.255- adds this it
 ip access-list standard InternetBlocker;no 15- takes away that item
 sh run int fa1/0/1- easiest way to see access lists applied and direction
 sh ip int vlan2 - shows alot of info including access-list and direction, previous command is preferred quicker reading and direction
-?????????? another way didn't show in the test
 VLAN ACL
 sh access-list
 sh access-list 20
@@ -507,7 +506,7 @@ access-list 50 permit 172.16.0.1 0.0.3.255- access list that permits 172.16.0.1-
 line vty 0 15- this allow me to configure the vty lines
 access-class 50 in- inbound traffic on the router for terminal access, maybe only allow admin subnet
 ___acl-on-terminal-lines____
-____Extended-ACL___range 100-199&2000-2699
+____Extended-ACL___range 100-199&2000-2699 [supports ipv6- but for modifying you can only rm line or add a line only to end.]
 apply exteneded access lists as close to the source as possible
 deny/permit,protocol,source any means any source, destination,eq matches for only given port number(block only this protocol), port #
 access-list 110 deny tcp any host 172.16.30.2 eq 23 log
@@ -546,8 +545,9 @@ fe80::/10 link local communication on local lan
 fc00::/unique local deprecated but some say active. Locally private routed addresses, not necessary because no nat is needed.
 FF00::/8 multicast
 ff02::2		Router solicitation from host to router
-ff02::1   ???
+ff02::1   Router advertisement
 ::1- localhsot test pinging your nic
+[H1]FF02::2->-RS->---------<--FF02::1--<-RA---[R1] USe me
 (config-if)ipv6 address 2001:db8:3c4d:1:260:d6FF:FE73:1987/64- complete address
 (config-if)ipv6 address 2001:db8:3c4d:1::/64 eui-64- extended unique identifier uses mac and pad to build rest of the addy, FFFE sits right
 in the middle of the mac to give it its full length and the seventh bit changes weather it is local or globally unique
