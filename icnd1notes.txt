@@ -528,6 +528,9 @@ sh ip interface fa0/1 - to see access-list applied to interface and which direct
 sh access-lists- shows you all your access-lists on the system, but not where or how they are applied
 sh ip access-list- shows only ip access-lists
 sh access-list 110- shows you only the parameters of the access-list
+ip access-list resequence firststandard 10 10
+if you attempt to add in special lines with sequence numbers with standard it seems to add them in middle
+with extended it adds them a few lines behind where you expected. Test on c7200 ios 15.X
 
 ___extended-acl___
 ____Reflexive-ACL____
