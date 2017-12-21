@@ -499,6 +499,8 @@ so when filtering occurs source ip has changed and then it does not match filter
 So with VLANS you can think of outbound the same as if on a port out is out the ports and in is back in the ports
 
 If you ever plan on changing things and moving things around use a named acl easier to manipulate
+also if you add in remarks the remark will be directly after your last applied acl if you just applied a new line to the acl
+if you are editing an acl adding in lines then you place a remark I have had some odd behavior not as expected
 ___standardacl___
 ___ACL-ON-terminal-lines____
 ip access-list standard jeff- create a standard access list called jeff
