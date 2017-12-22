@@ -1,0 +1,4 @@
+vim /etc/ssh/ssh_config
+append these two lines
+HostkeyAlgorithms ssh-dss,ssh-rsa
+KexAlgorithms +diffie-hellman-group1-sha1
