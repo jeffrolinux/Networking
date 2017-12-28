@@ -22,8 +22,10 @@ ____SPAN___PORT-MIRROR___SNIFF____SNIFFER____
 Every packet that fa0/2,fa0/3, and vlan1 both send and receive will be copied to fort fa0/1.
 Only when they are on same vlan and vlan1 is referring to system administration interface not actual vlan..
 show port monitor;
-(config)#monitor session 1 source int f0/9;
-(config)#monitor session 1 dest int f0/10;
+^^^^^above didn't work in packet tracer.Maybe try on real hardware and also keep in mind diff ios diff results and commands
+(config)#monitor session 1 source int f0/9; session 1 is both ingress and egress traffic by default on port 0/9
+(config)#monitor session 1 dest int f0/10; the ports listed for session 1 will send their traffic to fa 0/10 this is where the
+network engineer is monitoring to make improvements or solve the problem or where your hacker is gathering data. 
 to monitor a trunk: 1. Make sure session uses encap. 2. Make sure device knows how to read such packets.
 monitor session X destination interface GiX/XX encapsulation dot1q
 https://wiki.wireshark.org/CaptureSetup/VLAN
