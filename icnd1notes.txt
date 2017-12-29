@@ -229,7 +229,8 @@ logging goes to buffer and console by default.
 logging console- logging goes to console! annoying/ no nevermind eventful notification messages. no logging console
 logging buffered- stores your logging info, no logging buffered
 logging sync- stops logging from breaking up your command line typing
-no logging console-
+no logging console-Stops the logging being posted while your logged in."Awesine for LABS!!! You don't want to cheat your self
+on some good trouble shooting by the logging being printed to console and basically giving away the problem.
 no logging buffered-
 sh logging- shows logging buffered info
 logging host 172.16.10.1- sends log to a sys log server
