@@ -3,7 +3,9 @@ ping X.X.X.X source loopback 1; quick way to ping from specific int
 ____random trouble shooting tricks _________
 ___VTP-Pruning___
 basically makes it so traffic only traverses to switches that have ports in the vlan. So un-needed traffic is not traversed over the network.
-conf t; int fa 1/0/1; switchport trunk pruning vlan 3-9;
+conf t; int fa 1/0/1; switchport trunk pruning vlan 3-9; configure manually
+conf ;t int fa 1/0/2; switchport trunk vlan allowed 3-9; only allow certain vlan traffic also
+switch#vtp pruning; enable it one device
 valid vlans for pruning are 2-1001
 ____vtp-pruning_______
 _____PORTFAST-BPDUGUARD_____
