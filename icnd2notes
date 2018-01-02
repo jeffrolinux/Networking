@@ -194,7 +194,7 @@ sh ip eigrp 100 interfaces detail; will show you hello timers
 ip hello-interval eigrp 1 8;
 ip hold-time eigrp 1 20
 by default hello is 5 seconds and hold is 15. The onyl place to find currentl hold time is sh run. Nothing is default, the change if changed
-eigrp by default will load balance accross equal cost paths but if you want unequal cost paths load balancing you must change variance
+eigrp by default will load balance accross 4 equal cost paths but if you want unequal cost paths load balancing you must change variance
 router eigrp 20; variance 2;	will load balance to remote network up to 4 paths and the fd can be twice as large max for variance is 128 which
 is 128 times the fd.
 split horizon is enabled by default- basically it stops routers from sending back the updates that they received back to router they recieved them from
