@@ -633,6 +633,7 @@ ip nat pool mypool 170.168.2.3 170.168.2.8 netmask 255.255.255.0- indicates the 
 ip nat pool mypool 170.168.2.3 170.168.2.8 prefix-length 24-
 access-list 1 permit 10.1.1.0 0.0.0.255- when traffic meets this ACL its pulled into the nat process
 ip nat inside source list 1 pool mypool-translate address that match the access-list to an address from the pool jeff
+append to above : type rotary; rotates addresses to create a type of nat load balancing, rotary rotates!
 sh run | in nat
 sh ip nat translations- translation table showing all active nat translations
 debug ip nat - show real time translations
