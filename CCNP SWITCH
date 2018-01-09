@@ -2,8 +2,8 @@
 ____CAM_____ Content Addresable Memory  - mac address-table layer 2 movements
 show mac address-table; you can use many switches [dynamic, static, vlan, int]
 show mac address-table count; display current cam table length
-mac address-table static mac-address vlan vlan-id int fa 1/0/48;
-clear mac address-table dynamic mac-address int fa 1/0/48 vlan vlan-id;
+mac address-table static mac-address vlan vlan-id int fa 1/0/48; add a stiatic address in the cam table
+clear mac address-table dynamic mac-address int fa 1/0/48 vlan vlan-id; remove a specific entry in cam
 
 ____cam____
 ____TCAM_____ Ternary Content-Addressable Memory -  Ternary just stands for 3 -VMR
