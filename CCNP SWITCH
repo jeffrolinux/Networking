@@ -1,0 +1,35 @@
+";" will represent stacking commands as if shell is enabled
+____CAM_____ Content Addresable Memory  - mac address-table layer 2 movements
+show mac address-table; you can use many switches [dynamic, static, vlan, int]
+show mac address-table count; display current cam table length
+mac address-table static mac-address vlan vlan-id int fa 1/0/48;
+clear mac address-table dynamic mac-address int fa 1/0/48 vlan vlan-id;
+
+____cam____
+____TCAM_____ Ternary Content-Addressable Memory -  Ternary just stands for 3 -VMR
+two tcams one for ACL and one for Qos ACL
+show platform tcam utilization;
+show tcam counts; monitor utilization of tcam and lous
+show platform hardware capacity acl;
+show tcam lou;
+Value-134 bit and holds--->protocol,Tos, source, src port, s port lou, dest, dest port,d port lou
+Mask-
+Result- permit or deny
+each mask has a dest mask and source and for that pairing there can be 8 entries in that section
+LOU- logical operation unit- lt-less than, gt-greater than, eq-equal to, neg-not equal to, range
+if you run out of lou space done in hardware you can expand this to be done in software
+It is NOT correct to directly correlate number of ACEs configured to number of masks/entries used.
+As you might be aware, an ACL and the TCAM are order dependent. For 2 ACEs to share the same mask
+besides having the don’t care bits in the same locations they need to be adjacent to each other in the ACL definition.
+Example:
+permit any host 192.168.10.0;permit any host 192.168.10.1;- this can be represented by one tcam entry
+Permit 192.10.10.0 255.255.255.254
+Defining logical operations in ACL to optimize usage of TCAM/LOUs
+
+https://supportforums.cisco.com/t5/network-infrastructure-documents/acl-tcam-and-lous-in-catalyst-6500/ta-p/3115339
+_____tcam_____
+____SDM_____ - Switching Database Manager  manages partition sizes for efficient switching
+show sdm prefer
+sdm prefer tempplate; template will be of your choosing ie default,access,vlan,routing 
+sizes are much smaller while dual stacking ipv4 and ipv6
+___sdm____
