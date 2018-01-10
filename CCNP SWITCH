@@ -43,4 +43,5 @@ ____SDM_____ - Switching Database Manager  manages partition sizes for efficient
 show sdm prefer
 sdm prefer tempplate; template will be of your choosing ie default,access,vlan,routing 
 sizes are much smaller while dual stacking ipv4 and ipv6
+If your switch does not have ipv6 commands change the sdm template to ipv4-ipv6 dual stack
 ___sdm____
