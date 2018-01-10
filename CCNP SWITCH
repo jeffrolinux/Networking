@@ -25,7 +25,10 @@ Example:
 permit any host 192.168.10.0;permit any host 192.168.10.1;- this can be represented by one tcam entry
 Permit 192.10.10.0 255.255.255.254
 Defining logical operations in ACL to optimize usage of TCAM/LOUs
-
+if you run out of lou you should just state specifics lets say we want Permit any host 192.10.10.1 tcp range 1020 1023 any 
+and we can not use more hardware lous then we
+Permit any host 192.10.10.1 tcp 1020 any; Permit any host 192.10.10.1 tcp 1021 any; Permit any host 192.10.10.1 tcp 1022 any; Permit any host 192.10.10.1 tcp 1023 any
+attempt to reuse lous already created for other ACE when possible
 https://supportforums.cisco.com/t5/network-infrastructure-documents/acl-tcam-and-lous-in-catalyst-6500/ta-p/3115339
 _____tcam_____
 ____SDM_____ - Switching Database Manager  manages partition sizes for efficient switching
