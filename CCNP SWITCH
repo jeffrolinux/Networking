@@ -1,4 +1,12 @@
 ";" will represent stacking commands as if shell is enabled
+____EXTRA-LIGHT-ON-TOPICS___
+Why does cdp work with misconfigured native vlan and what is happening.
+Switch A native vlan 3, Switch B native vlan 6. Device traffic uses the native vlan and native vlan is untagged so
+basically switch a non tagged vlan traffic can hop on over to switch B vlan 6 which is also non tagged across trunk
+Basically you don't want traffic hopping vlans at layer 2, thats what inter vlan routing is for.
+VTP domain mismatch will not allow trunks to come up through negotiation, or if static trunk, trunk will
+come up but vtp information will not be propogated.
+____extra-light-on-topics___
 ____CAM_____ Content Addresable Memory  - mac address-table layer 2 movements
 show mac address-table; you can use many switches [dynamic, static, vlan, int]
 show mac address-table count; display current cam table length
