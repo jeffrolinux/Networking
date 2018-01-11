@@ -1,4 +1,41 @@
 ";" will represent stacking commands as if shell is enabled
+___Basics____
+int fa 1/0/1; means interface type stack-member/module/portnumber- you will usually only see modules with routers.
+creating a macro for lots of configurations-
+config)#define interface-range MymacroName fa 1/0/1 - 4 , fa 2/0/3 - 7, g 3/0/1 , g 3/0/2
+config)#int r macro MymacroName;  book says always use spaces with hyphens and commas
+___basics____
+___Errdisable____
+By default a catalyst switch detects an error condition one every port for every cause.
+Error is detected switch is put into errdisable. Tune behavior from glocal configuration.
+config)#no errdisable detect cause [all | cause-name]; remove all errdisable or a specific one by name
+You can automatically recover from errdisable.
+config)#errdisable recovery cause [ all | cause-name]; default is 300 seconds to bring port up
+config)#errdisable recovery interval seconds; seconds should be actual seconds not typed word
+___errdisable____
+____CDP---LLDP_____
+config)# do show cdp neighbors [type member/module/portnum]; can show all or specific so last part not needed
+config)#do show cdp neigh detail- lots of info including ip can also be used with aboce commands
+config)# no cdp run; turn off cdp----->config)#cdp run; turns it back on
+config-if)#no cdp enable;---->config-if)cdp enable; cdp on or off on interface, security reasons!
+LLDP- Link Layer Discovery Protocol - 802.ab IEEE standard can be used with linux servers and many other devices
+SW#show lldp; find out if its running or not
+config)# lldp run;--->config)#no lldp run; turns lldp on or off
+config)# do sh lldp neighbors; once again have the options to set specific interface or details for granularity
+config-if)#no lldp [receive | transmit] once enabled globally works on every port use int commands for granularity
+____cdp---lldp____
+____POE---UPOE____
+Switch detects weather a powered device is connected to port. If it is switch provides power. Sends out small power, and
+sees if there is a device drawing power. BAsically just does a test for draw.
+default class 0 is used if switch or powered device does not support or does not attempt optional power class discovery
+class 0 15.4W, class 1 4.0W, class 2 7.0W, class 3 15.4 W, class 4 30W.
+by default switch offers maximum of 15.4W per port. IF device needs additional power is can tell switch with CDP-LLDP
+config-if)#power inline [ auto | static] max maxmilliwatts; everything is in milla so 15.4 W is 15400
+config-if)power inline never; disable poe on a switch port
+SW#sh power inline; displays switch ports and their current states
+use cases? Typically phones or security cameras.
+SW#sh power inline g 1/0/19; detail is optional if you want lots of data
+___poe---upoe____
 ____EXTRA-LIGHT-ON-TOPICS___
 Why does cdp work with misconfigured native vlan and what is happening.
 Switch A native vlan 3, Switch B native vlan 6. Device traffic uses the native vlan and native vlan is untagged so
