@@ -16,7 +16,11 @@ switchport trunk encapsulation [isl | dot1q | negotiate]
 switchport trunk native vlan vlan-id
 switchport trunk allowed vlan [all | add | except | remove]
 switchport mode [ trunk | dynamic desireable | dynamic auto]
-
+If mode is in static trunk a trunk will come up if other side is [ trunk | desireable | auto]
+if you want trunk static configure it up and encapsulation so there is less of a chance of problems
+dyn des mode will bring up trunk if other side is [ trunk | dyn des | dyn auto]
+dyn auto mode will bring up trunk if other side is [trunk | dyn des]  2 autos no go
+dtp frames sent out every 30 seconds remember vtp is 300 or when vlan is changed dont get that confused!
 ___Errdisable____
 By default a catalyst switch detects an error condition one every port for every cause.
 Error is detected switch is put into errdisable. Tune behavior from glocal configuration.
