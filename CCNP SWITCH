@@ -45,7 +45,7 @@ ____POE---UPOE____
 Switch detects weather a powered device is connected to port. If it is switch provides power. Sends out small power, and
 sees if there is a device drawing power. BAsically just does a test for draw.
 default class 0 is used if switch or powered device does not support or does not attempt optional power class discovery
-class 0 15.4W, class 1 4.0W, class 2 7.0W, class 3 15.4 W, class 4 30W.
+class 0 15.4W, class 1 4.0W, class 2 7.0W, class 3 15.4 W, class 4 30W. CISCO Universalpoe max 60W
 by default switch offers maximum of 15.4W per port. IF device needs additional power is can tell switch with CDP-LLDP
 config-if)#power inline [ auto | static] max maxmilliwatts; everything is in milla so 15.4 W is 15400
 config-if)power inline never; disable poe on a switch port
