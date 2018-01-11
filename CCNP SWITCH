@@ -84,3 +84,10 @@ sdm prefer tempplate; template will be of your choosing ie default,access,vlan,r
 sizes are much smaller while dual stacking ipv4 and ipv6
 If your switch does not have ipv6 commands change the sdm template to ipv4-ipv6 dual stack
 ___sdm____
+____FREERADIUS_____
+http://wiki.freeradius.org/guide/SQL-HOWTO-for-freeradius-3.x-on-Debian-Ubuntu
+___freeradius____
+____TACACS+_____
+http://www.ebrahma.com/2015/06/configuring-mysql-aaa-authentication-and-accounting-with-tacacs-on-linux/
+possibly promising based on the date
+____tacacs+______
