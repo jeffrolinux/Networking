@@ -5,6 +5,18 @@ creating a macro for lots of configurations-
 config)#define interface-range MymacroName fa 1/0/1 - 4 , fa 2/0/3 - 7, g 3/0/1 , g 3/0/2
 config)#int r macro MymacroName;  book says always use spaces with hyphens and commas
 ___basics____
+___VTP____
+vtp version 3 allows vlans in the extended range to be configured 1006- 4094
+vtp version 1 &2 will also allow extended vlans but only in transparent mode.
+___vtp____
+___Trunk___ ISL- cisco propreitary  802.1q standard multivendor
+ISL 30 bytes added encapsulates frame, 802.1q inserts tag in frame after src address
+int fa 1/0/1;
+switchport trunk encapsulation [isl | dot1q | negotiate]
+switchport trunk native vlan vlan-id
+switchport trunk allowed vlan [all | add | except | remove]
+switchport mode [ trunk | dynamic desireable | dynamic auto]
+
 ___Errdisable____
 By default a catalyst switch detects an error condition one every port for every cause.
 Error is detected switch is put into errdisable. Tune behavior from glocal configuration.
