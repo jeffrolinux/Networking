@@ -122,5 +122,3 @@ lightweight - this configuration utilizes the normal lan access -> switchport ac
 lightweight - can not act independantly of the controller
 to distinguish what kind of access point look at part number AIR-LAPXXXX   AIR-APXXXX 
 ___wireless_____
-
-___wireless____
