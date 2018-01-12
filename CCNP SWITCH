@@ -161,4 +161,11 @@ Every switch thinks it is the root bridge until it receives a bpdu with a bidge 
 BPDU root path cost incremented on receiving interface.
 States- BDLLF Disabled, Blocking, Listening, Learning, Forwarding.  Both listening and learning have a 15 second delay.
 Blocking rec bpdu, listening send & receive bpdu, learning send & rec & learn mac, forwarding everything plus send and rec data
+If a port state changes a switch sends TCN BPDU to root bridge letting the root bridge know of the change. Unless port has portfast
+enabled then no change will be sent at all.
+TCN is sent if link goes down, but if link stays up and data is filtered, max age timer will age out the best bpdu and then
+next best bpdu will become root port. Max age timer is 20 seconds by default, hello is 2, listen 15, learn 15.
+When a tcn is sent to root bridge, mac addy tables timer goes down to 15 seconds to flush old addresses.
+
+
 
