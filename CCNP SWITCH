@@ -24,6 +24,19 @@ vtp password [hidden | secret]; hidden-hash is saved in run-conf. secret the pas
 config)#vtp pruning; enables vtp pruning on device. This will stop unneeded traffic across trunk but not spanning tree instances
 config-if)# switchport trunk vlan allowed 3,4,5; manually prune traffic and stp on for these vlans
 config-if)#switchport trunk pruning vlan [add | except | none | remove]; granular config of pruning, default prunes all
+SW# delete vlan.dat; delete your vlan and vtp database
+recall revision number is stored in NVRAM!
+Two switches connected on trunk no vtp domain configured- no propogation
+-----labs tests and results-----
+LAb1
+Sw1 server sw2 server to gain database, change sw2 to client, introduce bad update as if bad switch introduced,
+take down trunk and reload- results= bad data still in switch , next erase nvram- results=same bad vlan info
+Lab2
+Introduce client in environment with higher revision number- results = it will override vtp server data, vtp client with
+higher revision number is just as dangerous as server w/ highest revision number, wins even if client.
+Lab3 erase nvram;reload; on both client and server result= all vtp and vlan information present including revision. data stored in vlan.dat
+I don't care what the books say data is stored, it is in vlan.dat, only difference between clinet and server is client cannot
+create vlans only server can alter. Client can not alter internal data but will destroy everyones elses if has higher revision.
 
 ___vtp____
 ___Trunk___ ISL- cisco propreitary  802.1q standard multivendor
