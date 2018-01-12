@@ -8,6 +8,23 @@ ___basics____
 ___VTP____
 vtp version 3 allows vlans in the extended range to be configured 1006- 4094
 vtp version 1 &2 will also allow extended vlans but only in transparent mode.
+VTP advertisements:
+summary advertisement- sent every 300 seconds or vlan database change. For vlan config changes subset adv will follow.
+subset advertisement- created or deleted vlan, suspending or activating vlan, change in MTU, status, type,SAID security association identifier
+advertisement request from client- switch reset, vlan database cleared, vtp domain change, summ adv with higher revision number
+will spon advertisement requests from clients to gather vtp info- server will send summary adv, then subset adv.
+Storage: server mode stores vlan and vtp in vlan.dat stored on flash memory, not with config which is in NVRAM
+upon reboot a server will have all its last known vlan data and vtp.
+Two ways to get revision to 0- change domain, change mode to transparent.
+CLIENT SENDS ADVERTISEMENTS WHEN IT FIRST POWERS UP!!!- Upon reboot if a client has higher revision could cause catastrophe.
+VTP revision number is saved in NVRAM.
+show vtp status; show int fa 1/0/1 [pruning | switchport];
+vtp mode [ server | client | transparent | off]
+vtp password [hidden | secret]; hidden-hash is saved in run-conf. secret the password is saved in run-conf
+config)#vtp pruning; enables vtp pruning on device. This will stop unneeded traffic across trunk but not spanning tree instances
+config-if)# switchport trunk vlan allowed 3,4,5; manually prune traffic and stp on for these vlans
+config-if)#switchport trunk pruning vlan [add | except | none | remove]; granular config of pruning, default prunes all
+
 ___vtp____
 ___Trunk___ ISL- cisco propreitary  802.1q standard multivendor
 ISL 30 bytes added encapsulates frame, 802.1q inserts tag in frame after src address
