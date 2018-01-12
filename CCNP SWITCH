@@ -108,3 +108,19 @@ ____TACACS+_____
 http://www.ebrahma.com/2015/06/configuring-mysql-aaa-authentication-and-accounting-with-tacacs-on-linux/
 possibly promising based on the date
 ____tacacs+______
+____VOICE_____
+switchport voice vlan [ vlan-id | dot1p | untagged | none]                  voice         pc     here untagged meaning native vlan
+none- by default phone acts as a switch so both devices are in the same access vlan    access vlan
+untagged - both  voice and pc are                                         untaggedn     untagged
+dot1p-  puts voice packets on vlan0                                       vlan 0          untagged
+vlan-id  more commonly used                                               vlan-id        untagged
+___voice_____
+___WIRELESS___
+TWo options either autonomous or lightweight mode.
+Autonomous utilizes a trunk with vlans that are associated so set up trunk as normal with perticular allowed vlan for wifi
+lightweight - this configuration utilizes the normal lan access -> switchport access vlan 33;
+lightweight - can not act independantly of the controller
+to distinguish what kind of access point look at part number AIR-LAPXXXX   AIR-APXXXX 
+___wireless_____
+
+___wireless____
