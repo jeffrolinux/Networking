@@ -152,3 +152,13 @@ lightweight - this configuration utilizes the normal lan access -> switchport ac
 lightweight - can not act independantly of the controller
 to distinguish what kind of access point look at part number AIR-LAPXXXX   AIR-APXXXX 
 ___wireless_____
+____STP____
+two types of BPDU= Configuration- PBDU used for computation. Topology Change Notification(TCN)- used to announce changes.
+BPDUs are sent out for root bridge election. Configuration BPDUs are only sent by the root bridge after election occured.
+Each bridge will add its sender id to the BPDU.
+BPDUs will be analyzed to see if a better root bridge exist. As one may enter network at anytime.
+Every switch thinks it is the root bridge until it receives a bpdu with a bidge with a lower bridge-id
+BPDU root path cost incremented on receiving interface.
+States- BDLLF Disabled, Blocking, Listening, Learning, Forwarding.  Both listening and learning have a 15 second delay.
+Blocking rec bpdu, listening send & receive bpdu, learning send & rec & learn mac, forwarding everything plus send and rec data
+
