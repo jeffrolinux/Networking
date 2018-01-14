@@ -177,8 +177,8 @@ Detects indirect link failure when the switch receives inferior bpdu from a SW a
 root bridge.
 -if inferior bpdu arrives on the root port itself the switch consider all blocked port to be alternative paths to the root bridge.
 -if inferior bpdu arrives on the root port and no ports are blocked, however the Sw assumes that is has lost connectivity with the
-root bridge. SW assumes it is the root bridge. Back bone fast allows it to do so before the maz age timer expires. 
-
+root bridge. SW assumes it is the root bridge. Back bone fast allows it to do so before the max age timer expires. 
+backbonefast basically bypasses the max age timer.
 
 
 
