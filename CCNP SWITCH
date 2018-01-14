@@ -166,6 +166,19 @@ enabled then no change will be sent at all.
 TCN is sent if link goes down, but if link stays up and data is filtered, max age timer will age out the best bpdu and then
 next best bpdu will become root port. Max age timer is 20 seconds by default, hello is 2, listen 15, learn 15.
 When a tcn is sent to root bridge, mac addy tables timer goes down to 15 seconds to flush old addresses.
+config)#spanning-tree vlan 2,3,4,7-9 root primary diameter 3 hello-time 1;
+default diameter is 7. Diameter values 1-7.diameter adjusts timers based on layer 2 size, max-age, listen/learn forward delay
+Portfast- port immediately goes into forwarding state. STP still runs! Would still go to blocking if loop detected.
+Uplinkfast-image two links going to distribution switches. Port goes down it takes STP too long to converge. Uplinkfast detects
+link going down and immediately puts second suitiable link up. Can work for many uplinks.
+backbonefast-actively determines weather there is alternate paths to root bridge, incase indirect link failure.
+Detects indirect link failure when the switch receives inferior bpdu from a SW announcing itself as root bridge.(unwanted root bridge)
+-if inferior bpdu arrives on port in blocking state, SW considers the root port and all other blocked ports to be alternative paths to the
+root bridge.
+-if inferior bpdu arrives on the root port itself the switch consider all blocked port to be alternative paths to the root bridge.
+-if inferior bpdu arrives on the root port and no ports are blocked, however the Sw assumes that is has lost connectivity with the
+root bridge. SW assumes it is the root bridge. Back bone fast allows it to do so before the maz age timer expires. 
+
 
 
 
