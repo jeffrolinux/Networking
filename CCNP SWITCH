@@ -220,7 +220,7 @@ Alternate port- alternate port to root different segment, like a port in blockin
 an alternate will go right into forwarding if root goes down and it is the best alternate
 backup port- another port on same segment. switch connected to hub both int conn to hub port receives its own BPDU
 port types-
-Edge port- single host, RSTP knows by portfast feature enabled
+Edge port- single host, RSTP knows by portfast feature enabled. If BPDU ever received port looses edge port status.
 root port-port that has best cost path to root port
 point-to-point port- any point that connects to another switch and becomes a designated port.
 port-states-
