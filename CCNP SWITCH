@@ -243,4 +243,6 @@ config-mst)#show pending; show pending changes
 config-mst)#exit; commits changed to the active MST
 config)#spanning-tree mst 0 priority 4096; alter the root bridge for instances
 #show spanning-tree mst,SW#show spanning-tree mst configuratoin;
+MSTP-VSTP+ the vstp+ swtich will only see the IST info because only the IST is pushed out of the region. 
+
 ___mstp____
