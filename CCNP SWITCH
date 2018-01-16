@@ -193,7 +193,7 @@ BPDUs go missing loop guard moves this port into loop-inconsistent state. Port i
 Key here is sudden loss of bpdu weather port is in forward or B or A either way loss of bpdu blocking state.
 (config)#spanning-tree loopguard default;(config-if)#spanning-tree guard loop; global or int
 UniDirectional Link Detection-
-config)#udld ?; aggressive will actually bring int down, normal will only send message.global only affects fiber ports
+config)#udld ?; aggressive will actually bring int down, normal will only send message.global conf only affects fiber ports
 config-if)#udld port aggressive; enable on both sides of the link, both machines!
 SW3(config)#mac access-list extended UDLD-FILTER
 SW3(config-ext-macl)#deny any host 0100.0ccc.cccc
@@ -201,11 +201,12 @@ SW3(config-ext-macl)#permit any any
 SW3(config-ext-macl)#exit
 SW3(config)#interface fa0/16
 SW3(config-if)#mac access-group UDLD-FILTER in
-How test test loosing udld traffic and forcing the fiber int down. udld uses special unique mac, 0100.0ccc.cccc
-show ufld fa 0/16; shows the state of udld for int. or use -->SW#show udld
+How to test loosing udld traffic and forcing the fiber int down. udld uses special unique mac, 0100.0ccc.cccc
+show udld fa 0/16; shows the state of udld for int. or use -->SW#show udld;
+config)#udld reset; if a port is in errdisable udld reset will bring those ports up
 bpdufilter- stops bpdu from being sent out interfaces
 config)#spanning-tree portfast bpdufilter default; only on portfast interfaces bpdufilter will run
-config-if)#spanning-tree bpdufilter; stops BPDUs from being sent out an interface, nomal is default and just notifies.
+config-if)#spanning-tree bpdufilter; stops BPDUs from being sent out an interface, 
 
 ___stp-tools___
 
