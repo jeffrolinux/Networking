@@ -231,4 +231,16 @@ all ports communicate and no max age timer, no need for backbonefast
 keeps track of alternate paths and if root port goed down promptly bring up alternate port, no need for uplinkfast
 ___rstp____
 ___MSTP____
-
+Switches in a MST region need to figure out if their neighbor is in same region, uses a hash of region table.
+Attributes that need to match: config name, revision number, mapping table. Not same it is seen as boundary.
+IST(internal spanning tree)default is 0, rapid-spt runs within mstp. might see CSTP- common and internal spanning tree
+config)#spanning-tree mode mst; enable the mode globally
+config)#spanning-tree mst configuration; enabples you to get into config mode
+config-mst)#name regionname; assigning a region name
+config-mst)#revision version; revision number to keep track of updating info all switches must have same revision version
+config-mst)#instance instance-id vlan vlan-list;id 0-15, by default all vlans mapped to ist 0
+config-mst)#show pending; show pending changes
+config-mst)#exit; commits changed to the active MST
+config)#spanning-tree mst 0 priority 4096; alter the root bridge for instances
+#show spanning-tree mst,SW#show spanning-tree mst configuratoin;
+___mstp____
