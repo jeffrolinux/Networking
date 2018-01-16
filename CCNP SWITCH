@@ -180,5 +180,24 @@ root bridge.
 root bridge. SW assumes it is the root bridge. Back bone fast allows it to do so before the max age timer expires. 
 backbonefast basically bypasses the max age timer.
 SW#debug spanning-tree events;
+___STP____
+___STP-Tools____
+root guard- if bpdu is received on  a port that is superior the port goes into root-inconsistent state, 
+but BPDUs can still be sent.must be en on int (config-if)# spanning-tree guard root; on int we don't want a root bridge but do want bpdu
+SW# show spanning-tree inconsistentports; shows you ports that are in effect due to root guard
+port will be put in blocking mode and no data will be able to traverse this port.
+bpdu guard- any bpdu received on a port will be put into errdisable.
+config-if)#[no] spanning-tree bpduguard enable;(config)#spanning-tree portfast bpduguard enable;
+loop guard- loopguard keeps track of BPDUs on all ports. While bpdu are received everything is fine.
+BPDUs go missing loop guard moves this port into loop-inconsistent state. Port in B or A to keep from loop coming up.
+Key here is sudden loss of bpdu weather port is in forward or B or A either way loss of bpdu blocking state.
+(config)#spanning-tree loopguard default;(config-if)#spanning-tree guard loop; global or int
+UniDirectional Link Detection-
+
+bpdufilter- stops bpdu from being sent out interfaces
+config)#spanning-tree portfast bpdufilter default; only on portfast interfaces bpdufilter will run
+config-if)#spanning-tree bpdufilter; stops BPDUs from being sent out an interface
+
+___stp-tools___
 
 
