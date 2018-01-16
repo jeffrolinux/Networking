@@ -179,6 +179,6 @@ root bridge.
 -if inferior bpdu arrives on the root port and no ports are blocked, however the Sw assumes that is has lost connectivity with the
 root bridge. SW assumes it is the root bridge. Back bone fast allows it to do so before the max age timer expires. 
 backbonefast basically bypasses the max age timer.
-
+SW#debug spanning-tree events;
 
 
