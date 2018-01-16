@@ -207,7 +207,13 @@ config)#udld reset; if a port is in errdisable udld reset will bring those ports
 bpdufilter- stops bpdu from being sent out interfaces
 config)#spanning-tree portfast bpdufilter default; only on portfast interfaces bpdufilter will run
 config-if)#spanning-tree bpdufilter; stops BPDUs from being sent out an interface, 
-
 ___stp-tools___
+____RSTP____
+BPDUs are sent out every switch port at hello time intervals, regardless weather BPDUs are received or not.
+Upon TC all non edge macs in the cam are flushed.
+config)#spanning-tree mode rapid-pvst,config)#spanning-tree mode pvst;
+RSTP can revert to 802.1d by reading the type in the bpdu 0 is 802.1d, 1 is 802.1w
+if it detects 802.1d it will play by those rules on the port.
+___rstp____
 
 
