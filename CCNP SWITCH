@@ -39,7 +39,34 @@ I don't care what the books say data is stored, it is in vlan.dat, only differen
 create vlans only server can alter. Client can not alter internal data but will destroy everyones elses if has higher revision.
 
 ___vtp____
+___VTP-Version3____
+Primary server- Only I can change database info. No clinets or other servers over riding with higher revision
+extended vlans- 1006-4094 supported
+private vlans- supported
+rspan- remote span will also propagate. Basically supported meaning propagate the vtp domain
+mtp support-
+Auth- hidden allows you to put in pass and can not view plain text only 32 hex chars
+secret- allows you to put the hex pass in to enter domain
+off- completely turn off as compared to 2 or 1 neeed transparent which still porpagated but did not synch.
+compatibility- compatible with version 2 not 1. but as expected 2 is limited to 2s features only
+show vtp devices; unlike CDP vtp is not limited to directly connected devices, vtp will tell you all in domain
+config)#vtp version 3; you must be within a domain to change version and system must support
+SW# vtp primary; if you do not choose a mode default is server vlan; 
+SW#sh vtp devices; will show you the devices in the domain
+config)# vtp mode server mst;
+SW# vtp primary mst; will test your domain password!
+If you want other devices to revieve mst information they must be set to client. By default they are transparent.
+config)# vtp password jeff ?[ hidden | secret]
+hidden you can never view plain text, secret then jeff would need to of been the hash
+config-if)# no vtp; you can turn off globally or based on interface
+password mechanism not interopable with version two, password used no propagation,->config)#no vtp password; solution
+With my switches with version 2 to 3 no propagation waited, retested, nada 
+pass: 52C518C46CE6647155DE01304CECA63E      cisco plain text, using for lab testing
+whenever you clear password you have to become primary again for changes
+c3750-ipservicesk9-mz.122-55.SE9.bin no propagation problems, my 3750 metro also no work but only supported v2 
+
 ___Trunk___ ISL- cisco propreitary  802.1q standard multivendor
+
 ISL 30 bytes added encapsulates frame, 802.1q inserts tag in frame after src address
 int fa 1/0/1;
 switchport trunk encapsulation [isl | dot1q | negotiate]
