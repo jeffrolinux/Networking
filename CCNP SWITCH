@@ -42,9 +42,9 @@ ___vtp____
 ___VTP-Version3____
 Primary server- Only I can change database info. No clinets or other servers over riding with higher revision
 extended vlans- 1006-4094 supported
-private vlans- supported
+private vlans- supported, database info but not port info
 rspan- remote span will also propagate. Basically supported meaning propagate the vtp domain
-mtp support-
+mstp support-
 Auth- hidden allows you to put in pass and can not view plain text only 32 hex chars
 secret- allows you to put the hex pass in to enter domain
 off- completely turn off as compared to 2 or 1 neeed transparent which still porpagated but did not synch.
