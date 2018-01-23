@@ -294,6 +294,7 @@ show etherchannel summary;
 show etherchannel port; member status of each port
 show etherchannel detail;
 show etherchannel load-balance;
+test etherchannel load-balance;
 show etherchannel port-channel; know this output and what the load means!
 show [pagp | lacp] neighbor; check neighbors on ports
 int fa 1/0/1; channel-protocol pagp; channel-group 1 mode [ on | auto | desireable ] [non-silent];
