@@ -298,8 +298,13 @@ test etherchannel load-balance;
 show etherchannel port-channel; know this output and what the load means!
 show [pagp | lacp] neighbor; check neighbors on ports
 int fa 1/0/1; channel-protocol pagp; channel-group 1 mode [ on | auto | desireable ] [non-silent];
-non-silent- etherchannel does not form until bidirectional communication has been confirmed. Default is silent
-silent meaning channel does not require bidirectional communication.
+PAgP Silent mode is used to allow PAgP to create an Etherchannel without needing to receive PAgP packets from the far end on each 
+of the links that need to be bundled.
+Imagine you have a server or protocol analyzer attached to 4 ports. Servers and Protocol analyzers don't typically support PAgP 
+but you would still like to use PAgP to ensure the port are configured appropriately. Thus, the silent submode.
+This will allow PAgP to start the process of bundling the ports without needing to hear PAgP packets from the otherside.
+non-silent- etherchannel does not form until bidirectional pagp communication has been confirmed. Default is silent
+silent meaning channel does not require bidirectional pagp communication.
 on static on both sides control your aggregation and don't rely on negotiations.
 https://books.google.com/books?id=TFdo0H8OKVMC&pg=PA222&lpg=PA222&dq=pagp+silent&source=bl&ots=_sGElQzoIL&sig=8YsuxuQtjmdjE6DohjPtnbYSJtI&hl=en&ei=pdijTpy_Ns3FtAbuw9mUAw&sa=X&oi=book_result&ct=result#v=onepage&q=pagp%20silent&f=false
 remember you can assign ports to channel group and then.-->int port-channel 1; switport mode trunk;
