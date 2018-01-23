@@ -276,3 +276,11 @@ mstr FWD is the master port for uplink root port usually for the CIST in a multi
 Root BKN*- Broken there is a problem, my problem the root bridge for all my vlans was outside the MST region.
 you can think of mst in an area as a bridge.
 ___mstp____
+___MultilayerSwitch____
+sh ip cef [ type member/module/number] vlan vlan-id [detail]; shows you your layer 3 info FIB
+sh ip cef 10.1.0.0 255.255.0.0 longer-prefix; display fib for specific add and longer matches
+
+
+___multilayerswitch____
+
+
