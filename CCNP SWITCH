@@ -279,6 +279,9 @@ ___mstp____
 ___MultilayerSwitch____
 sh ip cef [ type member/module/number] vlan vlan-id [detail]; shows you your layer 3 info FIB
 sh ip cef 10.1.0.0 255.255.0.0 longer-prefix; display fib for specific add and longer matches
+adjacency table- FIB keeps layer 3 next-hop addresses, FIB keep layer 2 next-hop addy to stream line switching for layer 3
+adjacency table- consists of mac addresses that can be reached in a single layer 2 hop.
+show adjacency summary;
 
 
 ___multilayerswitch____
