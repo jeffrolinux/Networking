@@ -294,7 +294,9 @@ show etherchannel summary;
 show etherchannel port; member status of each port
 show etherchannel detail;
 show etherchannel load-balance;
-test etherchannel load-balance;
+test etherchannel load-balance; example to follow
+test etherchannel load-balance interface port-channel <port-channel #><mac/ip> <source address> <destination address>"
+SW#test etherchannel load-balance int port-channel 1 ip 1.1.1.1 2.2.2.2
 show etherchannel port-channel; know this output and what the load means!
 show [pagp | lacp] neighbor; check neighbors on ports
 int fa 1/0/1; channel-protocol pagp; channel-group 1 mode [ on | auto | desireable ] [non-silent];
