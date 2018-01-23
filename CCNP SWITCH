@@ -315,8 +315,7 @@ config)#int fa 1/0/1; channel-protocol lacp; channel-group 1 mode [on | passive 
 port priority is if you have more than 8 active links you can determine which 8 are active and which 8 standby links
 SW(config)# spanning-tree etherchannel guard misconfig; if there is a misconfig STP puts ports in err disable
 solve misconfig then -->int port-channel 3; shut; no shut;
-
-
-
+show etherchannel port-channel; how to read output following link
+https://supportforums.cisco.com/t5/network-infrastructure-documents/quot-etherchannel-loadbalancing-on-catalyst-switches-quot/ta-p/3107786
 ___etherchannel-pagp____
 
