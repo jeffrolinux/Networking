@@ -271,7 +271,8 @@ config-mst)#exit; commits changed to the active MST
 config)#spanning-tree mst 0 priority 4096; alter the root bridge for instances
 #show spanning-tree mst,SW#show spanning-tree mst configuratoin;
 MSTP-VSTP+ the vstp+ swtich will only see the IST info because only the IST is pushed out of the region. 
-There fore all vlans will take the best route to the IST root and is not based on mst at all, but is based on vlan 1
+There fore all vlans will take the best route to the IST root and is not based on mst at all, but is based on native vlan on trunk
+at the the boundary of mst.
 mstr FWD is the master port for uplink root port usually for the CIST in a multi-region MST operation
 Root BKN*- Broken there is a problem, my problem the root bridge for all my vlans was outside the MST region.
 you can think of mst in an area as a bridge.
