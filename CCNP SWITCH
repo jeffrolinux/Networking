@@ -285,5 +285,32 @@ show adjacency summary;
 
 
 ___multilayerswitch____
+_____EtherChannel-PAgP____
+config)# port-channel load-balance src-dst-port; many different options to decide how LDB algo works
+PAgP- both desireable and auto mode default is silent submode, which states no PAgP packets are expected from the far end.
+Ports set to non-silent submode PAgP packets must be received before a channel could form.
+Auto -Auto will still not form a channel you need desireable-auto or d-d
+show etherchannel summary;
+show etherchannel port; member status of each port
+show etherchannel detail;
+show etherchannel load-balance;
+show etherchannel port-channel; know this output and what the load means!
+show [pagp | lacp] neighbor; check neighbors on ports
+int fa 1/0/1; channel-protocol pagp; channel-group 1 mode [ on | auto | desireable ] [non-silent];
+non-silent- etherchannel does not form until bidirectional communication has been confirmed. Default is silent
+silent meaning channel does not require bidirectional communication.
+on static on both sides control your aggregation and don't rely on negotiations.
+https://books.google.com/books?id=TFdo0H8OKVMC&pg=PA222&lpg=PA222&dq=pagp+silent&source=bl&ots=_sGElQzoIL&sig=8YsuxuQtjmdjE6DohjPtnbYSJtI&hl=en&ei=pdijTpy_Ns3FtAbuw9mUAw&sa=X&oi=book_result&ct=result#v=onepage&q=pagp%20silent&f=false
+remember you can assign ports to channel group and then.-->int port-channel 1; switport mode trunk;
+if you configure the port channel all ports assigned to the channel with inherit the configuration
+lacp
+config)#lacp system-priority [priority]; lower priority side makes decision for channel's makeup
+config)#int fa 1/0/1; channel-protocol lacp; channel-group 1 mode [on | passive | active];Config-if)# lacp port-priority [priority];
+port priority is if you have more than 8 active links you can determine which 8 are active and which 8 standby links
+SW(config)# spanning-tree etherchannel guard misconfig; if there is a misconfig STP puts ports in err disable
+solve misconfig then -->int port-channel 3; shut; no shut;
 
+
+
+___etherchannel-pagp____
 
