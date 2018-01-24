@@ -666,5 +666,6 @@ en; copy config.old running-config;conf t; enable secret newpass;write mem; dele
 IF you upgraded system and are having problems from same switch prompt you can delete new ios or 
 boot flash:/previousconfigthatyouwantbooted
 en;conf t;boot system flash:/ChangeBackToOneYouWanted
-
+I attempted to change the config.text to config.old but system still booted the other ios I did not want
+so solution was to boot flash:/oldsys then once in deleted faulty ios
 __password-recovery
