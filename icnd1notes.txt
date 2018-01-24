@@ -662,8 +662,9 @@ SWITCHES can not change configuration register, so you will use the button on th
 you may need to intitialize flash
 dir; dir flash:; rename flash:/config.text flash:/config.old; reload
 Now when the system boots it will not read the config file due to the name being changed
-en;conf t; copy config.old running-config; enable secret newpass;write mem; delete flash:/config.old
+en; copy config.old running-config;conf t; enable secret newpass;write mem; delete flash:/config.old
 IF you upgraded system and are having problems from same switch prompt you can delete new ios or 
 boot flash:/previousconfigthatyouwantbooted
+en;conf t;boot system flash:/ChangeBackToOneYouWanted
 
 __password-recovery
