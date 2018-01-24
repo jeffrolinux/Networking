@@ -658,9 +658,12 @@ all interfaces will be shutdown after copy start run. The config does not have n
 int fa1/0; no shut
 int s1/0/1; no shut
 configuration-register 0x2102 
-switches can not change configuration register, so you will use the button on the front bottom that gets you to a switch: prompt
+SWITCHES can not change configuration register, so you will use the button on the front bottom that gets you to a switch: prompt
+you may need to intitialize flash
 dir; dir flash:; rename flash:/config.text flash:/config.old; reload
 Now when the system boots it will not read the config file due to the name being changed
-en; copy config.old running-config; enable secret newpass;write mem; delete flash:/config.old
+en;conf t; copy config.old running-config; enable secret newpass;write mem; delete flash:/config.old
+IF you upgraded system and are having problems from same switch prompt you can delete new ios or 
+boot flash:/previousconfigthatyouwantbooted
 
 __password-recovery
