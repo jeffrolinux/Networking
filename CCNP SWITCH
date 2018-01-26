@@ -336,12 +336,12 @@ When you first put time in it uses UCT and then use offset to change 8 hours. So
 SW(config)#clock summer-time name date start-month day year hh:mm end-month day year hh:mm offset-minutes;
 OR
 config)#clock summer-time name recurring start-week day month hh:mm end-week day month hh:mm offset-minutes
-Big difference between the two above is using recurring or now^^
-SW#clock set 07:00 1 january 2018
+Big difference between the two above is using recurring with no information will use US standards.
+if you use date instead of recurring it will only use it once based on specific date. Notice it asks for year
+SW#clock set 07:00 1 january 2018;
 SW(config)#clock summer-time name recurring 4 friday january 07:01 4 friday january 10:02 180
 Personal note what would offset 182 here do? endless jumping cycle!
-jump 3 hours ahead for one minute and then jump back
-be careful on weeks 
+jump 3 hours ahead for one minute and then jump back,be careful on weeks 
 NTP-SERVER
 SW(config)#ntp server ip-address [prefer] [version 3|4]; configure client to get server info NTP info
 SW(config)#ntp authentification-key key-number md5 key-string- set your md5 hash string for authentification
