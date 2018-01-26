@@ -351,6 +351,21 @@ SW(config)#ntp authenticate; ntp trusted-key key-number;
 SW(config)#ntp server ip-address key key-number;
 SW(config)#access-list 1 permit 10.1.2.0 0.0.0.255; acl for ntp
 SW(config)#ntp access-group [server-only | server | peer| query-only] acl-num;
+Master:
+switch(config)#ntp server pool.ntp.org; your master needs a server right... 
+switch(config)#feature ntp; turning the feature on wasn't available and didn't need?
+switch(config)#ntp master []- in the [] the stratum number goes
+switch(config)#ntp authentification-key 42 md5 aNicekey;   -creates the key
+switch(config)#ntp trusted key 42;key needs to be trusted for use in ntp packets
+switch(config)#ntp authentification; write mem  *** save configs!!!
+switch(config)#ntp source 10.100.100.10; creates the source ip for ntp to use
+Client:
+switch(config)#conf t; ntp server 10.100.100.10 key 42
+switch(config)#ntp authentification-key 42 md5 aNicekey
+switch(config)#show ntp authentification-keys  # verify that your key is there and correct
+switch(config)#ntp trusted-key 42    -once again make sure key is trusted so system will use it in ntp transmissions
+switch(config)#ntp authenticate		-
+switch(config)#show ntp authentification-status
 ____time-ntp____
 ___Logging____
 SW#show logging; show your logging you have buffered, by default nothing is buffered, only sent to console
