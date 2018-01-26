@@ -327,4 +327,13 @@ solve misconfig then -->int port-channel 3; shut; no shut;
 show etherchannel port-channel; how to read output following link
 https://supportforums.cisco.com/t5/network-infrastructure-documents/quot-etherchannel-loadbalancing-on-catalyst-switches-quot/ta-p/3107786
 ___etherchannel-pagp____
-
+____TIME-NTP___
+SW# show clock; display clock time
+SW#clock set 04:15:00; set the internal clock time
+SW(config)#clock timezone PST [offset-hours offset-minutes]
+SW(config)#clock summer-time name date start-month day year hh:mm end-month day year hh:mm offset-minutes;
+OR
+config)#clock summer-time name recurring start-week day month hh:mm end-week day month hh:mm offset-minutes
+NTP-SERVER
+SW(config)#ntp server ip-address [prefer] [version 3|4]
+___time-ntp____
