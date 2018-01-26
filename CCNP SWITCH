@@ -328,12 +328,38 @@ show etherchannel port-channel; how to read output following link
 https://supportforums.cisco.com/t5/network-infrastructure-documents/quot-etherchannel-loadbalancing-on-catalyst-switches-quot/ta-p/3107786
 ___etherchannel-pagp____
 ____TIME-NTP___
+Time is based on UTC Universal Time Cordinate, PST is 8 hours behind UTC or -8
 SW# show clock; display clock time
-SW#clock set 04:15:00; set the internal clock time
-SW(config)#clock timezone PST [offset-hours offset-minutes]
+SW#clock set 04:15:00 4 april 2018; set the internal clock time.
+SW(config)#clock timezone PST [offset-hours offset-minutes]; -8 here for PST
+When you first put time in it uses UCT and then use offset to change 8 hours. So in PST add 8 hours to time set.
 SW(config)#clock summer-time name date start-month day year hh:mm end-month day year hh:mm offset-minutes;
 OR
 config)#clock summer-time name recurring start-week day month hh:mm end-week day month hh:mm offset-minutes
+Big difference between the two above is using recurring or now^^
+SW#clock set 07:00 1 january 2018
+SW(config)#clock summer-time name recurring 4 friday january 07:01 4 friday january 10:02 180
+Personal note what would offset 182 here do? endless jumping cycle!
+jump 3 hours ahead for one minute and then jump back
+be careful on weeks 
 NTP-SERVER
-SW(config)#ntp server ip-address [prefer] [version 3|4]
+SW(config)#ntp server ip-address [prefer] [version 3|4]; configure client to get server info NTP info
+SW(config)#ntp authentification-key key-number md5 key-string- set your md5 hash string for authentification
+SW(config)#ntp authenticate; ntp trusted-key key-number;
+SW(config)#ntp server ip-address key key-number;
+SW(config)#access-list 1 permit 10.1.2.0 0.0.0.255; acl for ntp
+SW(config)#ntp access-group [server-only | server | peer| query-only] acl-num;
+____time-ntp____
+___Logging____
+SW#show logging; show your logging you have buffered, by default nothing is buffered, only sent to console
+terminal monitor; if you are remoting into machine and want logging to be displayed to screen.
+SW(config)#logging console severity; change severity of logging, nice for labs so you dont get hints of problems
+SW(config)#logging buffered severyity; change severity and quantity of messages logged to buffer
+Remember before is ram and uses the system little ram that it has
+SW(config)#loggin buffered size; will be 4096-gobbles of ram.
+SW(config)#logging host ip-address; designate logging server
+SW(config)#loggin trap severity; what level of messages get sent to server.
+SW(config)#service timestamps log datetime [localtime] [show-timezone] [msec] [year]; deignate time info for logging
+___logging___
+
 ___time-ntp____
