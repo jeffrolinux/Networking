@@ -378,5 +378,20 @@ SW(config)#logging host ip-address; designate logging server
 SW(config)#loggin trap severity; what level of messages get sent to server.
 SW(config)#service timestamps log datetime [localtime] [show-timezone] [msec] [year]; deignate time info for logging
 ___logging___
-
-___time-ntp____
+____SNMP____
+v1 community string no security 32-bit counters
+v2 community string no security 64 bit counters introduced bulk request and informs- inform requires snmp manager response
+v3 username password group belonging to restricted views of oids within MIB auth, encryptioin
+v1: 
+access-list 10 permit host 172.16.4.4; 
+snmp-server community MonitorIT ro 10; read only becasue no security with comm string, this protects from any pooling device
+snmp-server host 172.16.4.4 MonitorIT ?; where to send traps. you can specify traps hence ?
+v2:
+snmp-server community MonitorIT ro 10;
+snmp-server host 172.16.4.4 informs version2c MonitorIT ?; informs key word if you want to require response ack. & state version2c
+v3:
+snmp-server view jeffsview oid-tree; allow specific oid trees to be viewed by certains groups
+snmp-server group jeffsgroup v3 [noauth | auth | priv] read [ read-view] write [write-view] notify [notify-view] access [acl#];
+noauth-no authent or encrypt. auth- authent no encrypt. priv authent and encrypt.
+snmp-server user jeffsuser jeffsgroup v3 priv md5 myauthpassword priv aes 128 myprivpassword [acl#]
+snmp-server host 172.16.4.4 informs version 3 priv jeffsuser ?; specific trap types shows with ?
