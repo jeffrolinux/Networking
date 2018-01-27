@@ -390,9 +390,36 @@ v2:
 snmp-server community MonitorIT ro 10;
 snmp-server host 172.16.4.4 informs version2c MonitorIT ?; informs key word if you want to require response ack. & state version2c
 v3:
-snmp-server view jeffsview oid-tree; allow specific oid trees to be viewed by certains groups
+snmp-server view jeffsview oid-tree; allow specific oid trees to be viewed by certains groups iso top branch
 snmp-server group jeffsgroup v3 [noauth | auth | priv] read [ read-view] write [write-view] notify [notify-view] access [acl#];
 noauth-no authent or encrypt. auth- authent no encrypt. priv authent and encrypt.
 snmp-server user jeffsuser jeffsgroup v3 priv md5 myauthpassword priv aes 128 myprivpassword [acl#]
 snmp-server host 172.16.4.4 informs version 3 priv jeffsuser ?; specific trap types shows with ?
 ___snmp____
+____IPSLA____ how to use with HSRP with track to decrement also hsrp without track
+ip sla responder; needed for path-jitter or udp-jitter only 2 that require a responder
+test options: icmp-echo,path-echo,path-jitter,dns,dhcp,ftp,http,udp-echo,udp-jitter,tcp-connect.
+(config)#key chain [chain-name];
+config-keychain)#key [key-number];(config-keychain-key)#key-string [mystringpass];exit
+(config)#ip sla key-chain [chain-name]; use this keyname- a group of keys diff ones can be active at diff times for ip sla
+configure ip sla:
+(config)#ip sla [operation-number];icmp-echo [destin-addr] [source-addr]; frequency 30; default every 60 seconds change to .5 value
+(config)#ip sla [oper-num]; udp-jitter [dest-ip] [dest-udp-port] [sourc-ip] [sourc-port] num-packets [pack#] interval [pack-int];
+frequency [seconds]; by default interval ip sla runs every 60 sec
+here  you would need the receiving machine to have ->ip sla responder;
+(config)#ip sla schedule [operation-number] life [ forever| seconds#] start-time [now | specifc-date-time] ageout [seconds] recurring 
+ageout will ageout data retrieved after given time. Recurring will work if used specific start time and it will run at the start time
+again and again
+TRACKING ip sla with track object and how to use within HSRP to detect down link change priority to bring other router up.
+Remember you could always use the HSRP timers to communicate at a very high frequency and it checks down links also!!!
+config)#track [object-num] ip sla [operation-#] [state | reachability]
+state tracks return code weather up or down, reachability is based on a threshold
+(config-if)# standby 1 track [object-num] decrement [decrement-value] ie
+config-if)#standby 1 track 1 decrement 30; ip sla no reachbility this standby interface decrements by 60;
+config-if)#standby 1 track s0/0 decrement 30; if exit interface goes down decrement priority by 30
+I believe HSRP only checks based on its direct link so next hop. With track you can check a few routers along the way and change interface
+priority based on availability of say 5 hops away and not just next hop.
+
+show ip sla configuration; show your all configs
+show ip sla statistics aggregated [operation#];by default latest results show aggregate creates a summary
+___ipsla_____
