@@ -417,8 +417,10 @@ state tracks return code weather up or down, reachability is based on a threshol
 (config-if)# standby 1 track [object-num] decrement [decrement-value] ie
 config-if)#standby 1 track 1 decrement 30; ip sla no reachbility this standby interface decrements by 60;
 config-if)#standby 1 track s0/0 decrement 30; if exit interface goes down decrement priority by 30
-I believe HSRP only checks based on its direct link so next hop. With track you can check a few routers along the way and change interface
-priority based on availability of say 5 hops away and not just next hop.
+With track you can check a few routers along the way and change interface
+priority based on availability of say 5 hops away and not just exit int.
+If there is a priority change you will neeed other router to have preempt to take over when priority changes
+If no preempt router does not take over if there is already an active router, preempt means take over if I have best elect
 
 show ip sla configuration; show your all configs
 show ip sla statistics aggregated [operation#];by default latest results show aggregate creates a summary
