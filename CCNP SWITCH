@@ -438,7 +438,21 @@ You can also span a trunk port where trunk is source and filter based on vlan
 monitor session 1 filter vlan vlan-range; i beleieve the vlans in the range will be blocked
 Span disables STP on the port so a bridged analyzer with 2 connects could cause loop
 Remote-Span:
-
+SwitchA:where host is at, SwitchB: intbetween switch w/ 2 trunks, SwitchC: where analyzer is.
+SwitchA:
+(config)#vlan 99; remote-span; all switches need the remote-span vlan
+(config)#monitor session 1 source int gig 1/0/1 both;
+(config)#monitor session 1 des remote vlan 99;
+SwitchB:
+(config)# vlan 99; remote-span; ensure its allowed over both trunks if manually pruning
+SwitchC:
+(config)#vlan 99; remote-span;
+(config)# monitor session 1 source remote vlan 99;
+(config)#monitor session 1 destin int fa 1/0/2;
+SVI can not be used in span but source vlan can.
+VSPAN when you choose the source as a vlan all ports assigned to vlan become active as sources
+Can not mix vlans and interfaces in same span session, but you can create multiple span sessions 1 for interfaces and 1 for vlans
+and they can have the same destination!
 ___span____ switch port analyzer
 ____DHCP-DHCPv6____
 SW#show ip dhcp binding; show addresses binding
