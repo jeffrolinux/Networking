@@ -455,7 +455,7 @@ Can not mix vlans and interfaces in same span session, but you can create multip
 and rememeber they can not have the same destination so you may need two analyzers.
 You can define more than one destination for a span session, but multiple span sessions can not share same destination.
 I would like to test this with remore. Can session 1  be to rspan vlan 99, and session 2 be to same, one for int one for vlan.
-If they can share destination then your int and vlan sessions can never be to same source.
+Also, what if its on different switches would this remove the problem. Is it switch centric
 ___span____ switch port analyzer
 ____DHCP-DHCPv6____
 SW#show ip dhcp binding; show addresses binding
