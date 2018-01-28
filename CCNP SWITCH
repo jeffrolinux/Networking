@@ -425,3 +425,19 @@ If no preempt router does not take over if there is already an active router, pr
 show ip sla configuration; show your all configs
 show ip sla statistics aggregated [operation#];by default latest results show aggregate creates a summary
 ___ipsla_____
+___SPAN___Switch Port Analyzer
+3750-X can support 2 sessions, 6500 can support 64 sessions.
+LOCAL-SPAN:
+SW(config)#monitor session 1 source int fa 1/0/1 [both | rx | tx];
+source can also be a vlan ->source vlan 3 both;
+SW(config)#monitor session 1 dest int fa 1/0/2;
+span dest will not de able to send or receive data unless ->ingress [ dot1q vlan vlan-id | isl | untagged vlan vlan-id]
+monitor session 1 dest int fa 1/0/2 ingress [ dot1q vlan vlan-id | isl | untagged vlan vlan-id]; I believe
+monitor session 1 dest int fa 1/0/2 encapsulate replicate; be default STP-BPDUs,VTP,DTP,CDP,PaGP, not sent but encap rep makes it added
+You can also span a trunk port where trunk is source and filter based on vlan
+monitor session 1 filter vlan vlan-range; i beleieve the vlans in the range will be blocked
+Span disables STP on the port so a bridged analyzer with 2 connects could cause loop
+Remote-Span:
+
+
+___span____ switch port analyzer
