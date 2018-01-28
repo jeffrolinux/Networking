@@ -452,8 +452,8 @@ SwitchC:
 SVI can not be used in span but source vlan can.
 VSPAN when you choose the source as a vlan all ports assigned to vlan become active as sources
 Can not mix vlans and interfaces in same span session, but you can create multiple span sessions 1 for interfaces and 1 for vlans
-and they can have the same destination!
-You can definte more than one destination for a span session, but multiple span sessions can not share same destination.
+and rememeber they can not have the same destination so you may need two analyzers.
+You can define more than one destination for a span session, but multiple span sessions can not share same destination.
 I would like to test this with remore. Can session 1  be to rspan vlan 99, and session 2 be to same, one for int one for vlan.
 If they can share destination then your int and vlan sessions can never be to same source.
 ___span____ switch port analyzer
