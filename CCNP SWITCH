@@ -439,5 +439,39 @@ monitor session 1 filter vlan vlan-range; i beleieve the vlans in the range will
 Span disables STP on the port so a bridged analyzer with 2 connects could cause loop
 Remote-Span:
 
-
 ___span____ switch port analyzer
+____DHCP-DHCPv6____
+SW#show ip dhcp binding; show addresses binding
+SW#clear ip dhcp binding {* | ip-address}; clear a specific address or all of them
+debug ip dhcp server; to debug any dhcp issues
+configuring manual binding
+ip dhcp pool serverdhcpaddyWhyjustusestatic;
+host 192.168.1.201 255.255.255.0; client-identifier 0100.50b6.5bc0.b5;do wr 
+the leading 01 is the identifier that the host is using ethernet, so the host mac addy is really 0050.b65b.c0b5
+ip dhcp pool test; lease { infinite | days | hours | minutes]
+SW(dhcp-config)#option option-num value; configure special options
+options numbers- 43-> location of wireless lan controller for lightweight access point, 69-> SMTP server, 70 -> POP3 main server
+150-> tftp server for cisco ip phone.
+DHCP Relay should be configured on your layer 3 interface so that when it receives dhcp request it sends it accodingly 
+ip helper-address 192.168.199.4; when layer 3 device sends message to server it tags the lan it came from so server knows proper address reply
+you can choose multiple helper addresses and the client will choose which address to use if it receives multiple address responses.
+
+IPV6 a host will use link-local FE80::/10 to find router and find out its subnet its on and can even generate its own unique ipv6 global address.
+DAD is still used even for link local addresses not just global. anycast command after ip is so dad is not applied. remember RS- RA
+
+the process to get your own unique address is called stateless autoconfiguration or serverless client configuration.
+uses RS- client asks the router which subnet its on. RA- router advertises the subnet to the local subnet
+the client uses 
+Catalyst switches can also function as a IPv6DHCP server-
+ipv6 dhcp pool my6pool; address prefix ipv6-prefix; second command here allows dhcp to send ipv6 addresses to hosts but is not necessary.
+you can not exclude addresses or specify host bindings with dhcpv6, only ipv4 allows that.
+SW(config-dhcpv6)#dns-server A::1; domain-name jeffsdomain.com;
+With ipv6 you need to specify the pool under the ipv6 interface.
+int fa 1/0/1; ipv6 address B::1/64; ipv6 dhcp server pool-name;no shut; never forget no shuts and your wr to save config!!!
+DHCPv6 Lite 
+SW(config-if)#ipv6 nd other-config-flag; enables dhcpv6 lite options, 
+ipv6 dhcp server mylitepool; this pool that is light should defintely not have the ->address prefix A:A:A:A::/64 command. no addresses assigned
+DHCPv6 relay
+SW(config-if)# ipv6 dhcp relay destination C::1; ipv6 int relays dhcp options to the server and interface relays back to host.
+show ipv6 dhcp pool; shows you all your pools and their configs
+___dhcp-dhcpv6____
