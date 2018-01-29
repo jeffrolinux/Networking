@@ -503,6 +503,6 @@ RPR- Route Processor Redundancy-supervisor partially booted and initialized
 RPR+- booted and supervisor and route engine is initialized
 SS0-Stateful Switchover- redundant supervisor fully booted and initialized, Route Engine, layer 2 and FIB initialized and synchronized.
 NSF-Non stop forwarding with SS0 and NSF router gains all the routing information must be configured on both routers
-
+RPR+ - requires the same image on both supervisors.
 
 ___high-availability___
