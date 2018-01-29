@@ -180,7 +180,9 @@ lightweight - can not act independantly of the controller
 to distinguish what kind of access point look at part number AIR-LAPXXXX   AIR-APXXXX 
 ___wireless_____
 ____STP____
-two types of BPDU= Configuration- PBDU used for computation. Topology Change Notification(TCN)- used to announce changes.
+two types of BPDU= Configuration- PBDU used for computation. 
+Topology Change Notification(TCN)- used to announce changes. 
+A bridge gets a topolgy change it sends a TCN out its root port at hello interval until root bridge responds with a TCN acknowledgment bitset
 BPDUs are sent out for root bridge election. Configuration BPDUs are only sent by the root bridge after election occured.
 Each bridge will add its sender id to the BPDU.
 BPDUs will be analyzed to see if a better root bridge exist. As one may enter network at anytime.
@@ -192,12 +194,17 @@ If a port state changes a switch sends TCN BPDU to root bridge letting the root 
 enabled then no change will be sent at all.
 TCN is sent if link goes down, but if link stays up and data is filtered, max age timer will age out the best bpdu and then
 next best bpdu will become root port. Max age timer is 20 seconds by default, hello is 2, listen 15, learn 15.
-When a tcn is sent to root bridge, mac addy tables timer goes down to 15 seconds to flush old addresses.
+When a tcn is sent to root bridge, mac addy tables timer goes down to 15(or forward time) seconds to flush old addresses.
 config)#spanning-tree vlan 2,3,4,7-9 root primary diameter 3 hello-time 1;
 default diameter is 7. Diameter values 1-7.diameter adjusts timers based on layer 2 size, max-age, listen/learn forward delay
 Portfast- port immediately goes into forwarding state. STP still runs! Would still go to blocking if loop detected.
 Uplinkfast-image two links going to distribution switches. Port goes down it takes STP too long to converge. Uplinkfast detects
 link going down and immediately puts second suitiable link up. Can work for many uplinks.
+sends known mac addresses to dummy multicast addresses on new uplink, so the new uplink switch knows those hosts are on new port.
+since it is important that this protocol not be on a upstream bridge its priority is set high and all port priorities are incremented
+Flexlinks- disables STP and convergence is 50 ms one port is active one port is backup you need one active port then you configure
+the backup ->config)#int fa 1/0/1; switchport backup int fa 1/0/2; configure the backup on the active int.
+SW#sh int switchport backup; will show you active backup ports
 backbonefast-actively determines weather there is alternate paths to root bridge, incase indirect link failure.
 Detects indirect link failure when the switch receives inferior bpdu from a SW announcing itself as root bridge.(unwanted root bridge)
 -if inferior bpdu arrives on port in blocking state, SW considers the root port and all other blocked ports to be alternative paths to the
