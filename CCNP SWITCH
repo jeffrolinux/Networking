@@ -263,6 +263,16 @@ learning- same as 802.1d learns macs added
 forwarding- same as 802.1d forwards data frames.
 all ports communicate and no max age timer, no need for backbonefast
 keeps track of alternate paths and if root port goed down promptly bring up alternate port, no need for uplinkfast
+Sync Process:When better root bridge information is received, or root port changes, the local bridge blocks all non-edge designated ports. 
+Effectively, those are the ports connected to the bridges that are supposed to be downstream to the new root. After this, the local bridge 
+sets Proposal flag in the outgoing BPDU sent out of potential Designated ports.
+Notice that no BPDUs are yet being sent out of the new root port – only the downstream ports are synchronized.
+Downstream Bridges compare Proposal with their Root bridge is new info is superior it elects new root port and blocks all down stream ports
+After receiving an Agreement message, the upstream bridge unblocks its downstream ports and continues forwarding. The blocked ports are now 
+moved to the downstream bridges, which continue the synchronization process, until all brides in the topology are affected
+When a bridge rejects a Proposal it has better root bridge information. In this case, it sends back alternate proposal message with its own 
+root bridge information.
+
 ___rstp____
 ___MSTP____
 Switches in a MST region need to figure out if their neighbor is in same region, uses a hash of region table.
