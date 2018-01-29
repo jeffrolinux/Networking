@@ -208,7 +208,7 @@ SW#sh int switchport backup; will show you active backup ports
 backbonefast-actively determines weather there is alternate paths to root bridge, incase indirect link failure.
 Detects indirect link failure when the switch receives inferior bpdu from a SW announcing itself as root bridge.(unwanted root bridge)
 -if inferior bpdu arrives on port in blocking state, SW considers the root port and all other blocked ports to be alternative paths to the
-root bridge.
+root bridge. So an RLQ will be sent out the root port and all blocked ports to verify root bridge.
 -if inferior bpdu arrives on the root port itself the switch consider all blocked port to be alternative paths to the root bridge.
 -if inferior bpdu arrives on the root port and no ports are blocked, however the Sw assumes that is has lost connectivity with the
 root bridge. SW assumes it is the root bridge. Back bone fast allows it to do so before the max age timer expires. 
