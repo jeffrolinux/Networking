@@ -492,3 +492,12 @@ DHCPv6 relay
 SW(config-if)# ipv6 dhcp relay destination C::1; ipv6 int relays dhcp options to the server and interface relays back to host.
 show ipv6 dhcp pool; shows you all your pools and their configs
 ___dhcp-dhcpv6____
+__High-Availability-StackWise-Chassis____
+Cisco offers switches with a chassis with slots that contain multiple switching modules, contains supervisor module that handles
+all the switching management functions, you can think of supervisor kind of like stack master. Can have redundant supervisor module.
+ie Catalyst 4500R, 6500, 8500 are chassis switch models
+VSS- Virtual Switching System- configuring two identical chassis to operate as one logical switch.
+VSL-Virtual Switch Link- is used to form he VSS.
+
+
+___high-availability___
