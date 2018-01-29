@@ -499,6 +499,10 @@ all the switching management functions, you can think of supervisor kind of like
 ie Catalyst 4500R, 6500, 8500 are chassis switch models
 VSS- Virtual Switching System- configuring two identical chassis to operate as one logical switch.
 VSL-Virtual Switch Link- is used to form he VSS.
+RPR- Route Processor Redundancy-supervisor partially booted and initialized
+RPR+- booted and supervisor and route engine is initialized
+SS0-Stateful Switchover- redundant supervisor fully booted and initialized, Route Engine, layer 2 and FIB initialized and synchronized.
+NSF-Non stop forwarding with SS0 and NSF router gains all the routing information must be configured on both routers
 
 
 ___high-availability___
