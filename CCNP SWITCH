@@ -449,13 +449,14 @@ SwitchC:
 (config)#vlan 99; remote-span;
 (config)# monitor session 1 source remote vlan 99;
 (config)#monitor session 1 destin int fa 1/0/2;
-SVI can not be used in span but source vlan can.
+(config)# no monitor session 1, no monitor session local;
+SVI can not be used in span but source vlan can. destination van not be vlan unless it is remote vlan
 VSPAN when you choose the source as a vlan all ports assigned to vlan become active as sources
 Can not mix vlans and interfaces in same span session, but you can create multiple span sessions 1 for interfaces and 1 for vlans
-and rememeber they can not have the same destination so you may need two analyzers.
-You can define more than one destination for a span session, but multiple span sessions can not share same destination.
-I would like to test this with remore. Can session 1  be to rspan vlan 99, and session 2 be to same, one for int one for vlan.
-Also, what if its on different switches would this remove the problem. Is it switch centric
+and rememeber they can not have the same destination so you may need two analyzers.Unless remote same dest works, if remote vlan.
+You can define more than one destination for a span session, but multiple span sessions can not share same destination. Unless remote.
+Source and destination can be on different vlans, it doesn't really matter.
+The destination can only be a vlan when it is remote.
 ___span____ switch port analyzer
 ____DHCP-DHCPv6____
 SW#show ip dhcp binding; show addresses binding
