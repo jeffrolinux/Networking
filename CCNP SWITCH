@@ -558,7 +558,39 @@ ESFU-Enhanced Fast Software Upgrade. Upgrade ios with no downtime
 SW1-VSS#show module; to see modules and make sure vss will be compative need same supervisor engine!SW
 SW1-VSS#show version; 
 create a domain id which can be between 1 and 255
+SW1-VSS(config)#switch virtual domain 1;switch 1;
+SW2-VSS(config)#switch virtual domain 1;switch 2;
+SW1-VSS(config)#switch 1 priority 110;
+SW1-VSS(config)#switch 2 priority 100;
+SW2-VSS(config)#switch 1 priority 110;
+SW2-VSS(config)#switch 2 priority 100;
+Use two unqiue port channels because the devices will become one, and you dont want both sides of port-channel same number
+also unique virutal link configured on each 
+SW1-VSS(config)#int port-channel 1
+SW1-VSS(config-if)#no shut
+SW1-VSS(config-if)#switch virtual link 1; assigning the domain to the link
+SW1-VSS(config-if)#exit
+SW1-VSS(config)#int r ten 1/4 - 5
+SW1-VSS(config-if)#channel-group 1 mode on
+SW1-VSS(config-if)#no shut; as no shut was on port channel all port channel command should propogate to int
+------------------
+SW2-VSS(config)#int port-channel 2
+SW2-VSS(config-if)#no shut
+SW2-VSS(config-if)#switch virtual link 2; 
+SW2-VSS(config-if)#exit
+SW2-VSS(config)#int r ten 1/4 - 5
+SW2-VSS(config-if)#channel-group 1 mode on
+SW2-VSS(config-if)#no shut;
+Now ready to convert the 6500s to VSS
+config on both switches will be merged into a single configuration
+inteface numbers will be renumbered
+SW1-VSS#switch convert mode virtual;
+SW2-VSS#switch convert mode virtual
+SW1-VSS(config)#hostname SW-VSS;
+SW-VSS#
+SW-VSS#show switch virtual;
+SW-VSS#show switch virtual link;
+SW-VSS#show int vsl; 
+SW-VSS#show switch virtual role;
 
-
-
-
+___vss_____
