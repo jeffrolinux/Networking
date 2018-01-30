@@ -668,6 +668,29 @@ SW#show glbp brief;
 SW#show glbp [group#];
 ___fhrp___
 ___PORT-SECURITY___
+SW(config-if)#switchport port-security; must be enabled before anything else can be done!
+SW(config-if)#switchport port-security maximum [max]; where max is max number of mac on an int
+SW(config-if)#switchport port-security mac-address 1111.1111.1111; associate 1111.1111.1111 with the port
+SW(config-if)#switchport port-security mac-address sticky; by default macs are stored in ram in cam. Sticky adds it to startup-config
+SW(config-if)#switchport port-security violation [shutdown | restrict | protect];
+shutdown shuts int, restrict doesn't allow more than configured, protect same as restrict but also sends log and snmp trap
+SW#show port-security {all | configured | dynamic | sticky } {address mac-addr | int fa 1/0/1};
+SW#show int status err-disable;
+802.1x
+SW(config)#aaa new-model; use method list
+SW(config)#radius-server host 10.1.2.210 key string;
+SW(config)#aaa authentification dot1x default group radius
+SW(config)#dot1x system-auth-control;enables 802.1X on the switch, by default no auth when global must be on int
+SW(config-if)#dot1x port-control {force-authorized | force-unauthorized | auto}
+auto- port uses 802.1x to move from anauthorized to authorized.
+force-authorized- forced to authorize any connected client no auth is necessary, this is also the default state
+force-unathorized- never authorize any connected cleint. port cannot move to authorized state
+Storm Control
+storm-control {broadcast | multicast | unicast} level {level low-level | bpg level low-level | pps level low-level}
+SW(config-if)#storm-control broadcast 50; drops broadcast frames when they reach above 50 percent of available bandwidth
+SW(config-if)#storm-control multicast 30 10; drop multicast frames then the reach above 30 and maintain above 10 percent of avail BW
+SW(config-if)#storm-control unicast level pps 50k; drops packets when above 50k packets per second
+Unicast is directly referring to unknown unicast not known typicall data unicast
 
 
 ___port-security____
