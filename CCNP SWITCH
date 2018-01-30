@@ -630,6 +630,44 @@ SW(config-if)#stanby version2; standby ipv6 autoconfig;
 0000.0c07.ac10- WHICH GROUP IS THIS>???NOT 10!!!!   its hex remember count for hex group 16
 SW#show standby vlan 50 brief; will show active standby ip's priority 
 SW#show standby vlan 50; will show brief plus timers
-
-
+VRRP- Virtual Router Redundancy Protocol- IETF standards based RFC 2338
+active router is the master router. All other routers are in the backup state.
+group number 0-255. priority 1-254
+0000.5e00.01xx   where x is the group number based on hex
+VRRP advertisements by default are one every second. Backup routers can learn interval from master
+by default all VRRP routers have preempt enabled.
+VRRP using multicast address of 224.0.0.18 uses ip protocol 112
+SW(config-if)#vrrp 1 priority 110;vrrp 1 timers advertise msec 100; vrrp 1 timers learn; learn timer from master
+SW(config-if)#no vrrp 1 preempt; preempt must be disabled if that is desired effect due to being on by default
+Everything is basically the same except where you would use standby you now use vrrp.
+SW#show vrrp brief; basic info same as hsrp ips master backup group addy preempt or not
+SW#show vrrp; all the info
+GLBP- Gateway Load Balancing Protocol
+AVG-one router is elected active virtual gateway, up to four virtual mac addresses can be used in any group
+AVF- any router in the group is considered an active virutal forwarder.
+GLBP group numbers range from 1 to 1023 and the priority is from 1 to 255 defaulting priority to 100
+SW(config-if)glbp 1 preempt [delay minimum seconds];
+SW(config-if)#glbp 1 timers msec 100 msec 300; glbp alot like hsrp
+hello timer must be greater than hold timer
+0007.b4xx.xxyy    yy is virtual forwarder number, xx.xx 16 bit- six 0 bits followed by ten bit group number
+SW(config-if)#glbp 1 load-balancing [round-robin | wieghted | host-dependant]
+host dependant if you need hosts to receive the same gateway mac
+weighted if you want gateway distributed based on weight. and can decrement weights based on interfaces going down
+round robin is the default, equal load sharing in sequential order
+SW(config)#glbp 2 ip 10.1.1.1 [ secondary]; can create secondary address only AVG gets ip address no other routers
+they will all communicate on multicast in subnet.
+SW(config-if)#glbp group 3 ipv6 autoconfigure; IPV6 uses fe80::/10 uses /64 fffe injected inbetween mac address
+If an AFV fails another router will be given that routers virtual mac until the timeout has expired and the down routers
+mac address has been flushed. due to this port security limiting one mac would bring the interfaces down. 
+ALL AVFs do not need to be given AVG gateway address but it is a good idea to set it manually.
+Like HSRP make sure you configure preempt on routers you want active and also priority
+SWA(config-if)#int vlan 10; ip add 192.168.1.20 255.255.255.0;glbp 1 priority 200; glbp 1 ip 192.168.1.1;glby 1 preempt;
+SWB(config-if)#int vlan 10;ip add 192.168.1.21 255.255.255.0;glbp 1 priority 150; glbp 1 ip 192.168.1.1; glbp 1 preempt;
+SWC(config-if)#int vlan 10;ip add 192.168.1.22 255.255.255.0;                     glbp 1 ip 192.168.1.1;
+SW#show glbp brief;
+SW#show glbp [group#];
 ___fhrp___
+___PORT-SECURITY___
+
+
+___port-security____
