@@ -685,6 +685,20 @@ SW(config-if)#dot1x port-control {force-authorized | force-unauthorized | auto}
 auto- port uses 802.1x to move from anauthorized to authorized.
 force-authorized- forced to authorize any connected client no auth is necessary, this is also the default state
 force-unathorized- never authorize any connected cleint. port cannot move to authorized state
+--------What I used for IOS 15---- for radius applied on switch itself-----
+(config)aaa new-model	-beware immediately applies local  authentication to all lines and interfaces except line console 0
+(config)username jeff priviledge 15 secret mypass	- might want to make habbit or creating user before aaa new-model
+(config)radius server SecureLogin
+(config-radius-server)address ipv4 10.10.10.254 auth-port 1812 acct-port 1813 key SW1
+(config-radius-server)key MyRadiusPass
+(config)aaa group server radius MyRadiusGroup
+(config-sg-radius)server name SecureLogin
+(config)aaa authentification login default group MyradiusGroup local	- local is the backup local username incase MyradiusGroup goes down
+(config)#aaa authentication enable default group myradiusgroup enable
+(config)#aaa authorization exec default group myradiusgroup if-authenticated
+remember tacacs would be the same config except replace radius with tacacs
+----------------------------------------------------------------------------------------
+
 Storm Control
 storm-control {broadcast | multicast | unicast} level {level low-level | bpg level low-level | pps level low-level}
 SW(config-if)#storm-control broadcast 50; drops broadcast frames when they reach above 50 percent of available bandwidth
