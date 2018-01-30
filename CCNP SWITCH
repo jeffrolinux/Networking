@@ -245,7 +245,7 @@ ___stp-tools___
 ____RSTP____
 BPDUs are sent out every switch port at hello time intervals, regardless weather BPDUs are received or not.
 this way a switch can detect a dead neighbor in 6 seconds, 3 hello-intervals by default
-Upon TC all non edge macs in the cam are flushed.
+Upon TC all non edge macs in the cam are flushed except the port where it was received.
 config)#spanning-tree mode rapid-pvst,config)#spanning-tree mode pvst;
 RSTP can revert to 802.1d by reading the version type in the bpdu 1 is 802.1d, 2 is 802.1w
 if it detects 802.1d it will play by those rules on the port.
@@ -272,7 +272,8 @@ After receiving an Agreement message, the upstream bridge unblocks its downstrea
 moved to the downstream bridges, which continue the synchronization process, until all brides in the topology are affected
 When a bridge rejects a Proposal it has better root bridge information. In this case, it sends back alternate proposal message with its own 
 root bridge information.
-
+RSTP does not use RLQ and check if bridge actually exists. It will directly send BPDUs to neighbor stating who the root bridge is
+without querying this quite create and infinitiy instance and create problems in some topologies. Stale Root BPDU bad
 ___rstp____
 ___MSTP____
 Switches in a MST region need to figure out if their neighbor is in same region, uses a hash of region table.
