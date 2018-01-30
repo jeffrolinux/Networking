@@ -592,5 +592,44 @@ SW-VSS#show switch virtual;
 SW-VSS#show switch virtual link;
 SW-VSS#show int vsl; 
 SW-VSS#show switch virtual role;
-
 ___vss_____
+____FHRP______
+HSRP: Hot stanby routing protocol
+Switches typically only allow 16 unique HSRP group numbers although they can be numbered 0-255
+HSRP group numbers are locally significant so you could keep using same group number on different vlans say keep reusing 1
+or for MHSRP just keep using group 1 and 2 might also help organizing plan.
+Default priority is 100 although it can be from 0-255
+Election:
+Disabled-
+Learn-
+Listen-
+Speak-
+Standby- only standby monitors hello by acive R default hellos 3 def hold 10
+Active-
+If active goes down and there is another router in listen state next highest router becomes standby
+
+SW(config-if)standby 1 timers msec 100 msec 300; alter the hello and hold use keywork msec for millisec
+hold should always be atleat 3 times the hello incase packet dropped or any issues.
+SW(config-if)#standby 1 preempt [delay minimum seconds] [reload seconds];
+reload seconds will require router to wait for this period for routing table to converge necessary for big tables!
+Plain text authentification:->SW(config-if)#standby 1 authentification string; plain text not so safe
+SW(config-if)#standby 1 authentification md5 key-string [0|7] string;
+0 is entering string plaintext choose 7 if entering the hash
+(config)#key chain chain-name
+SW(config-keychain)#key key-number;
+SW(config-keychain-key)#key-string [0 | 7] string; once again hashed or plain
+SW(config)# int fa 1/0/1;standby 1 authentification md5 key-chain chain-name;
+you can choose any key number but keys are tried in sequential order so you will want key 1 to be active key
+SW(config)#standby 1 track int serial 0/0 20; decrements priority 20 when int goes down
+you could also use multiple interfaces to decrement and decrement cumulative, also increments when int comes back up
+default decrement is 10
+SW(config-if)#standby 1 ip 10.2.2.2 secondary; when int has secondary ip HSRP can also have secondary
+to use with ipv6 use:
+SW(config-if)#stanby version2; standby ipv6 autoconfig;
+0000.0c07.ac01- mac address for standby group 1 last two digits represent group # in hex
+0000.0c07.ac10- WHICH GROUP IS THIS>???NOT 10!!!!   its hex remember count for hex group 16
+SW#show standby vlan 50 brief; will show active standby ip's priority 
+SW#show standby vlan 50; will show brief plus timers
+
+
+___fhrp___
