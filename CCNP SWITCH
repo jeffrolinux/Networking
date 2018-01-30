@@ -522,5 +522,43 @@ RPR+- booted and supervisor and route engine is initialized
 SS0-Stateful Switchover- redundant supervisor fully booted and initialized, Route Engine, layer 2 and FIB initialized and synchronized.
 NSF-Non stop forwarding with SS0 and NSF router gains all the routing information must be configured on both routers
 RPR+ - requires the same image on both supervisors.
-
 ___high-availability___
+____StackWise____
+Up to 9 SW in stack. Can remove or add anywhere without dirupting communication with a daisy chain.
+Election: 
+user selected priority-
+Hardware/software priority-higher feature set ipservices over ipbase
+Default config- switch with config takes precedence over one with no config
+Uptime- switch with loner uptime
+Mac address-lowest mac address wins, kind of like bridge election STP lowest mac wins there also
+User priority example:SW(config)#switch 1 priority 15; may need to reboot to make sure priority is used. ->wr;reload
+values for priority are 1 to 15. Default value is 1.
+can be changed from global config or boot loader Switch: prompt->Swtich: set SWITCH_PRIORITY 7;
+make sure sdm templates are the same.
+Software compatibility between the stack members is determined by the Stack Protocol Version number. To view the stack protocol version of 
+your switch stack, you can issue the show platform stack manager all command.
+SW#show platform stack manager all
+Switches with the same Cisco IOS software version have the same stack protocol version. Such switches are fully compatible, and all features
+function properly across the switch stack. Switches with the same Cisco IOS software version as the stack master immediately join the switch stack.
+If an incompatibility exists, the fully functional stack members generate a system message that describes the cause of the incompatibility on the 
+specific stack members. The stack master sends the message to all stack members.
+Switches with different Cisco IOS software versions likely have different stack protocol versions. Switches with different major version numbers are
+incompatible and cannot exist in the same switch stack.
+Version mismatch- is partial compatible.
+The software detects the mismatched software and tries to upgrade (or downgrade) the switch in VM mode with the switch stack image or with a tar file
+image from the switch stack flash memory. The software uses the automatic upgrade (auto-upgrade) and the automatic advise (auto-advise) features.
+SW# show switch;
+W(config)#switch 1 priority 15;
+SW#show platform stack manager all;
+SW#show switch stack-ports;
+SW#show switch stack-ring speed;
+_____stackwise_____
+____VSS____Virtual Switch System for chassis  ie 4500 6500 8500
+ESFU-Enhanced Fast Software Upgrade. Upgrade ios with no downtime
+SW1-VSS#show module; to see modules and make sure vss will be compative need same supervisor engine!SW
+SW1-VSS#show version; 
+create a domain id which can be between 1 and 255
+
+
+
+
