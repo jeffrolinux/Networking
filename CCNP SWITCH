@@ -699,7 +699,7 @@ force-unathorized- never authorize any connected cleint. port cannot move to aut
 (config)aaa authentification login default group MyradiusGroup local;	- local is the backup local username incase MyradiusGroup goes down
 (config)#aaa authentication enable default group myradiusgroup enable;
 (config)#aaa authorization exec default group myradiusgroup if-authenticated; radius authorization if user has priv exec access
-suceeds if user has authentification.
+suceeds if user has authentification. level 15
 remember tacacs would be the same config except replace radius with tacacs
 ----------------------------------------------------------------------------------------
 SW#show int fa 1/0/1; shows lots of info
@@ -707,7 +707,7 @@ SW#show authentification int fa 1/0/1;
 SW#show authentification sessions;
 SW#show dot1x [all | summary];
 SW(config-if)#authentification host-mode [multihost]; more than once device connected to port hub/SW
-multi-auth; multi authent to occur.multi-domain; used for both host device and phone.single-host; you knon.open; port open no access restriction
+multi-auth; multi authent to occur.multi-domain; used for both host device and phone.->single-host; you knon->open; port open no access restriction
 SW(config-if)#dot1x pae [ supplicant | authenticator | both]; port access entity
 SW#config-if)#dot1x guest-vlan 99; assign a guest vlan ONLY for guest who don't have 802.1x client, if 802.1x fails no access at all
 SW(config-if)#dot1x guest-vlan supplicant; not sure why cisco docs user work supplicant
@@ -716,6 +716,7 @@ SW#no debug int fa 1/0/1; no debug int all; stop special condition debugging
 SW#debug condition int fa 1/0/1; keep adding interfaces until you have what you want
 SW(config)# identity profile default; creates identity profile and enters dot1x profile config mode
 SW(config-identity-prof)# int fa 1/0/1;enter int config mode specifies int for 802.1x authentification
+SW(config)#radius-server vsa send authentification; configs NAS to recognize and user vendor specific attributes
 
 Storm Control
 storm-control {broadcast | multicast | unicast} level {level low-level | bpg level low-level | pps level low-level}
