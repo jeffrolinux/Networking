@@ -1,0 +1,57 @@
+Easy install with apt
+https://www.packet6.com/install-freeradius-ubuntu-server/
+
+stable version from source
+http://wiki.freeradius.org/building/Debian%20and%20Ubuntu
+
+apt install sudo as root
+useradd-low level utility
+adduser-full setup
+adduser radius
+usermod -aG sudo radius
+Radius server address 10.0.1.2/24  on vmnet2
+
+clients.conf// this is the the devices in the middle ie AP Switches 
+hostname or IP is allowed here
+client 10.0.1.1 {
+ipaddr = 10.0.1.1
+secret = SW1
+nastype = cisco
+shortname = switch
+}
+this is for authorization, but authorization and accounting should be done with tacacs+, radius should be net access  wifi,vpn 
+vim users
+cisco Cleartext-Password := "password"
+       Service-Type = NAS-Prompt-User,
+       Cisco-AVPair = "shell:priv-lvl=15"
+----------------------------------------UP TO THIS POINT I KNOW WORKS
+ciscos free radius website also shows this for vlan assignment
+cisco-avpair= "tunnel-type(#64)=VLAN(13)"
+
+_
+dot1xtest    User-Password := "secret"
+             Tunnel-Type = "VLAN",
+             Tunnel-Medium-Type = "IEEE-802",
+             Tunnel-Private-Group-ID = "100"
+_
+test101      Cleartext-Password := "test123"
+             Reply-Message = "Hello, %{User-Name}",
+             Tunnel-Type = 13,                     //13 or VLAN
+             Tunnel-Medium-Type = 6,               //6 or IEEE-802
+             Tunnel-Private-Group-Id = '101'       //Specify VLANID
+
+
+
+Cisco free radius documentation
+https://www.cisco.com/c/en/us/support/docs/security-vpn/remote-authentication-dial-user-service-radius/116291-configure-freeradius-00.html
+
+example of test to test locally
+radtest rowell Password123 127.0.0.1 0 testing123
+systemctl enable freeradius, start at boot
+install open and run firewall
+apt install ufw
+ufw enable 
+ufw allow 1812;ufw allow 1813   MAKE SURE CISCO USES THESE PORTs
+test aaa group radius jeff jeff legacy
+dynamic vlan 
+http://www.letmefix-it.com/2016/07/21/radius-server-setu
