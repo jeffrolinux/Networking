@@ -677,6 +677,7 @@ shutdown shuts int, restrict doesn't allow more than configured, protect same as
 SW#show port-security {all | configured | dynamic | sticky } {address mac-addr | int fa 1/0/1};
 SW#show int status err-disable;
 802.1x
+Windows cleint config->  http://www.cc.iitd.ernet.in/windows-10.pdf
 SW(config)#aaa new-model; use method list
 SW(config)#radius-server host 10.1.2.210 auth-port 1812 acct-port 1813 key string;
 SW(config)#aaa authentification dot1x default group radius
