@@ -706,6 +706,7 @@ SW#show int fa 1/0/1; shows lots of info
 SW#show authentification int fa 1/0/1;
 SW#show authentification sessions;
 SW#show dot1x [all | summary];
+SW#debug authentification all; see auth debug
 SW(config-if)#authentification host-mode [multihost]; more than once device connected to port hub/SW
 multi-auth; multi authent to occur.multi-domain; used for both host device and phone.->single-host; you knon->open; port open no access restriction
 SW(config-if)#dot1x pae [ supplicant | authenticator | both]; port access entity
