@@ -682,6 +682,8 @@ SW(config)#radius-server host 10.1.2.210 key string;
 SW(config)#aaa authentification dot1x default group radius
 SW(config)#dot1x system-auth-control;enables 802.1X on the switch, by default no auth when global must be on int
 SW(config-if)#dot1x port-control {force-authorized | force-unauthorized | auto}
+SW(config-if)#authentication port-control auto; depending on which image you have
+
 auto- port uses 802.1x to move from anauthorized to authorized.
 force-authorized- forced to authorize any connected client no auth is necessary, this is also the default state
 force-unathorized- never authorize any connected cleint. port cannot move to authorized state
