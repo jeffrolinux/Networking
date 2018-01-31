@@ -678,7 +678,7 @@ SW#show port-security {all | configured | dynamic | sticky } {address mac-addr |
 SW#show int status err-disable;
 802.1x
 SW(config)#aaa new-model; use method list
-SW(config)#radius-server host 10.1.2.210 key string;
+SW(config)#radius-server host 10.1.2.210 auth-port 1812 acct-port 1813 key string;
 SW(config)#aaa authentification dot1x default group radius
 SW(config)#dot1x system-auth-control;enables 802.1X on the switch, by default no auth when global must be on int
 SW(config-if)#dot1x port-control {force-authorized | force-unauthorized | auto}; same below just different ios
@@ -696,12 +696,26 @@ force-unathorized- never authorize any connected cleint. port cannot move to aut
 (config-radius-server)key MyRadiusPass
 (config)aaa group server radius MyRadiusGroup
 (config-sg-radius)server name SecureLogin
-(config)aaa authentification login default group MyradiusGroup local	- local is the backup local username incase MyradiusGroup goes down
-(config)#aaa authentication enable default group myradiusgroup enable
-(config)#aaa authorization exec default group myradiusgroup if-authenticated
+(config)aaa authentification login default group MyradiusGroup local;	- local is the backup local username incase MyradiusGroup goes down
+(config)#aaa authentication enable default group myradiusgroup enable;
+(config)#aaa authorization exec default group myradiusgroup if-authenticated; radius authorization if user has priv exec access
+suceeds if user has authentification.
 remember tacacs would be the same config except replace radius with tacacs
 ----------------------------------------------------------------------------------------
 SW#show int fa 1/0/1; shows lots of info
+SW#show authentification int fa 1/0/1;
+SW#show authentification sessions;
+SW#show dot1x [all | summary];
+SW(config-if)#authentification host-mode [multihost]; more than once device connected to port hub/SW
+multi-auth; multi authent to occur.multi-domain; used for both host device and phone.single-host; you knon.open; port open no access restriction
+SW(config-if)#dot1x pae [ supplicant | authenticator | both]; port access entity
+SW#config-if)#dot1x guest-vlan 99; assign a guest vlan ONLY for guest who don't have 802.1x client, if 802.1x fails no access at all
+SW(config-if)#dot1x guest-vlan supplicant; not sure why cisco docs user work supplicant
+SW#show debug condition; shows your debugging special conditions
+SW#no debug int fa 1/0/1; no debug int all; stop special condition debugging
+SW#debug condition int fa 1/0/1; keep adding interfaces until you have what you want
+SW(config)# identity profile default; creates identity profile and enters dot1x profile config mode
+SW(config-identity-prof)# int fa 1/0/1;enter int config mode specifies int for 802.1x authentification
 
 Storm Control
 storm-control {broadcast | multicast | unicast} level {level low-level | bpg level low-level | pps level low-level}
