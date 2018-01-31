@@ -57,5 +57,7 @@ apt install ufw
 ufw enable 
 ufw allow 1812;ufw allow 1813   MAKE SURE CISCO USES THESE PORTs
 test aaa group radius jeff jeff legacy
+systemctl stop freeeradius; freeradius -X; if you don't stop it first it will say ports are binded as they are!
+netstat -pln;  check and make sure service it listening on correct ports
 dynamic vlan 
 http://www.letmefix-it.com/2016/07/21/radius-server-setu
