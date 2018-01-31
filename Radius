@@ -19,6 +19,10 @@ secret = SW1
 nastype = cisco
 shortname = switch
 }
+client 10.0.1.0/24 {
+       secret = mykey
+       shortname = lab
+     } # allowing a whole subnet to be clients if they have correct key
 this is for authorization, but authorization and accounting should be done with tacacs+, radius should be net access  wifi,vpn 
 vim users
 cisco Cleartext-Password := "password"
