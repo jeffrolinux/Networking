@@ -729,6 +729,33 @@ SW(config-if)#storm-control broadcast 50; drops broadcast frames when they reach
 SW(config-if)#storm-control multicast 30 10; drop multicast frames then the reach above 30 and maintain above 10 percent of avail BW
 SW(config-if)#storm-control unicast level pps 50k; drops packets when above 50k packets per second
 Unicast is directly referring to unknown unicast not known typicall data unicast
-
-
 ___port-security____
+___SecuringVlans____
+Book starts off by saying acl can not be applied within an vlan you need a routed port like SVI
+Not true, you can place a standard or exteneded acl on an interface blocking traffic from within vlan.
+Also you can place mac access-list on interfaces.
+ACL placed on an interface is only allowed to be inward if it is layer 2. If you no switchport, acl then can be placed in either direction
+VACL-
+SW(config)#ip access-list standard 1;deny any; rememeber standard only checks source address, thats y placed nearest dest when applied
+SW(config)#vlan access-map blockallusers 10; blockallusers is the name, and 10 is sequence number
+SW(config-access-map)#match ip address 1; check these ip addresses, acl was source everyone
+SW(config-access-map)#action drop; here you can drop, forward, redirect int fa 1/0/5, your choice
+SW(config-access-map)#vlan filter blockallusers vlan-list 2; apply filter using map name and choice of vlans
+Private vlans:
+SW(config)#vlan 10; private-vlan community; communinity can only communicate with its community and primary
+SW(config)#vlan 20; private-vlan isolated; isolated can only communicate with primary and know one within isolated
+SW(config)#vlan 100; private-vlan primary;private-vlan association 10,20; conf association here!
+any community or isolated vlan con communicate with primary
+SW(config)#int fa 1/0/1; switchport mode private-vlan host; switchport private-vlan host associated 100 10; primary -secondary
+SW(config)#int fa 1/0/2; switchport mode private-vlan host; switchport private-vlan host associated 100 20; primary -secondary
+SW(config)#int fa 1/0/3;switchport mode private-vlan promiscuous;switchport private-vlan mapping 100 10,20
+Primary gets promiscuous and get mapping instead of associated it maps who can and cant communicate
+communication in communit is on local vlan community only isolated no communication in vlan
+SW(config)#int vlan 100; private-vlan mapping 10,20; SVI does not need promiscuous.
+
+is you create a bogus native vlan and don't allow it on a trunk->CDP,DTP,PAgP will still be sent over trunk on native vlan. Special case
+SW(config-if)#switchport native vlan 800; switchport trunk allowed vlan remove 800;
+
+
+
+____securingvlans____
