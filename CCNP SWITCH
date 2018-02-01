@@ -752,10 +752,11 @@ SW(config)#int fa 1/0/3;switchport mode private-vlan promiscuous;switchport priv
 Primary gets promiscuous and get mapping instead of associated it maps who can and cant communicate
 communication in communit is on local vlan community only isolated no communication in vlan
 SW(config)#int vlan 100; private-vlan mapping 10,20; SVI does not need promiscuous.
-
+SW# show vlan private-vlan;
+SW#show vlan private-vlan type;
 is you create a bogus native vlan and don't allow it on a trunk->CDP,DTP,PAgP will still be sent over trunk on native vlan. Special case
 SW(config-if)#switchport native vlan 800; switchport trunk allowed vlan remove 800;
-
+CANT CONTACT SVI: don't let SW(config)#ip routing;  get the best of you. You can set ips without routing enabled
 
 
 ____securingvlans____
