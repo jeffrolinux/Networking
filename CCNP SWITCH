@@ -741,7 +741,7 @@ SW(config)#vlan access-map blockallusers 10; blockallusers is the name, and 10 i
 SW(config-access-map)#match ip address 1; check these ip addresses, acl was source everyone
 SW(config-access-map)#action drop; here you can drop, forward, redirect int fa 1/0/5, your choice
 SW(config-access-map)#vlan filter blockallusers vlan-list 2; apply filter using map name and choice of vlans
-Private vlans:
+Private vlans:  vtp mode must be transparent
 SW(config)#vlan 10; private-vlan community; communinity can only communicate with its community and primary
 SW(config)#vlan 20; private-vlan isolated; isolated can only communicate with primary and know one within isolated
 SW(config)#vlan 100; private-vlan primary;private-vlan association 10,20; conf association here!
