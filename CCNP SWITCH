@@ -782,7 +782,7 @@ SW(config)#
 ___spoofing_____
 ___AAA____
 SW(config)#aaa new-model; enables aaa on device, create username and password locally!!!!
-aaa new-model will require aaa accross all lines and login so you will need a local username to login, 
+beware immediately applies local authentication to all lines and interfaces except line console 0; so its basically login local;
 Note that this command will break non-AAA line and enable passwords. except console
 SW(config)#username jeff secret jeffspass; will create a backup incase servers are down
 SW(config)#aaa group server radius myradiusgroup;server 10.1.3.1;server 10.1.3.2; assign servers to a perticular group and group name
