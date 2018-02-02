@@ -1,5 +1,8 @@
 ";" will represent stacking commands as if shell is enabled
 ___Basics____
+The cam and mac addy: A switch by default ages a mac address after 300 seconds but if the interface where the switch learned the mac
+address goes down it automatically drops the mac from the cam or if it learns of a mac address on a different port it gets rid of the mac
+the existed before  the new one else where. There is always exceptions to every rule!
 int fa 1/0/1; means interface type stack-member/module/portnumber- you will usually only see modules with routers.
 creating a macro for lots of configurations-
 config)#define interface-range MymacroName fa 1/0/1 - 4 , fa 2/0/3 - 7, g 3/0/1 , g 3/0/2
