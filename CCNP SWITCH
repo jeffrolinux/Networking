@@ -89,6 +89,10 @@ config)#no errdisable detect cause [all | cause-name]; remove all errdisable or 
 You can automatically recover from errdisable.
 config)#errdisable recovery cause [ all | cause-name]; default is 300 seconds to bring port up
 config)#errdisable recovery interval seconds; seconds should be actual seconds not typed word
+SW#show errdisable 
+SW#show interface status err-disable; KNOW HOW TO QUICKLY SEE WHAT IS ERRDISABLED!!!
+SW#show int fa 1/0/1; at link detection will show err-disable also but now reasoning above shows reasoning
+
 ___errdisable____
 ____CDP---LLDP_____
 config)# do show cdp neighbors [type member/module/portnum]; can show all or specific so last part not needed
