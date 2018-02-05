@@ -113,6 +113,7 @@ class 0 15.4W, class 1 4.0W, class 2 7.0W, class 3 15.4 W, class 4 30W. CISCO Un
 Upoe is only offered by the catalyst 4500 as of my book which is like 2015
 by default switch offers maximum of 15.4W per port. IF device needs additional power is can tell switch with CDP-LLDP
 config-if)#power inline [ auto | static] max maxmilliwatts; everything is in milla so 15.4 W is 15400
+when configuring static max will be the given static power amount!!
 config-if)power inline never; disable poe on a switch port
 SW#sh power inline; displays switch ports and their current states
 use cases? Typically phones or security cameras or wap
