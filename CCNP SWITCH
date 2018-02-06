@@ -223,6 +223,8 @@ root bridge. So an RLQ will be sent out the root port and all blocked ports to v
 -if inferior bpdu arrives on the root port and no ports are blocked, however the Sw assumes that is has lost connectivity with the
 root bridge. SW assumes it is the root bridge. Back bone fast allows it to do so before the max age timer expires. 
 backbonefast basically bypasses the max age timer.
+port priorities- assigned locally but significant to downstream bridges, a down stream bridge will use this priority to designate
+which port goes to forwarding and blocking, local priority does not matter it affects the neighboring bridge only!
 SW#debug spanning-tree events;
 ___STP____
 ___STP-Tools____
