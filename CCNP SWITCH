@@ -253,6 +253,8 @@ config)#udld reset; if a port is in errdisable udld reset will bring those ports
 bpdufilter- stops bpdu from being sent out interfaces
 config)#spanning-tree portfast bpdufilter default; only on portfast interfaces bpdufilter will run
 config-if)#spanning-tree bpdufilter; stops BPDUs from being sent out an interface, 
+when testing loop guard do not use bpdu filter first, recall that loop guard is sudden loss, to it will lose the bpdu
+put the port in forwarding, then applied loop guard and there is no loss so now outcome!
 ___stp-tools___
 ____RSTP____
 BPDUs are sent out every switch port at hello time intervals, regardless weather BPDUs are received or not.
