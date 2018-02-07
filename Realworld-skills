@@ -1,0 +1,3 @@
+before you are going to debug in production -->undebug all; so at any time you can press ^ ^ enter and be out of it incase its over
+whelming the machine.
+instead on always jumping w/ console feel around through ssh as you would in the real world, console cable connection not always available
