@@ -1,3 +1,13 @@
 before you are going to debug in production -->undebug all; so at any time you can press ^ ^ enter and be out of it incase its over
 whelming the machine.
+
 instead on always jumping w/ console feel around through ssh as you would in the real world, console cable connection not always available
+
+ applying ACLs on a remote device think you might or might not be locked out??
+reload in 30; apply ACLs, maybe even have them notepadded so it can be swift and reload can be in a quick time
+absolutely do not write your acl into memory until you have tested access from another device. Verify connectivity
+then cancel reload and wr.
+
+
+
+
