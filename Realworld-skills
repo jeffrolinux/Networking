@@ -7,7 +7,9 @@ instead on always jumping w/ console feel around through ssh as you would in the
 reload in 30; apply ACLs, maybe even have them notepadded so it can be swift and reload can be in a quick time
 absolutely do not write your acl into memory until you have tested access from another device. Verify connectivity
 then cancel reload and wr.
-
+reload in 5;   reloads in 5 minutes. will boot up with config thats startup-config 
+reload at 15:00 aug 10;   Clock must be set to use this
+reload cancel; ##### DON'T FORGET ME IF YOU DIDN'T REALLY WANT RELOAD & WAS JUST INCASE
 
 
 
