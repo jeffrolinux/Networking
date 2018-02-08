@@ -487,7 +487,7 @@ SwitchC:
 (config)# monitor session 1 source remote vlan 99;
 (config)#monitor session 1 destin int fa 1/0/2;
 (config)# no monitor session 1, no monitor session local;
-SVI can not be used in span but source vlan can. destination van not be vlan unless it is remote vlan
+SVI can not be used in span but source vlan can. destination can not be vlan unless it is remote vlan
 VSPAN when you choose the source as a vlan all ports assigned to vlan become active as sources
 Can not mix vlans and interfaces in same span session, but you can create multiple span sessions 1 for interfaces and 1 for vlans
 and rememeber they can not have the same destination so you may need two analyzers.Unless remote same dest works, if remote vlan.
@@ -771,18 +771,20 @@ SW(config)#int fa 1/0/3;switchport mode private-vlan promiscuous;switchport priv
 Primary gets promiscuous and get mapping instead of associated it maps who can and cant communicate
 communication in communit is on local vlan community only isolated no communication in vlan
 SW(config)#int vlan 100; private-vlan mapping 10,20; SVI does not need promiscuous.
+CANT CONTACT SVI: don't let SW(config)#ip routing;  get the best of you. You can set ips without routing enabled
 SW# show vlan private-vlan;
 SW#show vlan private-vlan type;
 is you create a bogus native vlan and don't allow it on a trunk->CDP,DTP,PAgP will still be sent over trunk on native vlan. Special case
 SW(config-if)#switchport native vlan 800; switchport trunk allowed vlan remove 800;
-CANT CONTACT SVI: don't let SW(config)#ip routing;  get the best of you. You can set ips without routing enabled
 ____securingvlans____
 ___Spoofing_____
+IP dhcp snooping
 SW(config)#ip dhcp spoofing; enabling dhcp globally so it can be configured.
 SW(config)#ip dhcp snooping vlan 2,4,5-7; actually enables it to work on the specific vlans
 SW(config)#int fa 1/0/1; ip dhcp snooping trust; disables snooping on this int, any uplink to dhcp server should be trusted!
 SW(config)#int fa 1/0/3; ip dhcp snooping limit rate 3; rate 3 pps on this interface, for dhcp clients requesting addy
 SW#sh ip dhcp snooping [binding];  show you your snooping config or binding addresses
+IP source guard
 SW(config)#ip source binding mac-address vlan vlan-id ip-address int fa 1/0/5; adds a static binding because static hosts wont be
 in the dhcp snooping database that source guard relies on
 SW(config)#int fa 1/0/10; ip verify source [port-security]; will verify the correct source info use port security if want mac checked also
@@ -790,7 +792,7 @@ prevents spoofing attacks made up mac addresses and made up ip addresses.
 SW# sh ip verify source; see the contents
 SW#sh ip source binding; to check source binding database, combo of dhcp snooping and static if there is a host using addresses that are
 not learned as a switch learns or assigned dhcp snooping or statically the packets will be dropped.
-SW(config)#ip arp inspection vlan vlan 4,6,8-11; enable arp inspecion on vlans.
+SW(config)#ip arp inspection vlan 4,6,8-11; enable arp inspecion on vlans.
 SW(config-if)# ip arp inspection trust; disable arp inspection on int, important for ports to other switches!!!
 SW(config)#arp access-list myarplist; permit ip host 10.1.2.210 mac host aaaa.bbbb.cccc; arp uses dhcp snooping binding so you will need
 an acl to represent that statically assigned hosts within switch.
