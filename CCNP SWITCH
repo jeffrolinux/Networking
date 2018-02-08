@@ -794,6 +794,7 @@ prevents spoofing attacks made up mac addresses and made up ip addresses.
 SW# sh ip verify source; see the contents
 SW#sh ip source binding; to check source binding database, combo of dhcp snooping and static if there is a host using addresses that are
 not learned as a switch learns or assigned dhcp snooping or statically the packets will be dropped.
+Ip arp inspection
 SW(config)#ip arp inspection vlan 4,6,8-11; enable arp inspecion on vlans.
 SW(config-if)# ip arp inspection trust; disable arp inspection on int, important for ports to other switches!!!
 SW(config)#arp access-list myarplist; permit ip host 10.1.2.210 mac host aaaa.bbbb.cccc; arp uses dhcp snooping binding so you will need
