@@ -800,7 +800,7 @@ SW(config-if)# ip arp inspection trust; disable arp inspection on int, important
 SW(config)#arp access-list myarplist; permit ip host 10.1.2.210 mac host aaaa.bbbb.cccc; arp uses dhcp snooping binding so you will need
 an acl to represent that statically assigned hosts within switch.
 SW(config)#ip arp insepction filter myarplist vlan 4,6,8-11 [static]; if used static arp will not use dhcp snooping only the list.
-you will likely want both used snooping database for all hosts dhcp and then static for a server or static host for any reason
+you will likely want both used snooping database for all hosts dhcp and then arp acl for a server or static host for any reason
 SW(config)#ip arp inspection validate [ src-mac | dst-mac | ip]; have arp validate packet info with ethernet header or ip header
 SW(config)#
 ___spoofing_____
