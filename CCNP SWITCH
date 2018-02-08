@@ -255,6 +255,11 @@ config)#spanning-tree portfast bpdufilter default; only on portfast interfaces b
 config-if)#spanning-tree bpdufilter; stops BPDUs from being sent out an interface, 
 when testing loop guard do not use bpdu filter first, recall that loop guard is sudden loss, to it will lose the bpdu
 put the port in forwarding, then applied loop guard and there is no loss so now outcome!
+flexlinks- turns spanning tree porotocol off for two links going up to distro switches 50ms convergence!
+int fa 1/0/1;switchport backup int fa 1/0/2 preemption mode forced; preempt active int, also mmu is for mac update vlan
+(config)#mac address-table move update transmit; if link changed update is sent to uplink bridge
+(config)#mac address-table move update receive; allow bridge to receive update
+SW# show mac address-table move update; always verify your config
 ___stp-tools___
 ____RSTP____
 BPDUs are sent out every switch port at hello time intervals, regardless weather BPDUs are received or not.
