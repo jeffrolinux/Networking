@@ -755,7 +755,7 @@ ___SecuringVlans____
 Book starts off by saying acl can not be applied within an vlan you need a routed port like SVI
 Not true, you can place a standard or exteneded acl on an interface blocking traffic from within vlan.
 Also you can place mac access-list on interfaces.
-ACL placed on an interface is only allowed to be inward if it is layer 2. If you no switchport, acl then can be placed in either direction
+ACL placed on an interface is only allowed to be inward . If you no switchport, acl then can be placed in either direction
 VACL-
 SW(config)#ip access-list standard 1;deny any; rememeber standard only checks source address, thats y placed nearest dest when applied
 SW(config)#vlan access-map blockallusers 10; blockallusers is the name, and 10 is sequence number
@@ -781,7 +781,7 @@ SW(config-if)#switchport native vlan 800; switchport trunk allowed vlan remove 8
 ____securingvlans____
 ___Spoofing_____
 IP dhcp snooping
-SW(config)#ip dhcp spoofing; enabling dhcp globally so it can be configured.
+SW(config)#ip dhcp snooping; enabling dhcp globally so it can be configured.
 SW(config)#ip dhcp snooping vlan 2,4,5-7; actually enables it to work on the specific vlans
 SW(config)#int fa 1/0/1; ip dhcp snooping trust; disables snooping on this int, any uplink to dhcp server should be trusted!
 SW(config)#int fa 1/0/3; ip dhcp snooping limit rate 3; rate 3 pps on this interface, for dhcp clients requesting addy
