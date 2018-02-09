@@ -694,7 +694,7 @@ SW(config-if)#switchport port-security maximum [max]; where max is max number of
 SW(config-if)#switchport port-security mac-address 1111.1111.1111; associate 1111.1111.1111 with the port
 SW(config-if)#switchport port-security mac-address sticky; by default macs are stored in ram in cam. Sticky adds it to startup-config
 SW(config-if)#switchport port-security violation [shutdown | restrict | protect];
-shutdown shuts int, restrict doesn't allow more than configured, protect same as restrict but also sends log and snmp trap
+shutdown shuts int, protect doesn't allow more than configured, restrict same as protect but also sends log and snmp trap
 SW#show port-security {all | configured | dynamic | sticky } {address mac-addr | int fa 1/0/1};
 SW#show int status err-disable;
 802.1x
