@@ -1,6 +1,7 @@
 #quick reference
 https://www.tecmint.com/12-tcpdump-commands-a-network-sniffer-tool/
 apt install tcpdump
+tmpdump -i eth0; capture all eth0 traffic and print to screen
 tcpdump -c 5 i eth0 #capture 6 packets
 tcpdump -D  #list available interfaces
 tcpdump -w 0001.pcap -i eth0
