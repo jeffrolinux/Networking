@@ -365,6 +365,8 @@ SW(config)# spanning-tree etherchannel guard misconfig; if there is a misconfig 
 solve misconfig then -->int port-channel 3; shut; no shut;
 show etherchannel port-channel; how to read output following link
 https://supportforums.cisco.com/t5/network-infrastructure-documents/quot-etherchannel-loadbalancing-on-catalyst-switches-quot/ta-p/3107786
+channel-protocol [lacp | PaGP]; will not work with->channel-group 1 mode on; why?
+on means no portocol brings up channel without a protocol. Choosing a protocol means has to be one of these protos on this int.
 ___etherchannel-pagp____
 ____TIME-NTP___
 Time is based on UTC Universal Time Cordinate, PST is 8 hours behind UTC or -8, PDT pacific daylight savings during summer is -7
