@@ -528,8 +528,11 @@ Catalyst switches can also function as a IPv6DHCP server-
 ipv6 dhcp pool my6pool; address prefix ipv6-prefix; second command here allows dhcp to send ipv6 addresses to hosts but is not necessary.
 you can not exclude addresses or specify host bindings with dhcpv6, only ipv4 allows that.
 SW(config-dhcpv6)#dns-server A::1; domain-name jeffsdomain.com;
+
 With ipv6 you need to specify the pool under the ipv6 interface.
-int fa 1/0/1; ipv6 address B::1/64; ipv6 dhcp server pool-name;no shut; never forget no shuts and your wr to save config!!!
+int fa 1/0/1; ipv6 address B::1/64; ipv6 dhcp server pool-name;
+ipv6 nd managed-config-flag !!!! must be set on interface to maintain addresses
+no shut; never forget no shuts and your wr to save config!!!
 DHCPv6 Lite 
 SW(config-if)#ipv6 nd other-config-flag; enables dhcpv6 lite options, 
 ipv6 dhcp server mylitepool; this pool that is light should defintely not have the ->address prefix A:A:A:A::/64 command. no addresses assigned
