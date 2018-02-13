@@ -12,6 +12,11 @@ route -n
 netstat -rn
 Change your mac address on debian
 ifconfig ens33 hw ether 90:99:99:99:99:99
+release and renew ip - ipv6
+dhclient -4 -r eth0 //or just dhclient -r eth0
+dhclient -4 eth0 // or just dhclient eth0
+dhclient -6 -r eth0
+dhclient -6 eth0
 						Windows route 
 route ADD destination_network MASK subnet_mask  gateway_ip metric_cost
 mask and cost are optional   class c is the default mask, cost one greater than 0.0.0.0 is used
