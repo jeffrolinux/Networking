@@ -6,7 +6,8 @@ to remove: route del -net 10.8.1.0/24
 
 3 ways to see your routing table
 
-ip route show
+ip route show; shows isn't necessarily needed
+ip -6 route
 route -n
 netstat -rn
 Change your mac address on debian
