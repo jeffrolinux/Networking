@@ -689,7 +689,7 @@ they will all communicate on multicast in subnet.
 SW(config-if)#glbp group 3 ipv6 autoconfigure; IPV6 uses fe80::/10 uses /64 fffe injected inbetween mac address
 If an AFV fails another router will be given that routers virtual mac until the timeout has expired and the down routers
 mac address has been flushed. 
-ALL AVFs do not need to be given AVG gateway address but it is a good idea to set it manually.
+ALL AVFs need the gateway ip for ipv6 or else get stuck in init
 Like HSRP make sure you configure preempt on routers you want active and also priority
 SWA(config-if)#int vlan 10; ip add 192.168.1.20 255.255.255.0;glbp 1 priority 200; glbp 1 ip 192.168.1.1;glby 1 preempt;
 SWB(config-if)#int vlan 10;ip add 192.168.1.21 255.255.255.0;glbp 1 priority 150; glbp 1 ip 192.168.1.1; glbp 1 preempt;
