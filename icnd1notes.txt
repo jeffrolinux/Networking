@@ -407,6 +407,8 @@ no interface vlan 48
 
 ____vlan___
 ___TRUNK___
+dynamic auto- will trunk weather on or dynamic desireable
+auto -auto no trunk
 conf t; int range fa0/15-18;switchport trunk encapsulation dot1q; switchport mode trunk;- create trunk on a range of ports
 encapsulation type has to be chosen first to have a dedicated trunking port
 switchport mode dynamic desireable- will initiate trunk and listen!
