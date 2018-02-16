@@ -92,7 +92,7 @@ config)#errdisable recovery cause [ all | cause-name]; default is 300 seconds to
 config)#errdisable recovery interval seconds; seconds should be actual seconds not typed word
 SW#show errdisable 
 SW#show interface status err-disable; KNOW HOW TO QUICKLY SEE WHAT IS ERRDISABLED!!!
-SW#show int fa 1/0/1; at link detection will show err-disable also but now reasoning above shows reasoning
+SW#show int fa 1/0/1; at link detection will show err-disable also but no reasoning above shows reasoning
 
 ___errdisable____
 ____CDP---LLDP_____
@@ -332,7 +332,6 @@ Auto -Auto will still not form a channel you need desireable-auto or d-d
 show etherchannel summary;
 show etherchannel port; member status of each port
 show etherchannel detail;
-show etherchannel load-balance;
 test etherchannel load-balance; example to follow
 test etherchannel load-balance interface port-channel <port-channel #><mac/ip> <source address> <destination address>"
 SW#test etherchannel load-balance int port-channel 1 ip 1.1.1.1 2.2.2.2
@@ -547,6 +546,7 @@ ie Catalyst 4500R, 6500, 8500 are chassis switch models
 VSS- Virtual Switching System- configuring two identical chassis to operate as one logical switch. Not supported with multiple switch engines
 one switch engine each per chassis. Will use VSL to make VSS.
 VSL-Virtual Switch Link- is used to form he VSS.
+Redundancy at chassis level not compatible with VSS
 RPR- Route Processor Redundancy-supervisor partially booted and initialized
 RPR+- booted and supervisor and route engine is initialized
 SS0-Stateful Switchover- redundant supervisor fully booted and initialized, Route Engine, layer 2 and FIB initialized and synchronized.
@@ -602,7 +602,6 @@ SW1-VSS(config-if)#switch virtual link 1; assigning the domain to the link
 SW1-VSS(config-if)#exit
 SW1-VSS(config)#int r ten 1/4 - 5
 SW1-VSS(config-if)#channel-group 1 mode on
-SW1-VSS(config-if)#no shut; as no shut was on port channel all port channel command should propogate to int
 ------------------
 SW2-VSS(config)#int port-channel 2
 SW2-VSS(config-if)#no shut
@@ -653,7 +652,8 @@ you can choose any key number but keys are tried in sequential order so you will
 SW(config)#standby 1 track int serial 0/0 20; decrements priority 20 when int goes down
 you could also use multiple interfaces to decrement and decrement cumulative, also increments when int comes back up
 default decrement is 10
-SW(config-if)#standby 1 ip 10.2.2.2 secondary; when int has secondary ip HSRP can also have secondary
+SW(config-if)#standby 1 ip 10.2.2.2 second
+ary; when int has secondary ip HSRP can also have secondary
 to use with ipv6 use:
 SW(config-if)#stanby version2; standby ipv6 autoconfig;
 0000.0c07.ac01- mac address for standby group 1 last two digits represent group # in hex
@@ -701,7 +701,7 @@ ___PORT-SECURITY___
 SW(config-if)#switchport port-security; must be enabled before anything else can be done!
 SW(config-if)#switchport port-security maximum [max]; where max is max number of mac on an int
 SW(config-if)#switchport port-security mac-address 1111.1111.1111; associate 1111.1111.1111 with the port
-SW(config-if)#switchport port-security mac-address sticky; by default macs are stored in ram in cam. Sticky adds it to startup-config
+SW(config-if)#switchport port-security mac-address sticky; by default macs are stored in ram in cam. Sticky adds it to running-config
 SW(config-if)#switchport port-security violation [shutdown | restrict | protect];
 shutdown shuts int, protect doesn't allow more than configured, restrict same as protect but also sends log and snmp trap
 SW#show port-security {all | configured | dynamic | sticky } {address mac-addr | int fa 1/0/1};
@@ -728,7 +728,7 @@ force-unathorized- never authorize any connected cleint. port cannot move to aut
 (config)aaa group server radius MyRadiusGroup
 (config-sg-radius)server name SecureLogin
 (config)aaa authentification login default group MyradiusGroup local;	- local is the backup local username incase MyradiusGroup goes down
-(config)#aaa authentication enable default group myradiusgroup enable;
+(config)#aaa authentication enable default group myradiusgroup enable; 
 (config)#aaa authorization exec default group myradiusgroup if-authenticated; radius authorization if user has priv exec access
 suceeds if user has authentification. level 15
 remember tacacs would be the same config except replace radius with tacacs
@@ -745,10 +745,11 @@ SW(config-if)#authentification host-mode [multihost]; more than once device conn
 multi-auth; multi authent to occur.multi-domain; used for both host device and phone.->single-host; you knon->open; port open no access restriction
 SW(config-if)#dot1x pae [ supplicant | authenticator | both]; port access entity
 SW#config-if)#dot1x guest-vlan 99; assign a guest vlan ONLY for guest who don't have 802.1x client, if 802.1x fails no access at all
-SW(config-if)#dot1x guest-vlan supplicant; not sure why cisco docs user work supplicant
+SW(config-if)#dot1x guest-vlan supplicant; not sure why cisco docs use word supplicant
 SW#show debug condition; shows your debugging special conditions
 SW#no debug int fa 1/0/1; no debug int all; stop special condition debugging
-SW#debug condition int fa 1/0/1; keep adding interfaces until you have what you want
+SW#debug condition int fa 1/0/1; keep adding interfaces until you have 
+what you want
 SW(config)# identity profile default; creates identity profile and enters dot1x profile config mode
 SW(config-identity-prof)# int fa 1/0/1;enter int config mode specifies int for 802.1x authentification
 SW(config)#radius-server vsa send authentification; configs NAS to recognize and user vendor specific attributes
