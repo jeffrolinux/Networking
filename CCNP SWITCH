@@ -202,6 +202,7 @@ States- BDLLF Disabled, Blocking, Listening, Learning, Forwarding.  Both listeni
 Blocking rec bpdu, listening send & receive bpdu, learning send & rec & learn mac, forwarding everything plus send and rec data
 If a port state changes a switch sends TCN BPDU to root bridge letting the root bridge know of the change. Unless port has portfast
 enabled then no change will be sent at all.
+Port - roles RP, DP, B/A, when in blocking/A a port sends and receives CDP, DTP,VTP system control traffic.
 TCN is sent if link goes down, but if link stays up and data is filtered, max age timer will age out the best bpdu and then
 next best bpdu will become root port. Max age timer is 20 seconds by default, hello is 2, listen 15, learn 15.
 When a tcn is sent to root bridge, mac addy tables timer goes down to 15(or forward time) seconds to flush old addresses.
