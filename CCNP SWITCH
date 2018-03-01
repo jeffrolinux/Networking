@@ -746,7 +746,6 @@ SW(config-if)#authentification host-mode [multihost]; more than once device conn
 multi-auth; multi authent to occur.multi-domain; used for both host device and phone.->single-host; you knon->open; port open no access restriction
 SW(config-if)#dot1x pae [ supplicant | authenticator | both]; port access entity
 SW#config-if)#dot1x guest-vlan 99; assign a guest vlan ONLY for guest who don't have 802.1x client, if 802.1x fails no access at all
-SW(config-if)#dot1x guest-vlan supplicant; not sure why cisco docs use word supplicant
 SW#show debug condition; shows your debugging special conditions
 SW#no debug int fa 1/0/1; no debug int all; stop special condition debugging
 SW#debug condition int fa 1/0/1; keep adding interfaces until you have 
