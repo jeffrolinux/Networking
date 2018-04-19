@@ -17,6 +17,8 @@ dhclient -4 -r eth0 //or just dhclient -r eth0
 dhclient -4 eth0 // or just dhclient eth0
 dhclient -6 -r eth0
 dhclient -6 eth0
+ip addr add 10.1.1.2/16 dev eth1
+ip link set eth1 up
 						Windows route 
 route ADD destination_network MASK subnet_mask  gateway_ip metric_cost
 mask and cost are optional   class c is the default mask, cost one greater than 0.0.0.0 is used
