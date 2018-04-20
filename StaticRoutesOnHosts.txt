@@ -19,6 +19,7 @@ dhclient -6 -r eth0
 dhclient -6 eth0
 ip addr add 10.1.1.2/16 dev eth1
 ip link set eth1 up
+apt install vlan;
 modprobe 8021q ! echo "8021q" >> /etc/modules   to make it permanent
 vconfig add eth0 2; creates eth0.2 which is in vlan 2
 vconfig rem eth0.2; 
@@ -28,11 +29,10 @@ ip link set eth0.10 up; ip link set eth0.10.99 up; double tagged frame
 ifconfig eth0.10.99 10.1.2.4 netmask 255.255.255.0 broadcast 10.1.2.255 up
 ping -I eth0.10.99 10.1.2.3
 Yersenia- yersinia -I; open in command line.  "g" to choose tool. "x" to bring up attack list.
-apt install vlan; for the vconfig and ip link. Also before modprove 8021q
 apt install bridge-utils
-brctl addbr vlan3; create a bridge
-ip link set vlan3 up; get it up and running
-brctl addif vlan3 eth0.2.99 eth4 eth5; add interfaces into a bridge
+brctl addbr br0; create a bridge
+ip link set br0 up; get it up and running
+brctl addif br0 eth0.2.99 eth4 eth5; add interfaces into a bridge
 
 _____________________________________________________________________________________________________________
 						Windows route 
