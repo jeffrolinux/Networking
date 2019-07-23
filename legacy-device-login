@@ -2,3 +2,9 @@ vim /etc/ssh/ssh_config
 append these two lines
 HostkeyAlgorithms ssh-dss,ssh-rsa
 KexAlgorithms +diffie-hellman-group1-sha1
+
+
+If you get the error no matching cypher you want to use
+ssh -c  matching-cyher-  admin@1.1.1.1
+ssh -c aes128-cbc admin@1.1.1.1
+https://ma.ttias.be/ssh-error-unable-negotiate-ip-no-matching-cipher-found/
